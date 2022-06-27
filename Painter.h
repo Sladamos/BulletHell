@@ -1,7 +1,7 @@
 #pragma once
 #include "FpsTimer.h"
 #include "Point.h"
-#include "Constans.h"
+#include "Constants.h"
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
 
@@ -32,7 +32,7 @@ private:
 	SDL_Texture* scrtex;
 	FpsTimer* fpsTimer;
 	Level* level;
-	char text[Constans::maxTextSize];
+	char text[Constants::maxTextLength];
 	int BLACK, RED, BLUE;
 };
 

@@ -3,5 +3,6 @@ enum class LevelResult
 {
 	won,
 	lost,
+	restarted,
 	aborted
 };

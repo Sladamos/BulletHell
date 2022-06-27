@@ -4,8 +4,8 @@
 
 Painter::Painter(Level* level, SDL_Window* window, SDL_Renderer* renderer) : level(level), window(window), renderer(renderer)
 {
-	screen = SDL_CreateRGBSurface(0, Constans::screenWidth, Constans::screenHeight, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
-	scrtex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, Constans::screenWidth, Constans::screenHeight);
+	screen = SDL_CreateRGBSurface(0, Constants::screenWidth, Constants::screenHeight, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+	scrtex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, Constants::screenWidth, Constants::screenHeight);
 	charset = SDL_LoadBMP("./cs8x8.bmp");
 	addFpsTimer();
 	setColors();	//TODO: make abstract and menu will inherit after painter with new constructor(without fpstimer -> nullptr)
@@ -45,12 +45,12 @@ void Painter::printGameObjects()
 void Painter::drawStatistics()
 {
 	Point coords(4,4);
-	drawRectangle(coords, Constans::screenWidth-8, 36, RED, BLUE);	//Panel for statistics - TODO refactor and make clear
+	drawRectangle(coords, Constants::screenWidth-8, 36, RED, BLUE);	//Panel for statistics - TODO refactor and make clear
 	sprintf(text, "Szablon SDL, czas trwania = %.1lf s  %.0lf klatek / s", level->getLevelTimer()->getTimerValue(), fpsTimer->getFps());
-	coords.setCoordinates(screen->w / 2 - strlen(text) * Constans::smallLetterSize / 2, 10);
+	coords.setCoordinates(screen->w / 2 - strlen(text) * Constants::smallLetterSize / 2, 10);
 	drawString(coords, text);
 	sprintf(text, "Esc - wyjscie, \030 - przyspieszenie, \031 - zwolnienie");
-	coords.setCoordinates(screen->w / 2 - strlen(text) * Constans::smallLetterSize / 2, 26);
+	coords.setCoordinates(screen->w / 2 - strlen(text) * Constants::smallLetterSize / 2, 26);
 	drawString(coords, text);
 }
 
@@ -59,18 +59,18 @@ void Painter::drawString(const Point& coords, const char* text)
 	int xCoord = coords.getX(), yCoord = coords.getY();
 	int px, py, c;
 	SDL_Rect s, d;
-	s.w = s.h = d.w = d.h = Constans::smallLetterSize;
+	s.w = s.h = d.w = d.h = Constants::smallLetterSize;
 	while (*text)
 	{
 		c = *text & 255;
-		px = (c % 16) * Constans::smallLetterSize;
-		py = (c / 16) * Constans::smallLetterSize;
+		px = (c % 16) * Constants::smallLetterSize;
+		py = (c / 16) * Constants::smallLetterSize;
 		s.x = px;
 		s.y = py;
 		d.x = xCoord;
 		d.y = yCoord;
 		SDL_BlitSurface(charset, &s, screen, &d);
-		xCoord += Constans::smallLetterSize;
+		xCoord += Constants::smallLetterSize;
 		text++;
 	}
 }
@@ -85,10 +85,10 @@ void Painter::drawFillRectangle(const Point& coords, int width, int height, Uint
 {
 	int yCoord = coords.getY();
 	Point lineCoords = coords;
-	lineCoords.moveByVertex(1, 0);
+	lineCoords.moveByVector(1, 0);
 	for (int i = yCoord + 1; i < yCoord + height - 1; i++)
 	{
-		lineCoords.moveByVertex(0, 1);
+		lineCoords.moveByVector(0, 1);
 		drawLine(lineCoords, width - 2, 0, color);
 		drawLine(lineCoords, width - 2, 0, color);
 	}
@@ -99,9 +99,9 @@ void Painter::drawOutlineRectangle(const Point& coords, int width, int height, U
 	Point lineCoords = coords;
 	drawLine(lineCoords, height, 90, color);
 	drawLine(lineCoords, width, 0, color);
-	lineCoords.moveByVertex(width - 1, 0);
+	lineCoords.moveByVector(width - 1, 0);
 	drawLine(lineCoords, height, 90, color);
-	lineCoords.moveByVertex(1 - width, height - 1);
+	lineCoords.moveByVector(1 - width, height - 1);
 	drawLine(lineCoords, width, 0, color);
 }
 
@@ -112,7 +112,7 @@ void Painter::drawLine(const Point& coords, int length, int inclinationDegrees, 
 	for (int i = 0; i < length; i++)
 	{
 		drawPixel(pixelCoords, color);
-		pixelCoords.moveByVertex(cos(inclinationDegrees * degToRad), sin(inclinationDegrees * degToRad));
+		pixelCoords.moveByVector(cos(inclinationDegrees * degToRad), sin(inclinationDegrees * degToRad));
 	}
 }
 

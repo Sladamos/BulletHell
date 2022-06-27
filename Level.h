@@ -14,6 +14,7 @@ private:
 	void handleLevelEvents();
 	void createGameObjects();
 	void performGameObjectsActions(double timeGain);
+	void handlePlayerMovement(const SDL_Event& event);
 
 	Timer* levelTimer;
 	Painter* levelPainter;

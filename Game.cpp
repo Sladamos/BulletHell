@@ -31,9 +31,9 @@ void Game::handleLevelResult(LevelResult levelResult)
 
 void Game::createGui()
 {
-	SDL_CreateWindowAndRenderer(Constans::screenWidth, Constans::screenHeight, 0, &window, &renderer);
+	SDL_CreateWindowAndRenderer(Constants::screenWidth, Constants::screenHeight, 0, &window, &renderer);
 	SDL_SetWindowTitle(window, "Szablon SDL2");
-	SDL_RenderSetLogicalSize(renderer, Constans::screenWidth, Constans::screenHeight);
+	SDL_RenderSetLogicalSize(renderer, Constants::screenWidth, Constants::screenHeight);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");

@@ -19,7 +19,7 @@ void Point::setCoordinates(int x, int y)
 	this->y = y;
 }
 
-void Point::moveByVertex(int x, int y)
+void Point::moveByVector(int x, int y)
 {
 	this->x += x;
 	this->y += y;

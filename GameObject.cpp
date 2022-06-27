@@ -3,7 +3,7 @@
 #include "Painter.h"
 using namespace std;
 
-GameObject::GameObject(string objectName) : objectName(objectName), position(Constans::screenWidth/2,Constans::screenHeight/2)
+GameObject::GameObject(string objectName, const Point& position) : objectName(objectName), position(position)
 {
 	BmpManager::loadStaticBitmap(objectName);
 }
