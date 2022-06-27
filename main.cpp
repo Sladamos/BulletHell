@@ -10,11 +10,12 @@
 int main(int argc, char** argv)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
-	Level* level = new Level(1);
+	Level* level = new Level();
+	level->startLevel();
 	delete level;
-	level = new Level(2);
-	delete level;
-	
+	//TODO: abstract level and remember number in game class
+	//TODO: game class which creates window(send to lvl to painter) and menu etc.
+	//make lvl ptr and create next lvl if you won (delete and ask for continue) - if lose save score and back to menu
 	SDL_Quit();
 	return 0;
 }

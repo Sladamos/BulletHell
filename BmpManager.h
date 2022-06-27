@@ -6,14 +6,14 @@
 #include "./SDL2-2.0.10/include/SDL_main.h"
 class BmpManager
 {
-public:
-	static void loadStaticBitmap(std::string objectName); //najpierw sprawdü czy istnieje juz bitmapa
-	//static void loadAnimation(std::string objectName, int numberOfAnimations);
-	static void getBitmap(std::string objectName);
-	//static void getAnimation(std::string objectName, int numberOfAnimation);
+public:	//TODO: add animations
+	static void loadStaticBitmap(const std::string& objectName);
+	//static void loadAnimation(const std::string& objectName, int numberOfAnimations);
+	static SDL_Surface* getBitmap(const std::string& objectName);
+	//static void getAnimation(const std::string&, int numberOfAnimation);
 	static void freeBitmaps();
 private:
-	//static void loadAnimation(std::string objectName);
+	//static void loadAnimation(const std::string& objectName);
 	static std::map<std::string, std::vector<SDL_Surface*>> bitmaps;
 };
 

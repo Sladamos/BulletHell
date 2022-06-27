@@ -1,8 +1,5 @@
 #include "Painter.h"
 #include "Level.h"
-#define SCREEN_WIDTH	640
-#define SCREEN_HEIGHT	480
-#define LETTER_SIZE 8
 
 Painter::Painter(Level* level) : level(level)
 {
@@ -41,27 +38,35 @@ void Painter::setColors()
 void Painter::drawScreen()
 {
 	SDL_FillRect(screen, NULL, BLACK);
-
-	//DrawSprite(screen, charset, SCREEN_WIDTH / 2 + sin(distance) * SCREEN_HEIGHT / 3, SCREEN_HEIGHT / 2 + cos(distance) * SCREEN_HEIGHT / 3);
 	drawStatistics();
-	//print sprites
+	printGameObjects();
 	SDL_UpdateTexture(scrtex, NULL, screen->pixels, screen->pitch);
 	SDL_RenderCopy(renderer, scrtex, NULL, NULL);
 	SDL_RenderPresent(renderer);
 	fpsTimer->incrementFrames();
 }
 
-void Painter::drawStatistics()
+void Painter::printGameObjects()
 {
-	drawRectangle(4, 4, SCREEN_WIDTH-8, 36, RED, BLUE);	//Panel for statistics
-	sprintf(text, "Szablon SDL, czas trwania = %.1lf s  %.0lf klatek / s", level->getLevelTimer()->getTimerValue(), fpsTimer->getFps());
-	drawString(screen->w / 2 - strlen(text) * 8 / 2, 10, text, charset);
-	sprintf(text, "Esc - wyjscie, \030 - przyspieszenie, \031 - zwolnienie");
-	drawString(screen->w / 2 - strlen(text) * LETTER_SIZE / 2, 26, text, charset);
+	for (GameObject* gameObject : level->getGameObjects())
+		gameObject->print(this);	//TODO if is in camera range print
 }
 
-void Painter::drawString(int xCoord, int yCoord, const char* text, SDL_Surface* charset)
+void Painter::drawStatistics()
 {
+	Point coords(4,4);
+	drawRectangle(coords, SCREEN_WIDTH-8, 36, RED, BLUE);	//Panel for statistics - TODO refactor
+	sprintf(text, "Szablon SDL, czas trwania = %.1lf s  %.0lf klatek / s", level->getLevelTimer()->getTimerValue(), fpsTimer->getFps());
+	coords.setCoordinates(screen->w / 2 - strlen(text) * LETTER_SIZE / 2, 10);
+	drawString(coords, text);
+	sprintf(text, "Esc - wyjscie, \030 - przyspieszenie, \031 - zwolnienie");
+	coords.setCoordinates(screen->w / 2 - strlen(text) * LETTER_SIZE / 2, 26);
+	drawString(coords, text);
+}
+
+void Painter::drawString(const Point& coords, const char* text)
+{
+	int xCoord = coords.getX(), yCoord = coords.getY();
 	int px, py, c;
 	SDL_Rect s, d;
 	s.w = s.h = d.w = d.h = LETTER_SIZE;
@@ -80,40 +85,61 @@ void Painter::drawString(int xCoord, int yCoord, const char* text, SDL_Surface* 
 	}
 }
 
-void Painter::drawRectangle(int xCoord, int yCoord, int width, int height, Uint32 outlineColor, Uint32 fillColor)
+void Painter::drawRectangle(const Point& coords, int width, int height, Uint32 outlineColor, Uint32 fillColor)
 {
-	drawLine(xCoord, yCoord, height, 90, outlineColor);
-	drawLine(xCoord + width - 1, yCoord, height, 90, outlineColor);
-	drawLine(xCoord, yCoord, width, 0, outlineColor);
-	drawLine( xCoord, yCoord + height - 1, width, 0, outlineColor);
-	for (int i = yCoord + 1; i < yCoord + height - 1; i++)
-		drawLine(xCoord + 1, i, width - 2, 0, fillColor);
+	drawOutlineRectangle(coords, width, height, outlineColor);
+	drawFillRectangle(coords, width, height, fillColor);
 }
 
-void Painter::drawLine(int xCoord, int yCoord, int length, int inclinationDegrees, Uint32 color)
+void Painter::drawFillRectangle(const Point& coords, int width, int height, Uint32 color)
 {
-	for (int i = 0; i < length; i++)
+	int yCoord = coords.getY();
+	Point lineCoords = coords;
+	lineCoords.moveByVertex(1, 0);
+	for (int i = yCoord + 1; i < yCoord + height - 1; i++)
 	{
-		drawPixel(xCoord, yCoord, color);
-		xCoord += cos(inclinationDegrees * M_PI / 180);
-		yCoord += sin(inclinationDegrees * M_PI / 180);
+		lineCoords.moveByVertex(0, 1);
+		drawLine(lineCoords, width - 2, 0, color);
+		drawLine(lineCoords, width - 2, 0, color);
 	}
 }
 
-void Painter::drawSprite(SDL_Surface* sprite, int xCoord, int yCoord)
+void Painter::drawOutlineRectangle(const Point& coords, int width, int height, Uint32 color)
+{
+	Point lineCoords = coords;
+	drawLine(lineCoords, height, 90, color);
+	drawLine(lineCoords, width, 0, color);
+	lineCoords.moveByVertex(width - 1, 0);
+	drawLine(lineCoords, height, 90, color);
+	lineCoords.moveByVertex(1 - width, height - 1);
+	drawLine(lineCoords, width, 0, color);
+}
+
+void Painter::drawLine(const Point& coords, int length, int inclinationDegrees, Uint32 color)
+{
+	Point pixelCoords = coords;
+	double degToRad = M_PI / 180;
+	for (int i = 0; i < length; i++)
+	{
+		drawPixel(pixelCoords, color);
+		pixelCoords.moveByVertex(cos(inclinationDegrees * degToRad), sin(inclinationDegrees * degToRad));
+	}
+}
+
+void Painter::drawObject(SDL_Surface* sprite, const Point& coords)
 {
 	SDL_Rect dest;
-	dest.x = xCoord - sprite->w / 2;
-	dest.y = yCoord - sprite->h / 2;
+	dest.x = coords.getX() - sprite->w / 2;
+	dest.y = coords.getY() - sprite->h / 2;
 	dest.w = sprite->w;
 	dest.h = sprite->h;
 	SDL_BlitSurface(sprite, NULL, screen, &dest);
 }
 
-void Painter::drawPixel(int xCoord, int yCoord, Uint32 color)
+void Painter::drawPixel(const Point& coords, Uint32 color)
 {
 	int bpp = screen->format->BytesPerPixel;
-	Uint8* p = (Uint8*)screen->pixels + yCoord * screen->pitch + xCoord * bpp;
+	Uint8* p = (Uint8*)screen->pixels + coords.getY() * screen->pitch + coords.getX() * bpp;
 	*(Uint32*)p = color;
 }
 

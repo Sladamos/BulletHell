@@ -3,10 +3,12 @@ using namespace std;
 
 map<string, vector<SDL_Surface*>> BmpManager::bitmaps = map<string, vector<SDL_Surface*>>();
 
-void BmpManager::loadStaticBitmap(string objectName)
+void BmpManager::loadStaticBitmap(const string& objectName)
 {
-	vector<SDL_Surface*> bmpVector = { SDL_LoadBMP("./eti.bmp") };
-	bitmaps.insert(pair <string, vector<SDL_Surface*> >(objectName, bmpVector ));
+	//TODO: check is already in map
+	string path = "./" + objectName + ".bmp";
+	vector<SDL_Surface*> bmpVector = { SDL_LoadBMP(path.c_str()) };
+	bitmaps.insert(pair <string, vector<SDL_Surface*>> (objectName, bmpVector));
 }
 
 void BmpManager::freeBitmaps()
@@ -19,7 +21,7 @@ void BmpManager::freeBitmaps()
 	bitmaps.clear();
 }
 
-void BmpManager::getBitmap(string objectName)
+SDL_Surface* BmpManager::getBitmap(const string& objectName)
 {
-	
+	return (bitmaps.find(objectName)->second)[0];
 }

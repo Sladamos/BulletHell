@@ -8,10 +8,11 @@ public:
 	~TimeManager();
 	static void addTimer(Timer* timer);
 	void increaseAndExecuteTimers();
-	//clear timers, reset timers
+	double getTimeGain();
 private:
-	double calculateTimeGain();
+	void calculateTimeGain();
 
+	double timeGain;
 	int firstTicker, secondTicker;
 	static std::list<Timer*> timers;
 };

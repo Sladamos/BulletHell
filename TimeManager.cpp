@@ -4,16 +4,21 @@
 
 std::list<Timer*> TimeManager::timers = std::list<Timer*>();
 
-TimeManager::TimeManager() : firstTicker(SDL_GetTicks()), secondTicker(firstTicker) {}
+TimeManager::TimeManager() : firstTicker(SDL_GetTicks()), secondTicker(firstTicker), timeGain(0.0) {}
 
 void TimeManager::addTimer(Timer* timer)
 {
 	timers.push_back(timer);
 }
 
+double TimeManager::getTimeGain()
+{
+	return timeGain;
+}
+
 void TimeManager::increaseAndExecuteTimers()
 {
-	double timeGain = calculateTimeGain();
+	calculateTimeGain();
 	for (Timer* timer : timers)
 	{
 		timer->incrementValue(timeGain);
@@ -21,12 +26,11 @@ void TimeManager::increaseAndExecuteTimers()
 	}
 }
 
-double TimeManager::calculateTimeGain()
+void TimeManager::calculateTimeGain()
 {
 	secondTicker = SDL_GetTicks();
-	double delta = (secondTicker - firstTicker) * 0.001;
+	timeGain = (secondTicker - firstTicker) * 0.001;
 	firstTicker = secondTicker;
-	return delta;
 }
 
 TimeManager::~TimeManager()
