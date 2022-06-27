@@ -1,7 +1,9 @@
 #include "Timer.h"
 
 Timer::Timer(double timeLimit) : timerValue(0), timeLimit(timeLimit), executePermission(0), executable(true) {}
+
 Timer::Timer() : timerValue(0), timeLimit(0), executePermission(0), executable(false) {}
+
 void Timer::incrementValue(double timeGain)
 {
 	timerValue += timeGain;

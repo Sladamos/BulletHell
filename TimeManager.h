@@ -8,6 +8,7 @@ public:
 	~TimeManager();
 	static void addTimer(Timer* timer);
 	void increaseAndExecuteTimers();
+	void startCounting();
 	double getTimeGain();
 private:
 	void calculateTimeGain();

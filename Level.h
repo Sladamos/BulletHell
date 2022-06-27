@@ -5,7 +5,7 @@
 class Level
 {
 public:
-	Level();
+	Level(SDL_Window* window, SDL_Renderer* renderer);
 	~Level();
 	Timer* getLevelTimer();
 	std::list<GameObject*> getGameObjects();

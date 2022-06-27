@@ -17,8 +17,8 @@ private:
 	static std::map<std::string, std::vector<SDL_Surface*>> bitmaps;
 };
 
-//Bmp name structure : object name ; _lvl_ before level number if necessary ; _an_ before animation number ;
+//Bmp name structure : object name ; _an_ before animation number ;
 //examples:		player_an_1, player_an_2, player_an_3,
 //examples:		bonus, wall, background
-//examples:		enemy_lvl_1, enemy_lvl_2_an_1, enemy_lvl_2_an_2
+//examples:		enemy1, enemy2_an_1, enemy2_an_2
 

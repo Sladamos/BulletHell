@@ -5,10 +5,12 @@ map<string, vector<SDL_Surface*>> BmpManager::bitmaps = map<string, vector<SDL_S
 
 void BmpManager::loadStaticBitmap(const string& objectName)
 {
-	//TODO: check is already in map
-	string path = "./" + objectName + ".bmp";
-	vector<SDL_Surface*> bmpVector = { SDL_LoadBMP(path.c_str()) };
-	bitmaps.insert(pair <string, vector<SDL_Surface*>> (objectName, bmpVector));
+	if (bitmaps.find(objectName) == bitmaps.end())
+	{
+		string path = "./" + objectName + ".bmp";
+		vector<SDL_Surface*> bmpVector = { SDL_LoadBMP(path.c_str()) };
+		bitmaps.insert(pair <string, vector<SDL_Surface*>>(objectName, bmpVector));
+	}
 }
 
 void BmpManager::freeBitmaps()

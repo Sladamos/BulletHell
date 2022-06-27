@@ -1,5 +1,10 @@
 #pragma once
-#define MAX_TEXT_SIZE 128
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-#define LETTER_SIZE 8
+class Constans
+{
+	//TODO: change constexpr to const when adding loading game
+public:
+	static constexpr int maxTextSize = 128;
+	static constexpr int screenWidth = 640;
+	static constexpr int screenHeight = 480;
+	static constexpr int smallLetterSize = 8;
+};

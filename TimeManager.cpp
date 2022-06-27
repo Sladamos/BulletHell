@@ -4,11 +4,16 @@
 
 std::list<Timer*> TimeManager::timers = std::list<Timer*>();
 
-TimeManager::TimeManager() : firstTicker(SDL_GetTicks()), secondTicker(firstTicker), timeGain(0.0) {}
+TimeManager::TimeManager() : firstTicker(0), secondTicker(0), timeGain(0.0) {}
 
 void TimeManager::addTimer(Timer* timer)
 {
 	timers.push_back(timer);
+}
+
+void TimeManager::startCounting()
+{
+	firstTicker = SDL_GetTicks();
 }
 
 double TimeManager::getTimeGain()

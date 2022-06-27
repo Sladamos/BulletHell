@@ -8,6 +8,7 @@ public:
 	double getFps();
 private:
 	void executeAction() override;
+
 	int frames;
 	double fps;
 };

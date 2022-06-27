@@ -3,9 +3,9 @@
 #include"./SDL2-2.0.10/include/SDL.h"
 #include"./SDL2-2.0.10/include/SDL_main.h"
 
-Level::Level() : levelInProgress(true), levelTimer(new Timer()),
-						  timeManager(new TimeManager()), levelPainter(new Painter(this)) //TODO: make abstract (enemies)
-{
+Level::Level(SDL_Window* window, SDL_Renderer* renderer) : levelInProgress(true), levelTimer(new Timer()),
+						  timeManager(new TimeManager()), levelPainter(new Painter(this, window, renderer))
+{ //TODO: make abstract (with enemies)
 	timeManager->addTimer(levelTimer);
 	createGameObjects();
 }
@@ -47,6 +47,7 @@ Timer* Level::getLevelTimer()
 
 void Level::startLevel()
 {
+	timeManager->startCounting();
 	while (levelInProgress)
 	{
 		levelPainter->drawScreen();

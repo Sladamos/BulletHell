@@ -1,22 +1,21 @@
 #pragma once
-#include "./SDL2-2.0.10/include/SDL.h"
-#include "./SDL2-2.0.10/include/SDL_main.h"
 #include "FpsTimer.h"
-#include "GameObject.h"
 #include "Point.h"
 #include "Constans.h"
+#include "./SDL2-2.0.10/include/SDL.h"
+#include "./SDL2-2.0.10/include/SDL_main.h"
 
+class GameObject;
 class Level;
 class Painter
 {
 public:
-	Painter(Level* level);
+	Painter(Level* level, SDL_Window* window, SDL_Renderer* renderer);
 	~Painter();
 	void drawScreen();
 	void drawObject(SDL_Surface* objectBmp, const Point& coords);
 private:
 	void setColors();
-	void createWindowAndRenderer();
 	void drawString(const Point& coords, const char* text);
 	void drawPixel(const Point& coords, Uint32 color);
 	void drawLine(const Point& coords, int length, int inclinationDegrees, Uint32 color);
@@ -31,10 +30,9 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	SDL_Texture* scrtex;
-
-	int BLACK, RED, BLUE;
 	FpsTimer* fpsTimer;
-	char text[MAX_TEXT_SIZE];
 	Level* level;
+	char text[Constans::maxTextSize];
+	int BLACK, RED, BLUE;
 };
 

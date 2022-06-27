@@ -1,24 +1,14 @@
+#include "GameObject.h"
 #include "Painter.h"
 #include "Level.h"
 
-Painter::Painter(Level* level) : level(level)
+Painter::Painter(Level* level, SDL_Window* window, SDL_Renderer* renderer) : level(level), window(window), renderer(renderer)
 {
-	createWindowAndRenderer();
-	screen = SDL_CreateRGBSurface(0, SCREEN_WIDTH, SCREEN_HEIGHT, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
-	scrtex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, SCREEN_WIDTH, SCREEN_HEIGHT);
+	screen = SDL_CreateRGBSurface(0, Constans::screenWidth, Constans::screenHeight, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+	scrtex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, Constans::screenWidth, Constans::screenHeight);
 	charset = SDL_LoadBMP("./cs8x8.bmp");
 	addFpsTimer();
-	setColors();
-	SDL_ShowCursor(SDL_DISABLE);
-	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
-}
-
-void Painter::createWindowAndRenderer()
-{
-	SDL_CreateWindowAndRenderer(SCREEN_WIDTH, SCREEN_HEIGHT, 0, &window, &renderer);
-	SDL_SetWindowTitle(window, "Szablon SDL2");
-	SDL_RenderSetLogicalSize(renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	setColors();	//TODO: make abstract and menu will inherit after painter with new constructor(without fpstimer -> nullptr)
 }
 
 void Painter::addFpsTimer()
@@ -55,12 +45,12 @@ void Painter::printGameObjects()
 void Painter::drawStatistics()
 {
 	Point coords(4,4);
-	drawRectangle(coords, SCREEN_WIDTH-8, 36, RED, BLUE);	//Panel for statistics - TODO refactor
+	drawRectangle(coords, Constans::screenWidth-8, 36, RED, BLUE);	//Panel for statistics - TODO refactor and make clear
 	sprintf(text, "Szablon SDL, czas trwania = %.1lf s  %.0lf klatek / s", level->getLevelTimer()->getTimerValue(), fpsTimer->getFps());
-	coords.setCoordinates(screen->w / 2 - strlen(text) * LETTER_SIZE / 2, 10);
+	coords.setCoordinates(screen->w / 2 - strlen(text) * Constans::smallLetterSize / 2, 10);
 	drawString(coords, text);
 	sprintf(text, "Esc - wyjscie, \030 - przyspieszenie, \031 - zwolnienie");
-	coords.setCoordinates(screen->w / 2 - strlen(text) * LETTER_SIZE / 2, 26);
+	coords.setCoordinates(screen->w / 2 - strlen(text) * Constans::smallLetterSize / 2, 26);
 	drawString(coords, text);
 }
 
@@ -69,18 +59,18 @@ void Painter::drawString(const Point& coords, const char* text)
 	int xCoord = coords.getX(), yCoord = coords.getY();
 	int px, py, c;
 	SDL_Rect s, d;
-	s.w = s.h = d.w = d.h = LETTER_SIZE;
+	s.w = s.h = d.w = d.h = Constans::smallLetterSize;
 	while (*text)
 	{
 		c = *text & 255;
-		px = (c % 16) * LETTER_SIZE;
-		py = (c / 16) * LETTER_SIZE;
+		px = (c % 16) * Constans::smallLetterSize;
+		py = (c / 16) * Constans::smallLetterSize;
 		s.x = px;
 		s.y = py;
 		d.x = xCoord;
 		d.y = yCoord;
 		SDL_BlitSurface(charset, &s, screen, &d);
-		xCoord += LETTER_SIZE;
+		xCoord += Constans::smallLetterSize;
 		text++;
 	}
 }
@@ -145,10 +135,9 @@ void Painter::drawPixel(const Point& coords, Uint32 color)
 
 Painter::~Painter()
 {
-	delete fpsTimer;
+	if(fpsTimer != nullptr)
+		delete fpsTimer;
 	SDL_FreeSurface(charset);
 	SDL_FreeSurface(screen);
 	SDL_DestroyTexture(scrtex);
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
 }
