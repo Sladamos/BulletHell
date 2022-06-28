@@ -31,6 +31,7 @@ void Painter::drawScreen()
 	drawStatistics();
 	printGameObjects();
 	SDL_UpdateTexture(scrtex, NULL, screen->pixels, screen->pitch);
+	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, scrtex, NULL, NULL);
 	SDL_RenderPresent(renderer);
 	fpsTimer->incrementFrames();

@@ -6,6 +6,8 @@ public:
 	Point(int x, int y);
 	int getX() const;
 	int getY() const;
+	void setX(int x);
+	void setY(int y);
 	void setCoordinates(int x, int y);
 	void moveByVector(int x, int y);
 private:

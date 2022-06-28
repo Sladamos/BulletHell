@@ -106,10 +106,10 @@ void Level::performGameObjectsActions(double timeGain)
 	for (GameObject* object : gameObjects)
 	{
 		object->action(timeGain);
-		//if (object->isMoveable())
-			//checkLevelBorderCollision(object);			
+		if (object->isMoveable())
+			object->checkLevelBorderCollision();
 	}
-	//TODO: object->checkCollision(); i tera game object virtual void = 0;
+	//TODO: object->checkObjectsCollisions(); GameObject virtual void;
 }
 
 Level::~Level()

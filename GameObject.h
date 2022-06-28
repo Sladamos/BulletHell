@@ -10,6 +10,7 @@ public:
 	GameObject(std::string objectName, const Point& position, int radius);
 	GameObject(std::string objectName, const Point& position, const std::vector<Point>& corners);
 	//GameObject(std::string objectName, int numberOfAnimations);	//TODO: add animations
+	virtual void checkLevelBorderCollision();
 	bool isMoveable();
 	virtual void action(double timeGain);
 	void print(Painter* painter);
