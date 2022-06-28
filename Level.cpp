@@ -1,5 +1,8 @@
+#include <vector>
+#include "Point.h"
 #include "Level.h"
 #include "BmpManager.h"
+#include "PolygonsManager.h"
 #include"./SDL2-2.0.10/include/SDL.h"
 #include"./SDL2-2.0.10/include/SDL_main.h"
 
@@ -12,7 +15,7 @@ Level::Level(SDL_Window* window, SDL_Renderer* renderer) : levelInProgress(true)
 
 void Level::createGameObjects()
 {
-	player = new Player("eti");
+	player = new Player("eti", std::vector<Point>{Point(-45,-45), Point(-45,45), Point(45,-45), Point(45,45)});
 	gameObjects.push_back(player);
 }
 
@@ -26,7 +29,6 @@ void Level::handleLevelEvents()
 			{
 			case SDLK_UP: case SDLK_LEFT: case SDLK_DOWN: case SDLK_RIGHT:
 				handlePlayerMovement(event);
-				//TODO: player->updateLookingDirection();
 				break;
 			case SDLK_ESCAPE:
 				levelInProgress = false;	//TODO: level result
@@ -38,7 +40,6 @@ void Level::handleLevelEvents()
 			{
 			case SDLK_UP: case SDLK_LEFT: case SDLK_DOWN: case SDLK_RIGHT:
 				handlePlayerMovement(event);
-				//TODO: player->updateLookingDirection();
 				break;
 			}
 			break;
@@ -74,6 +75,8 @@ void Level::handlePlayerMovement(const SDL_Event& event)
 		if (player->stoppedHorizontally(event))
 			player->setHorizontalSpeed(0.0);
 	}
+
+	//TODO: player->updateLookingDirection();
 }
 
 std::list<GameObject*> Level::getGameObjects()
@@ -101,7 +104,12 @@ void Level::startLevel()
 void Level::performGameObjectsActions(double timeGain)
 {
 	for (GameObject* object : gameObjects)
+	{
 		object->action(timeGain);
+		//if (object->isMoveable())
+			//checkLevelBorderCollision(object);			
+	}
+	//TODO: object->checkCollision(); i tera game object virtual void = 0;
 }
 
 Level::~Level()
@@ -109,6 +117,7 @@ Level::~Level()
 	for (GameObject* object : gameObjects)
 		delete object;
 	BmpManager::freeBitmaps();
+	PolygonsManager::freePolygons();
 	delete levelTimer;
 	delete levelPainter;
 	delete timeManager;
