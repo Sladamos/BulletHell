@@ -9,7 +9,7 @@ public:
 	void setX(int x);
 	void setY(int y);
 	void setCoordinates(int x, int y);
-	void moveByVector(int x, int y);
+	Point& moveByVector(int x, int y);
 private:
 	int x, y;
 };

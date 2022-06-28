@@ -6,7 +6,8 @@ Painter::Painter(Level* level, SDL_Window* window, SDL_Renderer* renderer) : lev
 {
 	screen = SDL_CreateRGBSurface(0, Constants::screenWidth, Constants::screenHeight, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
 	scrtex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, Constants::screenWidth, Constants::screenHeight);
-	charset = SDL_LoadBMP("./cs8x8.bmp");
+	charset = SDL_LoadBMP("./gfx/cs8x8.bmp");
+	background = SDL_LoadBMP("./gfx/background.bmp");
 	addFpsTimer();
 	setColors();	//TODO: make abstract and menu will inherit after painter with new constructor(without fpstimer -> nullptr)
 }
@@ -19,22 +20,33 @@ void Painter::addFpsTimer()
 
 void Painter::setColors()
 {
-	BLACK = SDL_MapRGB(screen->format, 0x00, 0x00, 0x00);
-	RED = SDL_MapRGB(screen->format, 0xFF, 0x00, 0x00);
-	BLUE = SDL_MapRGB(screen->format, 0x11, 0x11, 0xCC);
+	blackColor = SDL_MapRGB(screen->format, 0x00, 0x00, 0x00);
+	redColor = SDL_MapRGB(screen->format, 0xFF, 0x00, 0x00);
+	blueColor = SDL_MapRGB(screen->format, 0x11, 0x11, 0xCC);
 	SDL_SetColorKey(charset, true, 0x000000);
 }
 
 void Painter::drawScreen()
 {
-	SDL_FillRect(screen, NULL, BLACK);
+	SDL_FillRect(screen, NULL, blackColor);
+	drawObject(background, Point((Constants::screenWidth - Constants::statsWidth)/2, Constants::screenHeight / 2));
 	drawStatistics();
 	printGameObjects();
+	drawWalls();
 	SDL_UpdateTexture(scrtex, NULL, screen->pixels, screen->pitch);
 	SDL_RenderClear(renderer);
 	SDL_RenderCopy(renderer, scrtex, NULL, NULL);
 	SDL_RenderPresent(renderer);
 	fpsTimer->incrementFrames();
+}
+
+void Painter::drawWalls()
+{
+	/*
+	if(isTopWallInCameraSize())
+	printTopWall
+	etc. TODO
+	*/
 }
 
 void Painter::printGameObjects()
@@ -45,18 +57,26 @@ void Painter::printGameObjects()
 
 void Painter::drawStatistics()
 {
-	Point coords(4,4);
-	drawRectangle(coords, Constants::screenWidth-8, 36, RED, BLUE);	//Panel for statistics - TODO refactor and make clear
-	sprintf(text, "Szablon SDL, czas trwania = %.1lf s  %.0lf klatek / s", level->getLevelTimer()->getTimerValue(), fpsTimer->getFps());
-	coords.setCoordinates(screen->w / 2 - strlen(text) * Constants::smallLetterSize / 2, 10);
-	drawString(coords, text);
-	sprintf(text, "Esc - wyjscie, \030 - przyspieszenie, \031 - zwolnienie");
-	coords.setCoordinates(screen->w / 2 - strlen(text) * Constants::smallLetterSize / 2, 26);
-	drawString(coords, text);
+	Point textCoords(Constants::screenWidth - Constants::statsWidth + 15, 15);
+	drawFillRectangle(Point(Constants::screenWidth-Constants::statsWidth, 0), Constants::statsWidth, Constants::screenHeight, redColor);
+	sprintf(text, "Time = %.1lf s ", level->getLevelTimer()->getTimerValue());
+	drawString(textCoords);
+	sprintf(text, "%.0lf FPS", fpsTimer->getFps());
+	drawString(textCoords.moveByVector(0,2 * Constants::smallLetterSize));
+	sprintf(text, "Contolos:");
+	drawString(textCoords.moveByVector(0, 2 * Constants::smallLetterSize));
+	sprintf(text, "New Game - N");
+	drawString(textCoords.moveByVector(0, 2 * Constants::smallLetterSize));
+	sprintf(text, "UP - \030, DOWN - \031");
+	drawString(textCoords.moveByVector(0, 2 * Constants::smallLetterSize));
+	sprintf(text, "LEFT - \032, RIGHT - \033");
+	drawString(textCoords.moveByVector(0, 2 * Constants::smallLetterSize));
+	//TODO: drawPlayerHealthBar + hp , score
 }
 
-void Painter::drawString(const Point& coords, const char* text)
+void Painter::drawString(const Point& coords)
 {
+	const char* text = this->text;
 	int xCoord = coords.getX(), yCoord = coords.getY();
 	int px, py, c;
 	SDL_Rect s, d;
@@ -89,9 +109,7 @@ void Painter::drawFillRectangle(const Point& coords, int width, int height, Uint
 	lineCoords.moveByVector(1, 0);
 	for (int i = yCoord + 1; i < yCoord + height - 1; i++)
 	{
-		lineCoords.moveByVector(0, 1);
-		drawLine(lineCoords, width - 2, 0, color);
-		drawLine(lineCoords, width - 2, 0, color);
+		drawLine(lineCoords.moveByVector(0, 1) , width - 2, 0, color);
 	}
 }
 
@@ -100,10 +118,10 @@ void Painter::drawOutlineRectangle(const Point& coords, int width, int height, U
 	Point lineCoords = coords;
 	drawLine(lineCoords, height, 90, color);
 	drawLine(lineCoords, width, 0, color);
-	lineCoords.moveByVector(width - 1, 0);
-	drawLine(lineCoords, height, 90, color);
-	lineCoords.moveByVector(1 - width, height - 1);
-	drawLine(lineCoords, width, 0, color);
+	//lineCoords.moveByVector(width - 1, 0);
+	drawLine(lineCoords.moveByVector(width - 1, 0), height, 90, color);
+	//lineCoords.moveByVector(1 - width, height - 1);
+	drawLine(lineCoords.moveByVector(1 - width, height - 1), width, 0, color);
 }
 
 void Painter::drawLine(const Point& coords, int length, int inclinationDegrees, Uint32 color)
@@ -138,6 +156,7 @@ Painter::~Painter()
 {
 	if(fpsTimer != nullptr)
 		delete fpsTimer;
+	SDL_FreeSurface(background);
 	SDL_FreeSurface(charset);
 	SDL_FreeSurface(screen);
 	SDL_DestroyTexture(scrtex);

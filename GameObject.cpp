@@ -13,15 +13,15 @@ GameObject::GameObject(string objectName, const Point& position, int radius) : o
 void GameObject::checkLevelBorderCollision()
 {
 	Polygon* objectPolygon = PolygonsManager::getPolygon(objectName);
-	if (position.getY() + objectPolygon->getMostTopCoordinate() < 0)
-		position.setY((-1)*objectPolygon->getMostTopCoordinate());	//TODO: change
-	else if (position.getY() + objectPolygon->getMostBottomCoordinate() > Constants::levelHeight)
-		position.setY(Constants::levelHeight - objectPolygon->getMostBottomCoordinate());
+	if (position.getY() + objectPolygon->getMostTopCoordinate() < Constants::wallSize)
+		position.setY((-1)*objectPolygon->getMostTopCoordinate() + Constants::wallSize);	//TODO: change
+	else if (position.getY() + objectPolygon->getMostBottomCoordinate() > Constants::levelHeight - Constants::wallSize)
+		position.setY(Constants::levelHeight - objectPolygon->getMostBottomCoordinate() - Constants::wallSize);
 
-	if (position.getX() + objectPolygon->getMostLeftCoordinate() < 0)
-		position.setX((-1)*objectPolygon->getMostLeftCoordinate());
-	else if (position.getX() + objectPolygon->getMostRightCoordinate() > Constants::levelWidth)
-		position.setX(Constants::levelWidth - objectPolygon->getMostRightCoordinate());
+	if (position.getX() + objectPolygon->getMostLeftCoordinate() < Constants::wallSize)
+		position.setX((-1)*objectPolygon->getMostLeftCoordinate() + Constants::wallSize);
+	else if (position.getX() + objectPolygon->getMostRightCoordinate() > Constants::levelWidth - Constants::wallSize)
+		position.setX(Constants::levelWidth - objectPolygon->getMostRightCoordinate() - Constants::wallSize);
 }
 
 GameObject::GameObject(string objectName, const Point& position, const vector<Point>& corners) 

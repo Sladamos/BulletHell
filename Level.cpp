@@ -6,16 +6,21 @@
 #include"./SDL2-2.0.10/include/SDL.h"
 #include"./SDL2-2.0.10/include/SDL_main.h"
 
-Level::Level(SDL_Window* window, SDL_Renderer* renderer) : levelInProgress(true), levelTimer(new Timer()),
+Level::Level(SDL_Window* window, SDL_Renderer* renderer) : levelResult(LevelResult::unknown), levelTimer(new Timer()),
 						  timeManager(new TimeManager()), levelPainter(new Painter(this, window, renderer))
 { //TODO: make abstract (with enemies)
 	timeManager->addTimer(levelTimer);
 	createGameObjects();
 }
 
+LevelResult Level::getResult()
+{
+	return levelResult;
+}
+
 void Level::createGameObjects()
 {
-	player = new Player("eti", std::vector<Point>{Point(-45,-45), Point(-45,45), Point(45,-45), Point(45,45)});
+	player = new Player("./gfx/eti", std::vector<Point>{Point(-45,-45), Point(-45,45), Point(45,-45), Point(45,45)});
 	gameObjects.push_back(player);
 }
 
@@ -31,7 +36,10 @@ void Level::handleLevelEvents()
 				handlePlayerMovement(event);
 				break;
 			case SDLK_ESCAPE:
-				levelInProgress = false;	//TODO: level result
+				levelResult = LevelResult::aborted;
+				break;
+			case SDLK_n:
+				levelResult = LevelResult::restarted;
 				break;
 			}
 			break;
@@ -44,7 +52,7 @@ void Level::handleLevelEvents()
 			}
 			break;
 		case SDL_QUIT:
-			levelInProgress = false;
+			levelResult = LevelResult::aborted;
 		};
 	};
 }
@@ -92,7 +100,7 @@ Timer* Level::getLevelTimer()
 void Level::startLevel()
 {
 	timeManager->startCounting();
-	while (levelInProgress)
+	while (isLevelInProgress())
 	{
 		levelPainter->drawScreen();
 		timeManager->increaseAndExecuteTimers();
@@ -110,6 +118,11 @@ void Level::performGameObjectsActions(double timeGain)
 			object->checkLevelBorderCollision();
 	}
 	//TODO: object->checkObjectsCollisions(); GameObject virtual void;
+}
+
+bool Level::isLevelInProgress()
+{
+	return levelResult == LevelResult::unknown;
 }
 
 Level::~Level()

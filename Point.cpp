@@ -29,8 +29,9 @@ void Point::setCoordinates(int x, int y)
 	this->y = y;
 }
 
-void Point::moveByVector(int x, int y)
+Point& Point::moveByVector(int x, int y)
 {
 	this->x += x;
 	this->y += y;
+	return *this;
 }

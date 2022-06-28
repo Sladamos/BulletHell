@@ -1,7 +1,7 @@
 #include "Game.h"
 #include "Level.h"
 
-Game::Game() : gameInProgress(true), currentLevel(1)	//TODO: implement menu ; move currentlvl into new/load Game
+Game::Game() : gameInProgress(true), currentLevel(1), currentlyPlayedLevel(nullptr)	//TODO: implement menu ; move currentlvl into new/load Game
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	createGui();
@@ -14,13 +14,20 @@ void Game::startGame()
 	while (gameInProgress)
 	{
 		currentlyPlayedLevel->startLevel();
-		gameInProgress = false;	//TEMP: remove after implement handleResult
-		//handleLevelResult(level->getResult)	//TODO: implement win/lose condition -> do smth with gameInProgress
+		handleLevelResult(currentlyPlayedLevel->getResult());	//TODO: implement win/lose condition
 	}
 }
 
 void Game::handleLevelResult(LevelResult levelResult)
 {
+	switch (levelResult)
+	{
+	case LevelResult::aborted:
+		gameInProgress = false;
+		break;
+	case LevelResult::restarted:
+		createLevel(currentLevel);
+	}
 	//FUTURE IMPLEMENTATION
 	//createLevel(++currentLevel); - next level
 	//level->reset() (better destro and create with same number)
@@ -41,6 +48,8 @@ void Game::createGui()
 
 void Game::createLevel(int levelNumber)
 {
+	if (currentlyPlayedLevel != nullptr)
+		delete currentlyPlayedLevel;
 	switch (levelNumber)
 	{
 	case '1':

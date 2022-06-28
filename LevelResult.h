@@ -4,5 +4,6 @@ enum class LevelResult
 	won,
 	lost,
 	restarted,
-	aborted
+	aborted,
+	unknown
 };
