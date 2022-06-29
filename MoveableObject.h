@@ -9,7 +9,8 @@ public:
 	void setVerticalSpeed(double verticalSpeed);
 	void setHorizontalSpeed(double horizontalSpeed);
 protected:
-	void basicMove(double timeGain);
+	void straightMove(double timeGain);
+
 	double horizontalSpeed, verticalSpeed;
 };
 

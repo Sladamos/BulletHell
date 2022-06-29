@@ -2,12 +2,18 @@
 #include "BmpManager.h"
 #include "PolygonsManager.h"
 #include "Painter.h"
+#include "Camera.h"
 #include "MoveableObject.h"
 using namespace std;
 
 GameObject::GameObject(string objectName, const Point& position, int radius) : objectName(objectName), position(position)
 {
 	BmpManager::loadStaticBitmap(objectName, radius);
+}
+
+Point GameObject::getPosition()
+{
+	return position;
 }
 
 void GameObject::checkLevelBorderCollision()
@@ -42,5 +48,5 @@ void GameObject::action(double timeGain)
 
 void GameObject::print(Painter* painter)
 {
-	painter->drawObject(BmpManager::getBitmap(objectName), position);
+	painter->drawObject(BmpManager::getBitmap(objectName), Camera::getObjectPositionOnScreen(position));
 }

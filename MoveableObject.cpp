@@ -15,7 +15,7 @@ void MoveableObject::setVerticalSpeed(double verticalSpeed)
 	this->verticalSpeed = verticalSpeed;
 }
 
-void MoveableObject::basicMove(double timeGain)
+void MoveableObject::straightMove(double timeGain)
 {
 	position.moveByVector(horizontalSpeed * timeGain * Constants::horizontalSpeedMultiplier,
 		verticalSpeed * timeGain * Constants::verticalSpeedMultiplier);

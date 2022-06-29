@@ -9,9 +9,10 @@ public:
 	Level(SDL_Window* window, SDL_Renderer* renderer);
 	~Level();
 	Timer* getLevelTimer();
+	Player* getPlayer();
+	LevelResult getResult();
 	std::list<GameObject*> getGameObjects();
 	void startLevel();
-	LevelResult getResult();
 private:
 	void handleLevelEvents();
 	void createGameObjects();

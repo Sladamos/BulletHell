@@ -13,6 +13,11 @@ Level::Level(SDL_Window* window, SDL_Renderer* renderer) : levelResult(LevelResu
 	createGameObjects();
 }
 
+Player* Level::getPlayer()
+{
+	return player;
+}
+
 LevelResult Level::getResult()
 {
 	return levelResult;

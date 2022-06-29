@@ -24,6 +24,7 @@ private:
 	void drawFillRectangle(const Point& coords, int width, int height, Uint32 color);
 	void drawStatistics();
 	void drawWalls();
+	void drawBackground();
 	void addFpsTimer();
 	void printGameObjects();
 

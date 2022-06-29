@@ -29,9 +29,9 @@ void Painter::setColors()
 void Painter::drawScreen()
 {
 	SDL_FillRect(screen, NULL, blackColor);
-	drawObject(background, Point((Constants::screenWidth - Constants::statsWidth)/2, Constants::screenHeight / 2));
-	drawStatistics();
+	drawBackground();
 	printGameObjects();
+	drawStatistics();
 	drawWalls();
 	SDL_UpdateTexture(scrtex, NULL, screen->pixels, screen->pitch);
 	SDL_RenderClear(renderer);
@@ -40,11 +40,16 @@ void Painter::drawScreen()
 	fpsTimer->incrementFrames();
 }
 
+void Painter::drawBackground()
+{
+	drawObject(background, Point((Constants::screenWidth - Constants::statsWidth) / 2, Constants::screenHeight / 2));
+}
+
 void Painter::drawWalls()
 {
 	/*
-	if(isTopWallInCameraSize())
-	printTopWall
+	if(isTopWallInCameraRange())
+	for(int i = 0; i < Constants::wallSize; i++)
 	etc. TODO
 	*/
 }
@@ -63,6 +68,8 @@ void Painter::drawStatistics()
 	drawString(textCoords);
 	sprintf(text, "%.0lf FPS", fpsTimer->getFps());
 	drawString(textCoords.moveByVector(0,2 * Constants::smallLetterSize));
+	sprintf(text, "x = %d y = %d", level->getPlayer()->getPosition().getX(), level->getPlayer()->getPosition().getY());
+	drawString(textCoords.moveByVector(0, 2 * Constants::smallLetterSize));
 	sprintf(text, "Contolos:");
 	drawString(textCoords.moveByVector(0, 2 * Constants::smallLetterSize));
 	sprintf(text, "New Game - N");
@@ -118,9 +125,7 @@ void Painter::drawOutlineRectangle(const Point& coords, int width, int height, U
 	Point lineCoords = coords;
 	drawLine(lineCoords, height, 90, color);
 	drawLine(lineCoords, width, 0, color);
-	//lineCoords.moveByVector(width - 1, 0);
 	drawLine(lineCoords.moveByVector(width - 1, 0), height, 90, color);
-	//lineCoords.moveByVector(1 - width, height - 1);
 	drawLine(lineCoords.moveByVector(1 - width, height - 1), width, 0, color);
 }
 

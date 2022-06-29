@@ -10,6 +10,7 @@ public:
 	bool stoppedVertically(const SDL_Event& event);
 	bool stoppedHorizontally(const SDL_Event& event);
 	void action(double timeGain) override;
+	void print(Painter* painter) override;
 	static constexpr double playerSpeedMultiplier = 1.25;
 };
 
