@@ -89,7 +89,7 @@ void Level::handlePlayerMovement(const SDL_Event& event)
 			player->setHorizontalSpeed(0.0);
 	}
 
-	//TODO: player->updateLookingDirection();
+	//TODO: player->updateLookingDirection(); - implement shooting
 }
 
 std::list<GameObject*> Level::getGameObjects()

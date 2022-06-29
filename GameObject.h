@@ -3,6 +3,7 @@
 #include <vector>
 #include "Point.h"
 #include "Constants.h"
+#include "Polygon.h"
 class Painter;
 class GameObject
 {
@@ -18,5 +19,10 @@ public:
 protected:
 	Point position;
 	std::string objectName;
+private:
+	bool isTryingToCrossTopBorder(Polygon* objectPolygon);
+	bool isTryingToCrossRightBorder(Polygon* objectPolygon);
+	bool isTryingToCrossBottomBorder(Polygon* objectPolygon);
+	bool isTryingToCrossLeftBorder(Polygon* objectPolygon);
 };
 

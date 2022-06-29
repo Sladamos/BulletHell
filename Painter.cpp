@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "Painter.h"
 #include "Level.h"
+#include "Camera.h"
 
 Painter::Painter(Level* level, SDL_Window* window, SDL_Renderer* renderer) : level(level), window(window), renderer(renderer)
 {
@@ -9,7 +10,7 @@ Painter::Painter(Level* level, SDL_Window* window, SDL_Renderer* renderer) : lev
 	charset = SDL_LoadBMP("./gfx/cs8x8.bmp");
 	background = SDL_LoadBMP("./gfx/background.bmp");
 	addFpsTimer();
-	setColors();	//TODO: make abstract and menu will inherit after painter with new constructor(without fpstimer -> nullptr)
+	setColors();	//TODO: make painter abstract and menu will inherit after painter with new constructor(without fpstimer -> nullptr)
 }
 
 void Painter::addFpsTimer()
@@ -47,11 +48,35 @@ void Painter::drawBackground()
 
 void Painter::drawWalls()
 {
-	/*
-	if(isTopWallInCameraRange())
-	for(int i = 0; i < Constants::wallSize; i++)
-	etc. TODO
-	*/
+	if (Camera::isPlayerNearTheTopBorder())
+		drawTopWall();
+	else if (Camera::isPlayerNearTheBottomBorder())
+		drawBottomWall();
+
+	if (Camera::isPlayerNearTheRightBorder())
+		drawRightWall();
+	else if (Camera::isPlayerNearTheLeftBorder())
+		drawLeftWall();
+}
+
+void Painter::drawTopWall()
+{
+	drawFillRectangle(Point(), Constants::screenWidth - Constants::statsWidth, Constants::wallSize, blueColor);
+}
+
+void Painter::drawRightWall()
+{
+	drawFillRectangle(Point(Constants::screenWidth-Constants::statsWidth-Constants::wallSize,0), Constants::wallSize, Constants::screenHeight, blueColor);
+}
+
+void Painter::drawBottomWall()
+{
+	drawFillRectangle(Point(0,Constants::screenHeight-Constants::wallSize), Constants::screenWidth - Constants::statsWidth, Constants::wallSize, blueColor);
+}
+
+void Painter::drawLeftWall()
+{
+	drawFillRectangle(Point(), Constants::wallSize, Constants::screenHeight, blueColor);
 }
 
 void Painter::printGameObjects()
@@ -106,17 +131,17 @@ void Painter::drawString(const Point& coords)
 void Painter::drawRectangle(const Point& coords, int width, int height, Uint32 outlineColor, Uint32 fillColor)
 {
 	drawOutlineRectangle(coords, width, height, outlineColor);
-	drawFillRectangle(coords, width, height, fillColor);
+	drawFillRectangle(Point(coords).moveByVector(1,1), width-1, height-1, fillColor);
 }
 
 void Painter::drawFillRectangle(const Point& coords, int width, int height, Uint32 color)
 {
 	int yCoord = coords.getY();
 	Point lineCoords = coords;
-	lineCoords.moveByVector(1, 0);
-	for (int i = yCoord + 1; i < yCoord + height - 1; i++)
+	for (int i = yCoord; i < yCoord + height; i++)
 	{
-		drawLine(lineCoords.moveByVector(0, 1) , width - 2, 0, color);
+		drawLine(lineCoords, width, 0, color);
+		lineCoords.moveByVector(0, 1);
 	}
 }
 

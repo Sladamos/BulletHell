@@ -19,15 +19,15 @@ Point GameObject::getPosition()
 void GameObject::checkLevelBorderCollision()
 {
 	Polygon* objectPolygon = PolygonsManager::getPolygon(objectName);
-	if (position.getY() + objectPolygon->getMostTopCoordinate() < Constants::wallSize)
-		position.setY((-1)*objectPolygon->getMostTopCoordinate() + Constants::wallSize);	//TODO: change
-	else if (position.getY() + objectPolygon->getMostBottomCoordinate() > Constants::levelHeight - Constants::wallSize)
+	if (isTryingToCrossTopBorder(objectPolygon))
+		position.setY((-1)*objectPolygon->getMostTopCoordinate() + Constants::wallSize);
+	else if (isTryingToCrossBottomBorder(objectPolygon))
 		position.setY(Constants::levelHeight - objectPolygon->getMostBottomCoordinate() - Constants::wallSize);
 
-	if (position.getX() + objectPolygon->getMostLeftCoordinate() < Constants::wallSize)
-		position.setX((-1)*objectPolygon->getMostLeftCoordinate() + Constants::wallSize);
-	else if (position.getX() + objectPolygon->getMostRightCoordinate() > Constants::levelWidth - Constants::wallSize)
+	if (isTryingToCrossRightBorder(objectPolygon))
 		position.setX(Constants::levelWidth - objectPolygon->getMostRightCoordinate() - Constants::wallSize);
+	else if (isTryingToCrossLeftBorder(objectPolygon))
+		position.setX((-1)*objectPolygon->getMostLeftCoordinate() + Constants::wallSize);
 }
 
 GameObject::GameObject(string objectName, const Point& position, const vector<Point>& corners) 
@@ -45,6 +45,26 @@ bool GameObject::isMoveable()
 
 void GameObject::action(double timeGain)
 {}
+
+bool GameObject::isTryingToCrossTopBorder(Polygon* objectPolygon)
+{
+	return position.getY() + objectPolygon->getMostTopCoordinate() < Constants::wallSize;
+}
+
+bool GameObject::isTryingToCrossRightBorder(Polygon* objectPolygon)
+{
+	return position.getX() + objectPolygon->getMostRightCoordinate() > Constants::levelWidth - Constants::wallSize;
+}
+
+bool GameObject::isTryingToCrossBottomBorder(Polygon* objectPolygon)
+{
+	return position.getY() + objectPolygon->getMostBottomCoordinate() > Constants::levelHeight - Constants::wallSize;
+}
+
+bool GameObject::isTryingToCrossLeftBorder(Polygon* objectPolygon)
+{
+	return position.getX() + objectPolygon->getMostLeftCoordinate() < Constants::wallSize;
+}
 
 void GameObject::print(Painter* painter)
 {

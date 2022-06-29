@@ -23,10 +23,15 @@ private:
 	void drawOutlineRectangle(const Point& coords, int width, int height, Uint32 color);
 	void drawFillRectangle(const Point& coords, int width, int height, Uint32 color);
 	void drawStatistics();
-	void drawWalls();
 	void drawBackground();
 	void addFpsTimer();
 	void printGameObjects();
+
+	void drawWalls();
+	void drawTopWall();
+	void drawRightWall();
+	void drawBottomWall();
+	void drawLeftWall();
 
 	SDL_Surface *screen, *charset, *background;
 	SDL_Window* window;
