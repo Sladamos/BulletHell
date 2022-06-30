@@ -2,7 +2,7 @@
 #include <map>
 #include <string>
 #include <vector>
-#include "Polygon.h"
+#include "Shape.h"
 #include "Point.h"
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
@@ -17,7 +17,7 @@ public:	//TODO: add animations
 	static void freeBitmaps();
 private:
 	//static void loadAnimation(const std::string& objectName);
-	static void addStaticBitmap(const std::string& objectName, Polygon* polygon);
+	static void addStaticBitmap(const std::string& objectName, Shape* shape);
 	static std::map<std::string, std::vector<SDL_Surface*>> bitmaps;
 };
 

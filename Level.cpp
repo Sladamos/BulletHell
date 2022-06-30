@@ -2,7 +2,7 @@
 #include "Point.h"
 #include "Level.h"
 #include "BmpManager.h"
-#include "PolygonsManager.h"
+#include "ShapesManager.h"
 #include"./SDL2-2.0.10/include/SDL.h"
 #include"./SDL2-2.0.10/include/SDL_main.h"
 
@@ -135,7 +135,7 @@ Level::~Level()
 	for (GameObject* object : gameObjects)
 		delete object;
 	BmpManager::freeBitmaps();
-	PolygonsManager::freePolygons();
+	ShapesManager::freeShapes();
 	delete levelTimer;
 	delete levelPainter;
 	delete timeManager;

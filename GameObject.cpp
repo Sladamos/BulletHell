@@ -1,6 +1,6 @@
 #include "GameObject.h"
 #include "BmpManager.h"
-#include "PolygonsManager.h"
+#include "ShapesManager.h"
 #include "Painter.h"
 #include "Camera.h"
 #include "MoveableObject.h"
@@ -18,16 +18,16 @@ Point GameObject::getPosition()
 
 void GameObject::checkLevelBorderCollision()
 {
-	Polygon* objectPolygon = PolygonsManager::getPolygon(objectName);
-	if (isTryingToCrossTopBorder(objectPolygon))
-		position.setY((-1)*objectPolygon->getMostTopCoordinate() + Constants::wallSize);
-	else if (isTryingToCrossBottomBorder(objectPolygon))
-		position.setY(Constants::levelHeight - objectPolygon->getMostBottomCoordinate() - Constants::wallSize);
+	Shape* objectShape = ShapesManager::getShape(objectName);
+	if (isTryingToCrossTopBorder(objectShape))
+		position.setY((-1)*objectShape->getMostTopCoordinate() + Constants::wallSize);
+	else if (isTryingToCrossBottomBorder(objectShape))
+		position.setY(Constants::levelHeight - objectShape->getMostBottomCoordinate() - Constants::wallSize);
 
-	if (isTryingToCrossRightBorder(objectPolygon))
-		position.setX(Constants::levelWidth - objectPolygon->getMostRightCoordinate() - Constants::wallSize);
-	else if (isTryingToCrossLeftBorder(objectPolygon))
-		position.setX((-1)*objectPolygon->getMostLeftCoordinate() + Constants::wallSize);
+	if (isTryingToCrossRightBorder(objectShape))
+		position.setX(Constants::levelWidth - objectShape->getMostRightCoordinate() - Constants::wallSize);
+	else if (isTryingToCrossLeftBorder(objectShape))
+		position.setX((-1)*objectShape->getMostLeftCoordinate() + Constants::wallSize);
 }
 
 GameObject::GameObject(string objectName, const Point& position, const vector<Point>& corners) 
@@ -46,24 +46,24 @@ bool GameObject::isMoveable()
 void GameObject::action(double timeGain)
 {}
 
-bool GameObject::isTryingToCrossTopBorder(Polygon* objectPolygon)
+bool GameObject::isTryingToCrossTopBorder(Shape* objectShape)
 {
-	return position.getY() + objectPolygon->getMostTopCoordinate() < Constants::wallSize;
+	return position.getY() + objectShape->getMostTopCoordinate() < Constants::wallSize;
 }
 
-bool GameObject::isTryingToCrossRightBorder(Polygon* objectPolygon)
+bool GameObject::isTryingToCrossRightBorder(Shape* objectShape)
 {
-	return position.getX() + objectPolygon->getMostRightCoordinate() > Constants::levelWidth - Constants::wallSize;
+	return position.getX() + objectShape->getMostRightCoordinate() > Constants::levelWidth - Constants::wallSize;
 }
 
-bool GameObject::isTryingToCrossBottomBorder(Polygon* objectPolygon)
+bool GameObject::isTryingToCrossBottomBorder(Shape* objectShape)
 {
-	return position.getY() + objectPolygon->getMostBottomCoordinate() > Constants::levelHeight - Constants::wallSize;
+	return position.getY() + objectShape->getMostBottomCoordinate() > Constants::levelHeight - Constants::wallSize;
 }
 
-bool GameObject::isTryingToCrossLeftBorder(Polygon* objectPolygon)
+bool GameObject::isTryingToCrossLeftBorder(Shape* objectShape)
 {
-	return position.getX() + objectPolygon->getMostLeftCoordinate() < Constants::wallSize;
+	return position.getX() + objectShape->getMostLeftCoordinate() < Constants::wallSize;
 }
 
 void GameObject::print(Painter* painter)

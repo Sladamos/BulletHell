@@ -1,41 +1,17 @@
-#include <limits>
 #include "Polygon.h"
 using namespace std;
 
-Polygon::Polygon(int radius) : radius(radius) 
+Polygon::Polygon(const vector<Point>& corners) : corners(corners), Shape()
 {
-	mostTopCoordinate = mostBottomCoordinate = radius;
-	mostRightCoordinate = mostLeftCoordinate = radius;
+	calculateOutermostCoordinates();
 }
 
-Polygon::Polygon(const vector<Point>& corners) : corners(corners), radius(0),
-mostTopCoordinate(numeric_limits<int>::max()), mostRightCoordinate(0), mostBottomCoordinate(0),
-mostLeftCoordinate(numeric_limits<int>::max())
+void Polygon::calculateOutermostCoordinates()
 {
 	calculateMostTopCoordinate();
 	calculateMostRightCoordinate();
 	calculateMostBottomCoordinate();
 	calculateMostLeftCoordinate();
-}
-
-int Polygon::getMostTopCoordinate()
-{
-	return mostTopCoordinate;
-}
-
-int Polygon::getMostRightCoordinate()
-{
-	return mostRightCoordinate;
-}
-
-int Polygon::getMostBottomCoordinate()
-{
-	return mostBottomCoordinate;
-}
-
-int Polygon::getMostLeftCoordinate()
-{
-	return mostLeftCoordinate;
 }
 
 void Polygon::calculateMostTopCoordinate()

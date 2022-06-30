@@ -1,23 +1,18 @@
 #pragma once
 #include <vector>
+#include "Shape.h"
 #include "Point.h"
-class Polygon
+class Polygon : public Shape
 {	
 public:
-	Polygon(int radius);
 	Polygon(const std::vector<Point>& corners);
-	int getMostTopCoordinate();
-	int getMostRightCoordinate();
-	int getMostBottomCoordinate();
-	int getMostLeftCoordinate();
 private:
+	void calculateOutermostCoordinates() override;
 	void calculateMostTopCoordinate();
 	void calculateMostRightCoordinate();
 	void calculateMostBottomCoordinate();
 	void calculateMostLeftCoordinate();
 
-	int radius;
-	int mostTopCoordinate, mostRightCoordinate, mostBottomCoordinate, mostLeftCoordinate;
 	std::vector<Point> corners;
 };
 

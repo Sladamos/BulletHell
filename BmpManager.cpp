@@ -1,5 +1,8 @@
 #include "BmpManager.h"
-#include "PolygonsManager.h"
+#include "ShapesManager.h"
+#include "Polygon.h"
+#include "Circle.h"
+
 using namespace std;
 
 map<string, vector<SDL_Surface*>> BmpManager::bitmaps = map<string, vector<SDL_Surface*>>();
@@ -7,7 +10,7 @@ map<string, vector<SDL_Surface*>> BmpManager::bitmaps = map<string, vector<SDL_S
 void BmpManager::loadStaticBitmap(const string& objectName, int radius)
 {
 	if (bitmaps.find(objectName) == bitmaps.end())
-		addStaticBitmap(objectName, new Polygon(radius));
+		addStaticBitmap(objectName, new Circle(radius));
 }
 
 void BmpManager::loadStaticBitmap(const string& objectName, const vector<Point>& corners)
@@ -16,12 +19,12 @@ void BmpManager::loadStaticBitmap(const string& objectName, const vector<Point>&
 		addStaticBitmap(objectName, new Polygon(corners));
 }
 
-void BmpManager::addStaticBitmap(const string& objectName, Polygon* polygon)
+void BmpManager::addStaticBitmap(const string& objectName, Shape* shape)
 {
 	string path = "./" + objectName + ".bmp";
 	vector<SDL_Surface*> bmpVector = { SDL_LoadBMP(path.c_str()) };
 	bitmaps.insert(pair <string, vector<SDL_Surface*>>(objectName, bmpVector));
-	PolygonsManager::addPolygon(objectName, polygon);
+	ShapesManager::addShape(objectName, shape);
 }
 
 void BmpManager::freeBitmaps()
