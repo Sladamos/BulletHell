@@ -17,6 +17,11 @@ GameObject::GameObject(string objectName, const Point& position, const vector<Po
 	BmpManager::loadStaticBitmap(objectName, corners);
 }
 
+Shape* GameObject::getShape()
+{
+	return ShapesManager::getShape(objectName);
+}
+
 Point GameObject::getPosition()
 {
 	return position;
@@ -43,8 +48,7 @@ bool GameObject::isMoveable()
 	return false;
 }
 
-void GameObject::action(double timeGain)
-{}
+void GameObject::action(double timeGain) {}
 
 bool GameObject::isTryingToCrossTopBorder(Shape* objectShape)
 {

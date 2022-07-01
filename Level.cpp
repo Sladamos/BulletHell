@@ -7,7 +7,7 @@
 #include"./SDL2-2.0.10/include/SDL_main.h"
 
 Level::Level(SDL_Window* window, SDL_Renderer* renderer) : levelResult(LevelResult::unknown), levelTimer(new Timer()),
-						  timeManager(new TimeManager()), levelPainter(new Painter(this, window, renderer))
+						  timeManager(new TimeManager()), levelPainter(new LevelPainter(this, window, renderer))
 {
 	timeManager->addTimer(levelTimer);
 }
@@ -19,6 +19,7 @@ Player* Level::getPlayer()
 		if (isPlayer(object))
 			return dynamic_cast<Player*>(object);
 	}
+	return nullptr;
 }
 
 Enemy* Level::getEnemy()
@@ -28,6 +29,7 @@ Enemy* Level::getEnemy()
 		if (isEnemy(object))
 			return dynamic_cast<Enemy*>(object);
 	}
+	return nullptr;
 }
 
 LevelResult Level::getResult()

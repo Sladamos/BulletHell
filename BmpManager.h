@@ -11,12 +11,13 @@ class BmpManager
 public:	//TODO: add animations
 	static void loadStaticBitmap(const std::string& objectName, const std::vector<Point>& corners);
 	static void loadStaticBitmap(const std::string& objectName, int radius);
-	//static void loadAnimation(const std::string& objectName, int numberOfAnimations);
+	//static void loadAnimation(const std::string& objectName, const std::vector<Point>& corners, int numberOfAnimations);
+	//static void loadAnimation(const std::string& objectName, int radius, int numberOfAnimations);
 	static SDL_Surface* getBitmap(const std::string& objectName);
 	//static void getAnimation(const std::string&, int numberOfAnimation);
 	static void freeBitmaps();
 private:
-	//static void loadAnimation(const std::string& objectName);
+	//static void addAnimation(const std::string& objectName, Shape* shape);
 	static void addStaticBitmap(const std::string& objectName, Shape* shape);
 	static std::map<std::string, std::vector<SDL_Surface*>> bitmaps;
 };

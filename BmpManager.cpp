@@ -2,7 +2,6 @@
 #include "ShapesManager.h"
 #include "Polygon.h"
 #include "Circle.h"
-
 using namespace std;
 
 map<string, vector<SDL_Surface*>> BmpManager::bitmaps = map<string, vector<SDL_Surface*>>();

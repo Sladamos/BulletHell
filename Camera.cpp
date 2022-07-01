@@ -1,5 +1,6 @@
 #include "Camera.h"
 #include "Constants.h"
+#include "Shape.h"
 
 Point Camera::leftTopCorner = Point();
 Point Camera::currentPlayerPosition = Point();
@@ -84,4 +85,11 @@ bool Camera::isPlayerNearTheBottomBorder()
 bool Camera::isPlayerNearTheLeftBorder()
 {
 	return currentPlayerPosition.getX() <= (Constants::screenWidth - Constants::statsWidth) / 2;
+}
+
+bool Camera::isObjectInRange(GameObject* gameObject)
+{
+	Shape* objectShape = gameObject->getShape();
+	return objectShape->getMostBottomCoordinate() + gameObject->getPosition().getY() >= leftTopCorner.getY() &&
+		objectShape->getMostRightCoordinate() + gameObject->getPosition().getX() >= leftTopCorner.getX();
 }

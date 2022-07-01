@@ -11,6 +11,7 @@ public:
 	static bool isPlayerNearTheRightBorder();
 	static bool isPlayerNearTheBottomBorder();
 	static bool isPlayerNearTheLeftBorder();
+	static bool isObjectInRange(GameObject* object);
 private:
 	static void actualizeLeftTopCorner();
 	static void actualizeHorizontalCornerPosition();

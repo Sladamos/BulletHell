@@ -1,6 +1,6 @@
 #pragma once
 #include "TimeManager.h"
-#include "Painter.h"
+#include "LevelPainter.h"
 #include "Player.h"
 #include "Enemy.h"
 #include "LevelResult.h"
@@ -30,7 +30,7 @@ private:
 
 	LevelResult levelResult;
 	Timer* levelTimer;
-	Painter* levelPainter;
+	LevelPainter* levelPainter;
 	TimeManager* timeManager;
 };
 
