@@ -8,14 +8,26 @@
 
 Level::Level(SDL_Window* window, SDL_Renderer* renderer) : levelResult(LevelResult::unknown), levelTimer(new Timer()),
 						  timeManager(new TimeManager()), levelPainter(new Painter(this, window, renderer))
-{ //TODO: make abstract (with enemies)
+{
 	timeManager->addTimer(levelTimer);
-	createGameObjects();
 }
 
 Player* Level::getPlayer()
 {
-	return player;
+	for (GameObject* object : gameObjects)
+	{
+		if (isPlayer(object))
+			return dynamic_cast<Player*>(object);
+	}
+}
+
+Enemy* Level::getEnemy()
+{
+	for (GameObject* object : gameObjects)
+	{
+		if (isEnemy(object))
+			return dynamic_cast<Enemy*>(object);
+	}
 }
 
 LevelResult Level::getResult()
@@ -25,8 +37,8 @@ LevelResult Level::getResult()
 
 void Level::createGameObjects()
 {
-	player = new Player("./gfx/eti", std::vector<Point>{Point(-45,-45), Point(-45,45), Point(45,-45), Point(45,45)});
-	gameObjects.push_back(player);
+	gameObjects.push_back(new Player("./gfx/eti", std::vector<Point>{Point(-45, -45), Point(-45, 45), Point(45, -45), Point(45, 45)}));
+	createEnemy();
 }
 
 void Level::handleLevelEvents()
@@ -64,6 +76,7 @@ void Level::handleLevelEvents()
 
 void Level::handlePlayerMovement(const SDL_Event& event)
 {
+	Player* player = getPlayer();
 	switch (event.type) 
 	{
 	case SDL_KEYDOWN:
@@ -104,6 +117,7 @@ Timer* Level::getLevelTimer()
 
 void Level::startLevel()
 {
+	createGameObjects();
 	timeManager->startCounting();
 	while (isLevelInProgress())
 	{
@@ -128,6 +142,16 @@ void Level::performGameObjectsActions(double timeGain)
 bool Level::isLevelInProgress()
 {
 	return levelResult == LevelResult::unknown;
+}
+
+bool Level::isPlayer(GameObject* object)
+{
+	return dynamic_cast<Player*>(object);
+}
+
+bool Level::isEnemy(GameObject* object)
+{
+	return dynamic_cast<Enemy*>(object);
 }
 
 Level::~Level()

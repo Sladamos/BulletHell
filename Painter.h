@@ -15,23 +15,27 @@ public:
 	void drawScreen();
 	void drawObject(SDL_Surface* objectBmp, const Point& coords);
 private:
-	void setColors();
 	void drawString(const Point& coords);
 	void drawPixel(const Point& coords, Uint32 color);
 	void drawLine(const Point& coords, int length, int inclinationDegrees, Uint32 color);
 	void drawRectangle(const Point& coords, int width, int height, Uint32 outlineColor, Uint32 fillColor);
 	void drawOutlineRectangle(const Point& coords, int width, int height, Uint32 color);
 	void drawFillRectangle(const Point& coords, int width, int height, Uint32 color);
-	void drawStatistics();
-	void drawBackground();
+
+	void setColors();
 	void addFpsTimer();
 	void printGameObjects();
-
+	void drawStatistics();
+	void drawBackground();
 	void drawWalls();
 	void drawTopWall();
 	void drawRightWall();
 	void drawBottomWall();
 	void drawLeftWall();
+	void drawHealthBars();
+	void drawPlayerHealthBar();
+	void drawEnemyHealthBar();
+	bool bothSidesAreAlive();
 
 	SDL_Surface *screen, *charset, *background;
 	SDL_Window* window;
@@ -41,5 +45,6 @@ private:
 	Level* level;
 	char text[Constants::maxTextLength];
 	int blackColor, redColor, blueColor;
+	const int playerHpBarHeight = 50, playerHpBarFrameSize = 3;
 };
 

@@ -3,12 +3,18 @@
 #include "ShapesManager.h"
 #include "Painter.h"
 #include "Camera.h"
-#include "MoveableObject.h"
+#include "Moveable.h"
 using namespace std;
 
 GameObject::GameObject(string objectName, const Point& position, int radius) : objectName(objectName), position(position)
 {
 	BmpManager::loadStaticBitmap(objectName, radius);
+}
+
+GameObject::GameObject(string objectName, const Point& position, const vector<Point>& corners)
+	: objectName(objectName), position(position)
+{
+	BmpManager::loadStaticBitmap(objectName, corners);
 }
 
 Point GameObject::getPosition()
@@ -30,15 +36,9 @@ void GameObject::checkLevelBorderCollision()
 		position.setX((-1)*objectShape->getMostLeftCoordinate() + Constants::wallSize);
 }
 
-GameObject::GameObject(string objectName, const Point& position, const vector<Point>& corners) 
-	: objectName(objectName), position(position)
-{
-	BmpManager::loadStaticBitmap(objectName, corners);
-}
-
 bool GameObject::isMoveable()
 {
-	if(dynamic_cast<MoveableObject*>(this) != nullptr)
+	if(dynamic_cast<Moveable*>(this) != nullptr)
 		return true;
 	return false;
 }

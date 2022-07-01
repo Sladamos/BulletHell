@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "Level.h"
+#include "Level1.h"
 
 Game::Game() : gameInProgress(true), currentLevel(1), currentlyPlayedLevel(nullptr)	//TODO: implement menu ; move currentlvl into new/load Game
 {
@@ -59,7 +59,7 @@ void Game::createLevel(int levelNumber)
 		//currentlyPlayedLevel = new Level2(window, renderer);
 		//break;
 	default:
-		currentlyPlayedLevel = new Level(window, renderer);
+		currentlyPlayedLevel = new Level1(window, renderer);
 	}
 }
 

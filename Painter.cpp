@@ -87,8 +87,9 @@ void Painter::printGameObjects()
 
 void Painter::drawStatistics()
 {
-	Point textCoords(Constants::screenWidth - Constants::statsWidth + 15, 15);
 	drawFillRectangle(Point(Constants::screenWidth-Constants::statsWidth, 0), Constants::statsWidth, Constants::screenHeight, redColor);
+	drawHealthBars();
+	Point textCoords(Constants::screenWidth - Constants::statsWidth + 15, 20 + playerHpBarHeight + 2 * playerHpBarFrameSize);
 	sprintf(text, "Time = %.1lf s ", level->getLevelTimer()->getTimerValue());
 	drawString(textCoords);
 	sprintf(text, "%.0lf FPS", fpsTimer->getFps());
@@ -103,7 +104,42 @@ void Painter::drawStatistics()
 	drawString(textCoords.moveByVector(0, 2 * Constants::smallLetterSize));
 	sprintf(text, "LEFT - \032, RIGHT - \033");
 	drawString(textCoords.moveByVector(0, 2 * Constants::smallLetterSize));
-	//TODO: drawPlayerHealthBar + hp , score
+	//TODO: draw score
+}
+
+void Painter::drawHealthBars()
+{
+	if (bothSidesAreAlive())
+	{
+		drawPlayerHealthBar();
+		drawEnemyHealthBar();
+	}
+}
+
+bool Painter::bothSidesAreAlive()
+{
+	return level->getEnemy()->getHitpoints() >= 0 && level->getPlayer()->getHitpoints() >= 0;
+}
+
+void Painter::drawPlayerHealthBar()
+{
+	int playerHitpoints = level->getPlayer()->getHitpoints();
+	Point barPosition(Constants::screenWidth - Constants::statsWidth * 7 / 8 - playerHpBarFrameSize, 15 - playerHpBarFrameSize);
+	double maxRedBarWidth = Constants::statsWidth * 3 / 4;
+
+	drawFillRectangle(barPosition, maxRedBarWidth + 2 * playerHpBarFrameSize, playerHpBarHeight + 2 * playerHpBarFrameSize, blackColor);
+	drawFillRectangle(barPosition.moveByVector(playerHpBarFrameSize, playerHpBarFrameSize), maxRedBarWidth * playerHitpoints / Player::playerMaxHealth,
+		playerHpBarHeight, redColor);
+	sprintf(text, "HP: %d / %d", playerHitpoints, Player::playerMaxHealth);
+	drawString(barPosition.moveByVector((maxRedBarWidth - strlen(text) * Constants::smallLetterSize) / 2, playerHpBarHeight / 2));
+}
+
+void Painter::drawEnemyHealthBar()
+{
+	int barSize = 10;
+	double partOfLostHp = (static_cast<double>(level->getEnemy()->getHitpoints()) / Enemy::enemyMaxHealth);
+	drawFillRectangle(Point(barSize,(1 - partOfLostHp) * (Constants::screenHeight - 2*barSize)), barSize, 
+		partOfLostHp * (Constants::screenHeight - barSize), redColor);
 }
 
 void Painter::drawString(const Point& coords)

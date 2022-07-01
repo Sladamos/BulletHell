@@ -4,14 +4,19 @@
 #include "BmpManager.h"
 
 Player::Player(std::string objectName, const std::vector<Point>& corners) :
-	MoveableObject(objectName, Point(100, 100), corners)
+	GameObject(objectName, Point(100, 100), corners), Moveable(), hitpoints(playerMaxHealth)
 {
 	Camera::setPlayerPosition(position);
 }
 
+int Player::getHitpoints()
+{
+	return hitpoints;
+}
+
 void Player::action(double timeGain)
 {
-	MoveableObject::straightMove(timeGain);
+	Moveable::straightMove(timeGain, position);
 	Camera::setPlayerPosition(position);
 }
 
