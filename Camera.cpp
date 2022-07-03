@@ -2,20 +2,20 @@
 #include "Constants.h"
 #include "Shape.h"
 
-Point Camera::leftTopCorner = Point();
-Point Camera::currentPlayerPosition = Point();
+MathPoint Camera::leftTopCorner = MathPoint();
+MathPoint Camera::currentPlayerPosition = MathPoint();
 
-Point Camera::getObjectPositionOnScreen(const Point& objectPosition)
+MathPoint Camera::getObjectPositionOnScreen(const MathPoint& objectPosition)
 {
-	return Point(objectPosition.getX() - leftTopCorner.getX(), objectPosition.getY() - leftTopCorner.getY());
+	return MathPoint(objectPosition.getX() - leftTopCorner.getX(), objectPosition.getY() - leftTopCorner.getY());
 }
 
-Point Camera::getPlayerPositionOnScreen()
+MathPoint Camera::getPlayerPositionOnScreen()
 {
-	return Point(calculatePlayerHorizontalPositionOnScreen(), calculatePlayerVerticalPositionOnScreen());
+	return MathPoint(calculatePlayerHorizontalPositionOnScreen(), calculatePlayerVerticalPositionOnScreen());
 }
 
-void Camera::setPlayerPosition(const Point& playerPosition)
+void Camera::setPlayerPosition(const MathPoint& playerPosition)
 {
 	currentPlayerPosition = playerPosition;
 	actualizeLeftTopCorner();
@@ -90,6 +90,9 @@ bool Camera::isPlayerNearTheLeftBorder()
 bool Camera::isObjectInRange(GameObject* gameObject)
 {
 	Shape* objectShape = gameObject->getShape();
-	return objectShape->getMostBottomCoordinate() + gameObject->getPosition().getY() >= leftTopCorner.getY() &&
-		objectShape->getMostRightCoordinate() + gameObject->getPosition().getX() >= leftTopCorner.getX();
+	return 
+		objectShape->getMostBottomCoordinate() + gameObject->getPosition().getY() >= leftTopCorner.getY() &&
+		objectShape->getMostTopCoordinate() + gameObject->getPosition().getY() <= leftTopCorner.getY() + Constants::screenHeight &&
+		objectShape->getMostRightCoordinate() + gameObject->getPosition().getX() >= leftTopCorner.getX() &&
+		objectShape->getMostLeftCoordinate() + gameObject->getPosition().getX() <= leftTopCorner.getX() + Constants::screenWidth - Constants::statsWidth;
 }

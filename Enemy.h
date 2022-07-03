@@ -5,9 +5,10 @@
 class Enemy : public GameObject
 {
 public:
-	Enemy(std::string objectName, const std::vector<Point>& corners);
+	Enemy(std::string objectName, const std::vector<MathPoint>& corners);
 	int getHitpoints();
 	void action(double timeGain) override;
+	bool isInpenetrableBy(GameObject* gameObject) override;
 
 	static constexpr int enemyMaxHealth = 1000;
 protected:

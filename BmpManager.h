@@ -3,15 +3,15 @@
 #include <string>
 #include <vector>
 #include "Shape.h"
-#include "Point.h"
+#include "MathPoint.h"
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
 class BmpManager
 {
 public:	//TODO: add animations
-	static void loadStaticBitmap(const std::string& objectName, const std::vector<Point>& corners);
+	static void loadStaticBitmap(const std::string& objectName, const std::vector<MathPoint>& corners);
 	static void loadStaticBitmap(const std::string& objectName, int radius);
-	//static void loadAnimation(const std::string& objectName, const std::vector<Point>& corners, int numberOfAnimations);
+	//static void loadAnimation(const std::string& objectName, const std::vector<MathPoint>& corners, int numberOfAnimations);
 	//static void loadAnimation(const std::string& objectName, int radius, int numberOfAnimations);
 	static SDL_Surface* getBitmap(const std::string& objectName);
 	//static void getAnimation(const std::string&, int numberOfAnimation);

@@ -1,12 +1,12 @@
 #pragma once
-#include "Point.h"
+#include "MathPoint.h"
 #include "Player.h"
 class Camera
 {
 public:
-	static void setPlayerPosition(const Point& playerPosition);
-	static Point getObjectPositionOnScreen (const Point& objectPosition);
-	static Point getPlayerPositionOnScreen();
+	static void setPlayerPosition(const MathPoint& playerPosition);
+	static MathPoint getObjectPositionOnScreen (const MathPoint& objectPosition);
+	static MathPoint getPlayerPositionOnScreen();
 	static bool isPlayerNearTheTopBorder();
 	static bool isPlayerNearTheRightBorder();
 	static bool isPlayerNearTheBottomBorder();
@@ -19,7 +19,7 @@ private:
 	static int calculatePlayerHorizontalPositionOnScreen();
 	static int calculatePlayerVerticalPositionOnScreen();
 
-	static Point currentPlayerPosition;
-	static Point leftTopCorner;
+	static MathPoint currentPlayerPosition;
+	static MathPoint leftTopCorner;
 };
 

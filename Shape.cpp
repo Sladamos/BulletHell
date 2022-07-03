@@ -5,6 +5,16 @@ Shape::Shape() : mostTopCoordinate(0), mostRightCoordinate(0), mostBottomCoordin
 {
 }
 
+bool Shape::isCircle()
+{
+	return false;
+}
+
+bool Shape::isPolygon()
+{
+	return false;
+}
+
 int Shape::getMostTopCoordinate()
 {
 	return mostTopCoordinate;

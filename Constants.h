@@ -11,5 +11,5 @@ public:
 	static constexpr int horizontalSpeedMultiplier = (screenWidth / 4);
 	static constexpr int verticalSpeedMultiplier = (screenHeight / 3);
 	static constexpr int smallLetterSize = 8;
-	static constexpr int wallSize = 5;
+	static constexpr int wallSize = 10;
 };

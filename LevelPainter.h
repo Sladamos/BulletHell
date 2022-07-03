@@ -14,11 +14,6 @@ private:
 	void drawStatisticsPanel();
 	void drawStatistics();
 	void drawBackground();
-	void drawWalls();//TODO: add walls - as game objects
-	void drawTopWall();	//TEMP
-	void drawRightWall();	//TEMP
-	void drawBottomWall();	//TEMP
-	void drawLeftWall();	//TEMP
 	void drawHealthBars();
 	void drawPlayerHealthBar();
 	void drawEnemyHealthBar();

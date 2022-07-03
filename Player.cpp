@@ -3,8 +3,8 @@
 #include "Painter.h"
 #include "BmpManager.h"
 
-Player::Player(std::string objectName, const std::vector<Point>& corners) :
-	GameObject(objectName, Point(100, 100), corners), Moveable(), hitpoints(playerMaxHealth)
+Player::Player(std::string objectName, const std::vector<MathPoint>& corners) :
+	GameObject(objectName, MathPoint(100, 100), corners), Moveable(), hitpoints(playerMaxHealth)
 {
 	Camera::setPlayerPosition(position);
 }
@@ -16,8 +16,21 @@ int Player::getHitpoints()
 
 void Player::action(double timeGain)
 {
-	Moveable::straightMove(timeGain, position);
+	move(timeGain, position);
 	Camera::setPlayerPosition(position);
+}
+
+void Player::undoMove(double timeGain)
+{
+	Moveable::undoMove(timeGain, position);
+	Camera::setPlayerPosition(this->position);
+}
+
+bool Player::isInpenetrableBy(GameObject* gameObject)
+{
+	if (gameObject->isEnemy())
+		return true;
+	return false;
 }
 
 bool Player::stoppedVertically(const SDL_Event& event)

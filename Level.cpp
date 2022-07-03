@@ -1,8 +1,13 @@
 #include <vector>
-#include "Point.h"
+#include <algorithm>
+#include <iterator>
+#include "MathPoint.h"
 #include "Level.h"
 #include "BmpManager.h"
 #include "ShapesManager.h"
+#include "VerticalLevelBorder.h"
+#include "HorizontalLevelBorder.h"
+#include "CollisionsChecker.h"
 #include"./SDL2-2.0.10/include/SDL.h"
 #include"./SDL2-2.0.10/include/SDL_main.h"
 
@@ -16,7 +21,7 @@ Player* Level::getPlayer()
 {
 	for (GameObject* object : gameObjects)
 	{
-		if (isPlayer(object))
+		if (object->isPlayer())
 			return dynamic_cast<Player*>(object);
 	}
 	return nullptr;
@@ -26,7 +31,7 @@ Enemy* Level::getEnemy()
 {
 	for (GameObject* object : gameObjects)
 	{
-		if (isEnemy(object))
+		if (object->isEnemy())
 			return dynamic_cast<Enemy*>(object);
 	}
 	return nullptr;
@@ -39,8 +44,14 @@ LevelResult Level::getResult()
 
 void Level::createGameObjects()
 {
-	gameObjects.push_back(new Player("./gfx/eti", std::vector<Point>{Point(-45, -45), Point(-45, 45), Point(45, -45), Point(45, 45)}));
+	int wallSize = Constants::wallSize, levelHeight = Constants::levelHeight, levelWidth = Constants::levelWidth;
+	gameObjects.push_back(new Player("./gfx/eti", std::vector<MathPoint>{MathPoint(-45, -45), MathPoint(-45, 45), MathPoint(45, 45), MathPoint(45, -45)}));
 	createEnemy();
+
+	gameObjects.push_back(new HorizontalLevelBorder("./gfx/horizontalBorder", MathPoint(levelWidth/2, wallSize/2), std::vector<MathPoint>{MathPoint(-levelWidth/2, -wallSize/2), MathPoint(-levelWidth/2, wallSize/2), MathPoint(levelWidth/2, wallSize/2), MathPoint(levelWidth/2, -wallSize/2)}));
+	gameObjects.push_back(new VerticalLevelBorder("./gfx/VerticalBorder", MathPoint(levelWidth-wallSize/2, levelHeight/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(-wallSize/2, levelHeight/2)}));
+	gameObjects.push_back(new HorizontalLevelBorder("./gfx/horizontalBorder", MathPoint(levelWidth/2, levelHeight - wallSize/2), std::vector<MathPoint>{MathPoint(-levelWidth/2, -wallSize/2), MathPoint(-levelWidth/2, wallSize/2), MathPoint(levelWidth/2, wallSize/2), MathPoint(levelWidth/2, -wallSize/2)}));
+	gameObjects.push_back(new VerticalLevelBorder("./gfx/VerticalBorder", MathPoint(wallSize/2, levelHeight/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(-wallSize/2, levelHeight/2)}));
 }
 
 void Level::handleLevelEvents()
@@ -132,28 +143,20 @@ void Level::startLevel()
 
 void Level::performGameObjectsActions(double timeGain)
 {
+	//std::copy_if(gameObjects.begin(), gameObjects.end(), std::back_inserter(objectsWithoutBullets), [](GameObject* object) {return true; });
+
 	for (GameObject* object : gameObjects)
 	{
 		object->action(timeGain);
+		CollisionsChecker::checkCollisions(object, gameObjects, timeGain);
 		if (object->isMoveable())
 			object->checkLevelBorderCollision();
 	}
-	//TODO: object->checkObjectsCollisions(); GameObject virtual void;
 }
 
 bool Level::isLevelInProgress()
 {
 	return levelResult == LevelResult::unknown;
-}
-
-bool Level::isPlayer(GameObject* object)
-{
-	return dynamic_cast<Player*>(object);
-}
-
-bool Level::isEnemy(GameObject* object)
-{
-	return dynamic_cast<Enemy*>(object);
 }
 
 Level::~Level()

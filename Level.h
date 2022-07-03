@@ -25,8 +25,6 @@ private:
 	virtual void createEnemy() = 0;
 	//TODO: createBullets() - pure virtual
 	bool isLevelInProgress();
-	bool isPlayer(GameObject* object);
-	bool isEnemy(GameObject* object);
 
 	LevelResult levelResult;
 	Timer* levelTimer;

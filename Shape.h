@@ -3,6 +3,8 @@ class Shape
 {
 public:
 	Shape();
+	virtual bool isCircle();
+	virtual bool isPolygon();
 	int getMostTopCoordinate();
 	int getMostRightCoordinate();
 	int getMostBottomCoordinate();

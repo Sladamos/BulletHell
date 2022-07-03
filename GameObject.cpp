@@ -4,14 +4,15 @@
 #include "Painter.h"
 #include "Camera.h"
 #include "Moveable.h"
+#include "Enemy.h"
 using namespace std;
 
-GameObject::GameObject(string objectName, const Point& position, int radius) : objectName(objectName), position(position)
+GameObject::GameObject(string objectName, const MathPoint& position, int radius) : objectName(objectName), position(position)
 {
 	BmpManager::loadStaticBitmap(objectName, radius);
 }
 
-GameObject::GameObject(string objectName, const Point& position, const vector<Point>& corners)
+GameObject::GameObject(string objectName, const MathPoint& position, const vector<MathPoint>& corners)
 	: objectName(objectName), position(position)
 {
 	BmpManager::loadStaticBitmap(objectName, corners);
@@ -22,10 +23,11 @@ Shape* GameObject::getShape()
 	return ShapesManager::getShape(objectName);
 }
 
-Point GameObject::getPosition()
+MathPoint GameObject::getPosition()
 {
 	return position;
 }
+
 
 void GameObject::checkLevelBorderCollision()
 {
@@ -48,6 +50,16 @@ bool GameObject::isMoveable()
 	return false;
 }
 
+bool GameObject::isInpenetrableBy(GameObject* gameObject)
+{
+	return false;
+}
+
+bool GameObject::isPickableBy(GameObject* gameObject)
+{
+	return false;	//TODO: add pickable
+}
+
 void GameObject::action(double timeGain) {}
 
 bool GameObject::isTryingToCrossTopBorder(Shape* objectShape)
@@ -68,6 +80,16 @@ bool GameObject::isTryingToCrossBottomBorder(Shape* objectShape)
 bool GameObject::isTryingToCrossLeftBorder(Shape* objectShape)
 {
 	return position.getX() + objectShape->getMostLeftCoordinate() < Constants::wallSize;
+}
+
+bool GameObject::isPlayer()
+{
+	return dynamic_cast<Player*>(this);
+}
+
+bool GameObject::isEnemy()
+{
+	return dynamic_cast<Enemy*>(this);
 }
 
 void GameObject::print(Painter* painter)

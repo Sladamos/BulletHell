@@ -4,11 +4,18 @@
 #include "BmpManager.h"
 using namespace std;
 
-Enemy::Enemy(string objectName, const vector<Point>& corners) : GameObject(objectName, Point(200,200), corners), hitpoints(enemyMaxHealth) {}
+Enemy::Enemy(string objectName, const vector<MathPoint>& corners) : GameObject(objectName, MathPoint(200,200), corners), hitpoints(enemyMaxHealth) {}
 
 int Enemy::getHitpoints()
 {
 	return hitpoints;
+}
+
+bool Enemy::isInpenetrableBy(GameObject* gameObject)
+{
+	if (gameObject->isPlayer())
+		return true;
+	return false;
 }
 
 void Enemy::action(double timeGain)

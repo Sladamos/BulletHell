@@ -1,5 +1,5 @@
 #pragma once
-#include "Point.h"
+#include "MathPoint.h"
 
 class Moveable
 {
@@ -7,8 +7,10 @@ public:
 	Moveable();
 	void setVerticalSpeed(double verticalSpeed);
 	void setHorizontalSpeed(double horizontalSpeed);
+	virtual void undoMove(double timeGain) = 0;
 protected:
-	void straightMove(double timeGain, Point& position);
+	void move(double timeGain, MathPoint& position);
+	void undoMove(double timeGain, MathPoint& position);
 
 	double horizontalSpeed, verticalSpeed;
 };

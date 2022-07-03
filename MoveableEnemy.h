@@ -6,7 +6,7 @@
 //class MoveableEnemy : public Enemy, public Moveable
 //{
 //public:
-//	MoveableEnemy(std::string objectName, const std::vector<Point>& corners);
+//	MoveableEnemy(std::string objectName, const std::vector<MathPoint>& corners);
 //	bool stoppedVertically(const SDL_Event& event);
 //	bool stoppedHorizontally(const SDL_Event& event);
 //	void action(double timeGain) override;

@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "Painter.h"
+#include "MathVector.h"
 
 Painter::Painter(SDL_Window* window, SDL_Renderer* renderer) : window(window), renderer(renderer)
 {
@@ -25,7 +26,7 @@ void Painter::setColors()
 	SDL_SetColorKey(charset, true, 0x000000);
 }
 
-void Painter::drawString(const Point& coords)
+void Painter::drawString(const MathPoint& coords)
 {
 	const char* text = this->text;
 	int xCoord = coords.getX(), yCoord = coords.getY();
@@ -47,44 +48,46 @@ void Painter::drawString(const Point& coords)
 	}
 }
 
-void Painter::drawRectangle(const Point& coords, int width, int height, Uint32 outlineColor, Uint32 fillColor)
+void Painter::drawRectangle(const MathPoint& coords, int width, int height, Uint32 outlineColor, Uint32 fillColor)
 {
 	drawOutlineRectangle(coords, width, height, outlineColor);
-	drawFillRectangle(Point(coords).moveByVector(1,1), width-1, height-1, fillColor);
+	drawFillRectangle(MathPoint(coords).moveByVector(MathVector(MathPoint(1,1))), width-1, height-1, fillColor);
 }
 
-void Painter::drawFillRectangle(const Point& coords, int width, int height, Uint32 color)
+void Painter::drawFillRectangle(const MathPoint& coords, int width, int height, Uint32 color)
 {
 	int yCoord = coords.getY();
-	Point lineCoords = coords;
+	MathPoint lineCoords = coords;
+	MathVector vector(MathPoint(0, 1));
 	for (int i = yCoord; i < yCoord + height; i++)
 	{
 		drawLine(lineCoords, width, 0, color);
-		lineCoords.moveByVector(0, 1);
+		lineCoords.moveByVector(vector);
 	}
 }
 
-void Painter::drawOutlineRectangle(const Point& coords, int width, int height, Uint32 color)
+void Painter::drawOutlineRectangle(const MathPoint& coords, int width, int height, Uint32 color)
 {
-	Point lineCoords = coords;
+	MathPoint lineCoords = coords;
 	drawLine(lineCoords, height, 90, color);
 	drawLine(lineCoords, width, 0, color);
-	drawLine(lineCoords.moveByVector(width - 1, 0), height, 90, color);
-	drawLine(lineCoords.moveByVector(1 - width, height - 1), width, 0, color);
+	drawLine(lineCoords.moveByVector(MathVector(MathPoint(width - 1, 0))), height, 90, color);
+	drawLine(lineCoords.moveByVector(MathVector(MathPoint(1 - width, height - 1))), width, 0, color);
 }
 
-void Painter::drawLine(const Point& coords, int length, int inclinationDegrees, Uint32 color)
+void Painter::drawLine(const MathPoint& coords, int length, int inclinationDegrees, Uint32 color)
 {
-	Point pixelCoords = coords;
+	MathPoint pixelCoords = coords;
 	double degToRad = M_PI / 180;
+	MathVector vector(MathPoint(cos(inclinationDegrees * degToRad), sin(inclinationDegrees * degToRad)));
 	for (int i = 0; i < length; i++)
 	{
 		drawPixel(pixelCoords, color);
-		pixelCoords.moveByVector(cos(inclinationDegrees * degToRad), sin(inclinationDegrees * degToRad));
+		pixelCoords.moveByVector(vector);
 	}
 }
 
-void Painter::drawObject(SDL_Surface* sprite, const Point& coords)
+void Painter::drawObject(SDL_Surface* sprite, const MathPoint& coords)
 {
 	SDL_Rect dest;
 	dest.x = coords.getX() - sprite->w / 2;
@@ -94,7 +97,7 @@ void Painter::drawObject(SDL_Surface* sprite, const Point& coords)
 	SDL_BlitSurface(sprite, NULL, screen, &dest);
 }
 
-void Painter::drawPixel(const Point& coords, Uint32 color)
+void Painter::drawPixel(const MathPoint& coords, Uint32 color)
 {
 	int bpp = screen->format->BytesPerPixel;
 	Uint8* p = (Uint8*)screen->pixels + coords.getY() * screen->pitch + coords.getX() * bpp;

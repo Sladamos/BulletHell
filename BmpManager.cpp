@@ -12,7 +12,7 @@ void BmpManager::loadStaticBitmap(const string& objectName, int radius)
 		addStaticBitmap(objectName, new Circle(radius));
 }
 
-void BmpManager::loadStaticBitmap(const string& objectName, const vector<Point>& corners)
+void BmpManager::loadStaticBitmap(const string& objectName, const vector<MathPoint>& corners)
 {
 	if (bitmaps.find(objectName) == bitmaps.end())
 		addStaticBitmap(objectName, new Polygon(corners));
