@@ -47,6 +47,18 @@ bool MathStretch::intersets(const MathStretch& otherStretch)
 	return false;
 }
 
+bool MathStretch::intersetsWithAnyStretch(const std::vector<MathPoint>& stretchesCorners)
+{
+	MathPoint previousCollidableCorner = stretchesCorners.back();
+	for (MathPoint collidableCorner : stretchesCorners)
+	{
+		if (intersets(MathStretch(collidableCorner, previousCollidableCorner)))
+			return true;
+		previousCollidableCorner = collidableCorner;
+	}
+	return false;
+}
+
 bool MathStretch::contains(const MathPoint& point) const
 {
 	return std::min(firstPoint.getX(), secondPoint.getX()) <= point.getX() && point.getX() <= std::max(firstPoint.getX(), secondPoint.getX()) &&

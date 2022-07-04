@@ -11,18 +11,8 @@ void CollisionsChecker::checkCollisions(GameObject*& checkedObject, const std::l
 	for (GameObject* collidableObject : gameObjectsWithoutBullets)
 	{
 		if (checkedObject != collidableObject  && checkedObject->isMoveable() && occursCollisionBetweenObjects(checkedObject, collidableObject))
-		{
-			if (collidableObject->isInpenetrableBy(checkedObject))	//TODO funkcja jakas co to wezmie do siebie
-			{
-				MathPoint incorretPosition = checkedObject->getPosition();
-				dynamic_cast<Moveable*>(checkedObject)->undoHorizontalMove(timeGain);
-				if (occursCollisionBetweenObjects(checkedObject, collidableObject))
-				{
-					checkedObject->setPosition(incorretPosition);
-					dynamic_cast<Moveable*>(checkedObject)->undoVerticalMove(timeGain);
-				}
-			}
-		}
+			if (collidableObject->isInpenetrableBy(checkedObject))
+				repairObjectMove(checkedObject, collidableObject, timeGain);
 	}
 }
 
@@ -32,25 +22,25 @@ bool CollisionsChecker::occursCollisionBetweenObjects(GameObject*& checkedObject
 	if (checkedShape->isPolygon())
 	{
 		if(collidableShape->isCircle())
-			return collisionOccurs(dynamic_cast<Polygon*>(checkedShape), dynamic_cast<Circle*>(collidableShape), checkedObject->getPosition(), collidableObject->getPosition());
+			return occursCollisionBetweenShapes(dynamic_cast<Polygon*>(checkedShape), dynamic_cast<Circle*>(collidableShape), checkedObject->getPosition(), collidableObject->getPosition());
 		else
-			return collisionOccurs(dynamic_cast<Polygon*>(checkedShape), dynamic_cast<Polygon*>(collidableShape), checkedObject->getPosition(), collidableObject->getPosition());
+			return occursCollisionBetweenShapes(dynamic_cast<Polygon*>(checkedShape), dynamic_cast<Polygon*>(collidableShape), checkedObject->getPosition(), collidableObject->getPosition());
 	}
 	else
 	{
 		if (collidableShape->isCircle())
-			return collisionOccurs(dynamic_cast<Circle*>(checkedShape), dynamic_cast<Circle*>(collidableShape), checkedObject->getPosition(), collidableObject->getPosition());
+			return occursCollisionBetweenShapes(dynamic_cast<Circle*>(checkedShape), dynamic_cast<Circle*>(collidableShape), checkedObject->getPosition(), collidableObject->getPosition());
 		else
-			return collisionOccurs(dynamic_cast<Circle*>(checkedShape), dynamic_cast<Polygon*>(collidableShape), checkedObject->getPosition(), collidableObject->getPosition());
+			return occursCollisionBetweenShapes(dynamic_cast<Circle*>(checkedShape), dynamic_cast<Polygon*>(collidableShape), checkedObject->getPosition(), collidableObject->getPosition());
 	}
 }
 
-bool CollisionsChecker::collisionOccurs(Circle* checkedCircle, Circle* collidableCircle, const MathPoint& checkedPosition, const MathPoint& collidablePosition)
+bool CollisionsChecker::occursCollisionBetweenShapes(Circle* checkedCircle, Circle* collidableCircle, const MathPoint& checkedPosition, const MathPoint& collidablePosition)
 {
 	return MathVector(checkedPosition, collidablePosition).getLength() <= checkedCircle->getRadius() + collidableCircle->getRadius();
 }
 
-bool CollisionsChecker::collisionOccurs(Circle* checkedCircle, Polygon* collidablePolygon, const MathPoint& checkedPosition, const MathPoint& collidablePosition)
+bool CollisionsChecker::occursCollisionBetweenShapes(Circle* checkedCircle, Polygon* collidablePolygon, const MathPoint& checkedPosition, const MathPoint& collidablePosition)
 {
 	std::vector<MathPoint> corners = collidablePolygon->getCorners();
 	MathPoint circleCenter(checkedPosition, collidablePosition), secondBaseCorner = corners.back();
@@ -64,31 +54,43 @@ bool CollisionsChecker::collisionOccurs(Circle* checkedCircle, Polygon* collidab
 	return false;
 }
 
-bool CollisionsChecker::collisionOccurs(Polygon* checkedPolygon, Circle* collidableCircle, const MathPoint& checkedPosition, const MathPoint& collidablePosition)
+bool CollisionsChecker::occursCollisionBetweenShapes(Polygon* checkedPolygon, Circle* collidableCircle, const MathPoint& checkedPosition, const MathPoint& collidablePosition)
 {
-	return collisionOccurs(collidableCircle, checkedPolygon, collidablePosition, checkedPosition);
+	return occursCollisionBetweenShapes(collidableCircle, checkedPolygon, collidablePosition, checkedPosition);
+}	
+
+bool CollisionsChecker::occursCollisionBetweenShapes(Polygon* checkedPolygon, Polygon* collidablePolygon, const MathPoint& checkedPosition, const MathPoint& collidablePosition)
+{
+	std::vector<MathPoint> collidableCorners = collidablePolygon->getCorners();
+	updateCollidableCornersCenter(collidableCorners, checkedPosition, collidablePosition);
+	return doesStretchesIntersectionExists(checkedPolygon->getCorners(), collidableCorners);
 }
 
-bool CollisionsChecker::collisionOccurs(Polygon* checkedPolygon, Polygon* collidablePolygon, const MathPoint& checkedPosition, const MathPoint& collidablePosition)
-{	//TODO ULTRA STYLE && UNDOMOVE
-	std::vector<MathPoint> checkedCorners = checkedPolygon->getCorners(), collidableCorners = collidablePolygon->getCorners();
-	MathPoint previousCheckedCorner = checkedCorners.back();
-
-	//updateCollidableCornersCenter();	//TODO funckaj 1
-	for (MathPoint& collidableCorner : collidableCorners)
-		collidableCorner.changeCoordinatesCenter(checkedPosition, collidablePosition);
-
-	for (MathPoint checkedCorner : checkedCorners)	//TODO funkcja 2
+bool CollisionsChecker::doesStretchesIntersectionExists(const std::vector<MathPoint>& checkedStretchesCorners, const std::vector<MathPoint>& collidableStretchesCorners)
+{
+	MathPoint previousCheckedCorner = checkedStretchesCorners.back();
+	for (MathPoint checkedCorner : checkedStretchesCorners)
 	{
-		MathPoint previousCollidableCorner = collidableCorners.back();
-		for (MathPoint collidableCorner : collidableCorners)	//TODO funckaj 3
-		{
-			if (MathStretch(checkedCorner, previousCheckedCorner).intersets(MathStretch(collidableCorner, previousCollidableCorner)))
-				return true;
-			previousCollidableCorner = collidableCorner;
-		}
+		if (MathStretch(checkedCorner, previousCheckedCorner).intersetsWithAnyStretch(collidableStretchesCorners))
+			return true;
 		previousCheckedCorner = checkedCorner;
 	}
+	return false;
+}
 
-	return false;	//TODO do funkcji 2
+void CollisionsChecker::updateCollidableCornersCenter(std::vector<MathPoint>& collidableCorners, const MathPoint& newCenter, const MathPoint& previousCenter)
+{
+	for (MathPoint& collidableCorner : collidableCorners)
+		collidableCorner.changeCoordinatesCenter(newCenter, previousCenter);
+}
+
+void CollisionsChecker::repairObjectMove(GameObject*& repairingObject, GameObject*& collidableObject, double timeGain)
+{
+	MathPoint incorretPosition = repairingObject->getPosition();
+	dynamic_cast<Moveable*>(repairingObject)->undoHorizontalMove(timeGain);
+	if (occursCollisionBetweenObjects(repairingObject, collidableObject))
+	{
+		repairingObject->setPosition(incorretPosition);
+		dynamic_cast<Moveable*>(repairingObject)->undoVerticalMove(timeGain);
+	}
 }

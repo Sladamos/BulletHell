@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include "MathLine.h"
 class MathStretch : public MathLine
 {
@@ -7,6 +8,7 @@ public:
 	MathPoint getFirstPoint() const;
 	MathPoint getSecondPoint() const;
 	bool isCircleTangent(const MathPoint& circleCenter, int radius);
+	bool intersetsWithAnyStretch(const std::vector<MathPoint>& stretchesCorners);
 	bool intersets(const MathStretch& otherStretch);
 	bool contains(const MathPoint& point) const;
 private:
