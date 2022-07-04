@@ -9,6 +9,12 @@ Player::Player(std::string objectName, const std::vector<MathPoint>& corners) :
 	Camera::setPlayerPosition(position);
 }
 
+void Player::setPosition(const MathPoint& position)
+{
+	GameObject::setPosition(position);
+	Camera::setPlayerPosition(position);
+}
+
 int Player::getHitpoints()
 {
 	return hitpoints;
@@ -20,9 +26,15 @@ void Player::action(double timeGain)
 	Camera::setPlayerPosition(position);
 }
 
-void Player::undoMove(double timeGain)
+void Player::undoHorizontalMove(double timeGain)
 {
-	Moveable::undoMove(timeGain, position);
+	Moveable::undoHorizontalMove(timeGain, position);
+	Camera::setPlayerPosition(this->position);
+}
+
+void Player::undoVerticalMove(double timeGain)
+{
+	Moveable::undoVerticalMove(timeGain, position);
 	Camera::setPlayerPosition(this->position);
 }
 

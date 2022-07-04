@@ -10,10 +10,12 @@ public:
 	int getHitpoints();
 	bool stoppedVertically(const SDL_Event& event);
 	bool stoppedHorizontally(const SDL_Event& event);
+	bool isInpenetrableBy(GameObject* gameObject) override;
 	void action(double timeGain) override;
 	void print(Painter* painter) override;
-	bool isInpenetrableBy(GameObject* gameObject) override;
-	virtual void undoMove(double timeGain) override;
+	void setPosition(const MathPoint& position) override;
+	void undoHorizontalMove(double timeGain) override;
+	void undoVerticalMove(double timeGain) override;
 
 	static constexpr double playerSpeedMultiplier = 1.5;
 	static constexpr int playerMaxHealth = 100;

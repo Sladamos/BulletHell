@@ -14,10 +14,14 @@ void Moveable::setVerticalSpeed(double verticalSpeed)
 	this->verticalSpeed = verticalSpeed;
 }
 
-void Moveable::undoMove(double timeGain, MathPoint& position)
+void Moveable::undoHorizontalMove(double timeGain, MathPoint& position)
 {
-	position.moveByVector(MathVector(MathPoint(-horizontalSpeed * timeGain * Constants::horizontalSpeedMultiplier,
-			-verticalSpeed * timeGain * Constants::verticalSpeedMultiplier)));
+	position.moveByVector(MathVector(MathPoint(-horizontalSpeed * timeGain * Constants::horizontalSpeedMultiplier, 0)));
+}
+
+void Moveable::undoVerticalMove(double timeGain, MathPoint& position)
+{
+	position.moveByVector(MathVector(MathPoint(0, -verticalSpeed * timeGain * Constants::verticalSpeedMultiplier)));
 }
 
 void Moveable::move(double timeGain, MathPoint& position)

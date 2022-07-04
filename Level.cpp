@@ -149,8 +149,6 @@ void Level::performGameObjectsActions(double timeGain)
 	{
 		object->action(timeGain);
 		CollisionsChecker::checkCollisions(object, gameObjects, timeGain);
-		//if (object->isMoveable())
-			//object->checkLevelBorderCollision();
 	}
 }
 

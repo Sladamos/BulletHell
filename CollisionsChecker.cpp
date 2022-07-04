@@ -1,5 +1,4 @@
 #include "CollisionsChecker.h"
-#include <math.h>
 #include "GameObject.h"
 #include "Moveable.h"
 #include "Circle.h"
@@ -9,12 +8,20 @@
 
 void CollisionsChecker::checkCollisions(GameObject*& checkedObject, const std::list<GameObject*>& gameObjectsWithoutBullets, double timeGain)
 {
-	for (GameObject* gameObject : gameObjectsWithoutBullets)
+	for (GameObject* collidableObject : gameObjectsWithoutBullets)
 	{
-		if (gameObject != checkedObject && checkedObject->isMoveable())
+		if (checkedObject != collidableObject  && checkedObject->isMoveable() && occursCollisionBetweenObjects(checkedObject, collidableObject))
 		{
-			if (gameObject->isInpenetrableBy(checkedObject) && occursCollisionBetweenObjects(checkedObject, gameObject))
-				dynamic_cast<Moveable*>(checkedObject)->undoMove(timeGain);
+			if (collidableObject->isInpenetrableBy(checkedObject))	//TODO funkcja jakas co to wezmie do siebie
+			{
+				MathPoint incorretPosition = checkedObject->getPosition();
+				dynamic_cast<Moveable*>(checkedObject)->undoHorizontalMove(timeGain);
+				if (occursCollisionBetweenObjects(checkedObject, collidableObject))
+				{
+					checkedObject->setPosition(incorretPosition);
+					dynamic_cast<Moveable*>(checkedObject)->undoVerticalMove(timeGain);
+				}
+			}
 		}
 	}
 }
