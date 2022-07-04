@@ -11,6 +11,7 @@ public:
 	void setX(int x);
 	void setY(int y);
 	void setCoordinates(int x, int y);
+	void changeCoordinatesCenter(const MathPoint& newCenter, const MathPoint& currentCenter);
 	MathPoint& moveByVector(const MathVector& vector);
 private:
 	int x, y;

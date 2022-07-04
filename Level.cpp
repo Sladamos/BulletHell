@@ -49,9 +49,9 @@ void Level::createGameObjects()
 	createEnemy();
 
 	gameObjects.push_back(new HorizontalLevelBorder("./gfx/horizontalBorder", MathPoint(levelWidth/2, wallSize/2), std::vector<MathPoint>{MathPoint(-levelWidth/2, -wallSize/2), MathPoint(-levelWidth/2, wallSize/2), MathPoint(levelWidth/2, wallSize/2), MathPoint(levelWidth/2, -wallSize/2)}));
-	gameObjects.push_back(new VerticalLevelBorder("./gfx/VerticalBorder", MathPoint(levelWidth-wallSize/2, levelHeight/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(-wallSize/2, levelHeight/2)}));
+	gameObjects.push_back(new VerticalLevelBorder("./gfx/VerticalBorder", MathPoint(levelWidth-wallSize/2, levelHeight/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -levelHeight/2), MathPoint(-wallSize/2, levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(wallSize/2, -levelHeight/2)}));
 	gameObjects.push_back(new HorizontalLevelBorder("./gfx/horizontalBorder", MathPoint(levelWidth/2, levelHeight - wallSize/2), std::vector<MathPoint>{MathPoint(-levelWidth/2, -wallSize/2), MathPoint(-levelWidth/2, wallSize/2), MathPoint(levelWidth/2, wallSize/2), MathPoint(levelWidth/2, -wallSize/2)}));
-	gameObjects.push_back(new VerticalLevelBorder("./gfx/VerticalBorder", MathPoint(wallSize/2, levelHeight/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(-wallSize/2, levelHeight/2)}));
+	gameObjects.push_back(new VerticalLevelBorder("./gfx/VerticalBorder", MathPoint(wallSize/2, levelHeight/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -levelHeight/2), MathPoint(-wallSize/2, levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(wallSize/2, -levelHeight/2)}));
 }
 
 void Level::handleLevelEvents()
@@ -149,8 +149,8 @@ void Level::performGameObjectsActions(double timeGain)
 	{
 		object->action(timeGain);
 		CollisionsChecker::checkCollisions(object, gameObjects, timeGain);
-		if (object->isMoveable())
-			object->checkLevelBorderCollision();
+		//if (object->isMoveable())
+			//object->checkLevelBorderCollision();
 	}
 }
 

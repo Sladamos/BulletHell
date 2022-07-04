@@ -18,3 +18,8 @@ int MathVector::getLength() const
 {
 	return sqrt(pow(initialMathPoint.getX() - terminalMathPoint.getX(), 2) + pow(initialMathPoint.getY() - terminalMathPoint.getY(), 2));
 } // sqrt(  (xa-xb)^2 + (ya-yb)^2 )
+
+int MathVector::getVectorProductValue(const MathVector& otherVector) const
+{
+	return getXLength() * otherVector.getYLength() - otherVector.getXLength() * getYLength();
+}

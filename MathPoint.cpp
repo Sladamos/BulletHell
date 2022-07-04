@@ -32,6 +32,12 @@ void MathPoint::setCoordinates(int x, int y)
 	this->y = y;
 }
 
+void MathPoint::changeCoordinatesCenter(const MathPoint& newCenter, const MathPoint& currentCenter)
+{
+	x += currentCenter.getX() - newCenter.getX();
+	y += currentCenter.getY() - newCenter.getY();
+}
+
 MathPoint& MathPoint::moveByVector(const MathVector& vector)
 {
 	this->x += vector.getXLength();

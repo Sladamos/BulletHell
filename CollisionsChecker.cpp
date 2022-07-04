@@ -63,6 +63,25 @@ bool CollisionsChecker::collisionOccurs(Polygon* checkedPolygon, Circle* collida
 }
 
 bool CollisionsChecker::collisionOccurs(Polygon* checkedPolygon, Polygon* collidablePolygon, const MathPoint& checkedPosition, const MathPoint& collidablePosition)
-{
-	return false;
+{	//TODO ULTRA STYLE && UNDOMOVE
+	std::vector<MathPoint> checkedCorners = checkedPolygon->getCorners(), collidableCorners = collidablePolygon->getCorners();
+	MathPoint previousCheckedCorner = checkedCorners.back();
+
+	//updateCollidableCornersCenter();	//TODO funckaj 1
+	for (MathPoint& collidableCorner : collidableCorners)
+		collidableCorner.changeCoordinatesCenter(checkedPosition, collidablePosition);
+
+	for (MathPoint checkedCorner : checkedCorners)	//TODO funkcja 2
+	{
+		MathPoint previousCollidableCorner = collidableCorners.back();
+		for (MathPoint collidableCorner : collidableCorners)	//TODO funckaj 3
+		{
+			if (MathStretch(checkedCorner, previousCheckedCorner).intersets(MathStretch(collidableCorner, previousCollidableCorner)))
+				return true;
+			previousCollidableCorner = collidableCorner;
+		}
+		previousCheckedCorner = checkedCorner;
+	}
+
+	return false;	//TODO do funkcji 2
 }
