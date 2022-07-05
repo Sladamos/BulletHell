@@ -14,6 +14,12 @@ void Timer::incrementValue(double timeGain)
 	}
 }
 
+void Timer::resetTimer()
+{
+	timerValue = 0;
+	executePermission = 0;
+}
+
 double Timer::getTimerValue()
 {
 	return timerValue;

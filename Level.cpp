@@ -44,10 +44,14 @@ LevelResult Level::getResult()
 
 void Level::createGameObjects()
 {
-	int wallSize = Constants::wallSize, levelHeight = Constants::levelHeight, levelWidth = Constants::levelWidth;
 	gameObjects.push_back(new Player("./gfx/eti", std::vector<MathPoint>{MathPoint(-45, -45), MathPoint(-45, 45), MathPoint(45, 45), MathPoint(45, -45)}));
 	createEnemy();
+	createLevelBorders();
+}
 
+void Level::createLevelBorders()
+{
+	int wallSize = Constants::wallSize, levelHeight = Constants::levelHeight, levelWidth = Constants::levelWidth;
 	gameObjects.push_back(new HorizontalLevelBorder("./gfx/horizontalBorder", MathPoint(levelWidth/2, wallSize/2), std::vector<MathPoint>{MathPoint(-levelWidth/2, -wallSize/2), MathPoint(-levelWidth/2, wallSize/2), MathPoint(levelWidth/2, wallSize/2), MathPoint(levelWidth/2, -wallSize/2)}));
 	gameObjects.push_back(new VerticalLevelBorder("./gfx/VerticalBorder", MathPoint(levelWidth-wallSize/2, levelHeight/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -levelHeight/2), MathPoint(-wallSize/2, levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(wallSize/2, -levelHeight/2)}));
 	gameObjects.push_back(new HorizontalLevelBorder("./gfx/horizontalBorder", MathPoint(levelWidth/2, levelHeight - wallSize/2), std::vector<MathPoint>{MathPoint(-levelWidth/2, -wallSize/2), MathPoint(-levelWidth/2, wallSize/2), MathPoint(levelWidth/2, wallSize/2), MathPoint(levelWidth/2, -wallSize/2)}));
@@ -145,10 +149,19 @@ void Level::performGameObjectsActions(double timeGain)
 {
 	//std::copy_if(gameObjects.begin(), gameObjects.end(), std::back_inserter(objectsWithoutBullets), [](GameObject* object) {return true; });
 
-	for (GameObject* object : gameObjects)
+	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
-		object->action(timeGain);
-		CollisionsChecker::checkCollisions(object, gameObjects, timeGain);
+		GameObject* object = *it++;
+		if (object->shouldBeDestroyed())
+		{
+			delete object;
+			gameObjects.remove(object);
+		}
+		else
+		{
+			object->action(timeGain);
+			CollisionsChecker::checkCollisions(object, gameObjects, timeGain);
+		}
 	}
 }
 

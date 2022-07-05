@@ -14,7 +14,6 @@ protected:
 	void undoVerticalMove(double timeGain, MathPoint& position);
 	void undoHorizontalMove(double timeGain, MathPoint& position);
 	
-
 	double horizontalSpeed, verticalSpeed;
 };
 

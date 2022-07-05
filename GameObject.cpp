@@ -66,3 +66,8 @@ void GameObject::print(Painter* painter)
 {
 	painter->drawObject(BmpManager::getBitmap(objectName), Camera::getObjectPositionOnScreen(position));
 }
+
+bool GameObject::shouldBeDestroyed()
+{
+	return false;
+}

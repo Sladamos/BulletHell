@@ -23,6 +23,7 @@ private:
 	void performGameObjectsActions(double timeGain);
 	void handlePlayerMovement(const SDL_Event& event);
 	virtual void createEnemy() = 0;
+	void createLevelBorders();
 	//TODO: createBullets() - pure virtual
 	bool isLevelInProgress();
 

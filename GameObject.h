@@ -20,6 +20,7 @@ public:
 	bool isMoveable();
 	bool isPlayer();
 	bool isEnemy();
+	virtual bool shouldBeDestroyed();
 	virtual bool isPickableBy(GameObject* gameObject);
 	virtual bool isInpenetrableBy(GameObject* gameObject);
 protected:
