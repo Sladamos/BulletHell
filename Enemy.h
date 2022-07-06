@@ -1,8 +1,9 @@
 #pragma once
 #include "GameObject.h"
+#include "Shootable.h"
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
-class Enemy : public GameObject
+class Enemy : public GameObject, public Shootable
 {
 public:
 	Enemy(std::string objectName, const std::vector<MathPoint>& corners);
@@ -11,7 +12,8 @@ public:
 	bool isInpenetrableBy(GameObject* gameObject) override;
 
 	static constexpr int enemyMaxHealth = 1000;
-protected:
+private:
 	int hitpoints;
+	//TODO: remove from abstract enemy
 };
 

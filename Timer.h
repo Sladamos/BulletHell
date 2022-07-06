@@ -6,7 +6,7 @@ public:
 	Timer();
 	void executeIfPossible();
 	void incrementValue(double timeGain);
-	void resetTimer();
+	virtual void resetTimer();
 	double getTimerValue();
 	double getTimeLimit();
 protected:
