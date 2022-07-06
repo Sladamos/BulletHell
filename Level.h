@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Enemy.h"
 #include "LevelResult.h"
+class Bullet;
 class Level
 {
 public:
@@ -15,8 +16,9 @@ public:
 	LevelResult getResult();
 	std::list<GameObject*> getGameObjects();
 	void startLevel();
+	static void addBullet(Bullet* newBullet);
 protected:
-	std::list<GameObject*> gameObjects;
+	static std::list<GameObject*> gameObjects;
 private:
 	void handleLevelEvents();
 	void createGameObjects();
@@ -24,7 +26,6 @@ private:
 	void handlePlayerMovement(const SDL_Event& event);
 	virtual void createEnemy() = 0;
 	void createLevelBorders();
-	//TODO: createBullets() - pure virtual
 	bool isLevelInProgress();
 
 	LevelResult levelResult;

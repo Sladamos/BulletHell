@@ -3,7 +3,7 @@
 #include "Painter.h"
 #include "BmpManager.h"
 
-Player::Player(std::string objectName, const std::vector<MathPoint>& corners) :
+Player::Player(const std::string& objectName, const std::vector<MathPoint>& corners) :
 	GameObject(objectName, MathPoint(100, 100), corners), Moveable(), hitpoints(playerMaxHealth)
 {
 	Camera::setPlayerPosition(position);

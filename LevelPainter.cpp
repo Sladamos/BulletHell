@@ -42,7 +42,6 @@ void LevelPainter::printGameObjects()
 
 void LevelPainter::drawStatistics()
 {
-	//drawStatisticsPanel();	TODO: add bitmap for this panel
 	drawHealthBars();
 	MathVector mathVector(MathPoint(0, 2 * Constants::smallLetterSize));
 	MathPoint textCoords(Constants::screenWidth - Constants::statsWidth + 15, 20 + playerHpBarHeight + 2 * playerHpBarFrameSize);

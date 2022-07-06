@@ -6,9 +6,12 @@
 class Bullet : public GameObject, public Moveable
 {
 public:
-	Bullet(std::string objectName, const MathPoint& position, int damageDealt, int radius);
-	Bullet(std::string objectName, const MathPoint& position, int radius);
+	Bullet(const std::string& objectName, const MathPoint& position, int damageDealt, int radius, double horizontalSpeed, double verticalSpeed);
+	Bullet(const std::string& objectName, const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed);
 	void action(double timeGain) override;
+	void repairMove(GameObject*& collidableObject, double timeGain) override;
+	void undoVerticalMove(double timeGain) override {};
+	void undoHorizontalMove(double timeGain) override {};
 private:
 	bool shouldBeDestroyed() override;
 	bool isOutOfRange();

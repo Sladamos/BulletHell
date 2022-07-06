@@ -6,7 +6,7 @@
 class Enemy : public GameObject, public Shootable
 {
 public:
-	Enemy(std::string objectName, const std::vector<MathPoint>& corners);
+	Enemy(const std::string& objectName, const std::vector<MathPoint>& corners);
 	int getHitpoints();
 	void action(double timeGain) override;
 	bool isInpenetrableBy(GameObject* gameObject) override;
@@ -14,6 +14,5 @@ public:
 	static constexpr int enemyMaxHealth = 1000;
 private:
 	int hitpoints;
-	//TODO: remove from abstract enemy
 };
 

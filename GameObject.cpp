@@ -7,12 +7,12 @@
 #include "Enemy.h"
 using namespace std;
 
-GameObject::GameObject(string objectName, const MathPoint& position, int radius) : objectName(objectName), position(position)
+GameObject::GameObject(const string& objectName, const MathPoint& position, int radius) : objectName(objectName), position(position)
 {
 	BmpManager::loadStaticBitmap(objectName, radius);
 }
 
-GameObject::GameObject(string objectName, const MathPoint& position, const vector<MathPoint>& corners)
+GameObject::GameObject(const string& objectName, const MathPoint& position, const vector<MathPoint>& corners)
 	: objectName(objectName), position(position)
 {
 	BmpManager::loadStaticBitmap(objectName, corners);

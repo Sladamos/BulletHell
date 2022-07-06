@@ -4,8 +4,8 @@
 #include "BmpManager.h"
 using namespace std;
 
-Enemy::Enemy(string objectName, const vector<MathPoint>& corners) : GameObject(objectName, MathPoint(200, 200), corners),
-				Shootable(0.5), hitpoints(enemyMaxHealth) {}	//TODO: time limit in constructor
+Enemy::Enemy(const string& objectName, const vector<MathPoint>& corners) : GameObject(objectName, MathPoint(200, 200), corners),
+				Shootable(0.2), hitpoints(enemyMaxHealth) {}	//TODO: time limit in constructor
 
 int Enemy::getHitpoints()
 {
@@ -22,6 +22,5 @@ bool Enemy::isInpenetrableBy(GameObject* gameObject)
 void Enemy::action(double timeGain)
 {
 	shootIfPossible(&Shootable::randomShooting);
-	//shootIfPossible(randomShooting);
 }
 

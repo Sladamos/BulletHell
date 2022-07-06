@@ -3,11 +3,11 @@
 class Shootable
 {
 public:
-	Shootable(double shootingTimeLimit);
+	Shootable(double shootingTimeLimit);	//TODO basic bullet name in constructor
 	virtual ~Shootable();
+	void randomShooting();
 	//TODO: jak dodawaæ nowe bullety do levela -> level statyczne metody?
 protected:
-	void randomShooting();
 	void shootIfPossible(void(Shootable::*shootingPattern)());
 private:
 	ShootingTimer* shootingTimer;

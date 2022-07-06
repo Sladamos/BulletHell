@@ -1,16 +1,17 @@
 #include "Bullet.h"
 #include "MathVector.h"
-Bullet::Bullet(std::string objectName, const MathPoint& position, int damageDealt, int radius) :
-	GameObject(objectName, position, radius), Moveable(), damageDealt(damageDealt), launchPosition(position), toDestroy(false) {}
+Bullet::Bullet(const std::string& objectName, const MathPoint& position, int damageDealt, int radius, double horizontalSpeed, double verticalSpeed) :
+	GameObject(objectName, position, radius), Moveable(horizontalSpeed, verticalSpeed), damageDealt(damageDealt), launchPosition(position),
+	toDestroy(false) {}
 
-Bullet::Bullet(std::string objectName, const MathPoint& position, int radius) : Bullet(objectName, position, defaultDamage, radius) {}
+Bullet::Bullet(const std::string& objectName, const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed) 
+	: Bullet(objectName, position, defaultDamage, radius, horizontalSpeed, verticalSpeed) {}
 
 void Bullet::action(double timeGain)
 {
 	move(timeGain, position);
 	if (isOutOfRange())
 		toDestroy = true;
-	//TODO: -> repair object move trzeba zmieniæ to na metodê gameobjectov¹ virtualn¹
 }
 
 bool Bullet::shouldBeDestroyed()
@@ -21,5 +22,10 @@ bool Bullet::shouldBeDestroyed()
 bool Bullet::isOutOfRange()
 {
 	return MathVector(launchPosition, position).getLength() > maxRange;
+}
+
+void Bullet::repairMove(GameObject*& collidableObject, double timeGain)
+{
+	toDestroy = true;
 }
 

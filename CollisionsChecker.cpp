@@ -12,7 +12,7 @@ void CollisionsChecker::checkCollisions(GameObject*& checkedObject, const std::l
 	{
 		if (checkedObject != collidableObject  && checkedObject->isMoveable() && occursCollisionBetweenObjects(checkedObject, collidableObject))
 			if (collidableObject->isInpenetrableBy(checkedObject))
-				repairObjectMove(checkedObject, collidableObject, timeGain);
+				dynamic_cast<Moveable*>(checkedObject)->repairMove(collidableObject, timeGain);
 	}
 }
 
@@ -82,15 +82,4 @@ void CollisionsChecker::updateCollidableCornersCenter(std::vector<MathPoint>& co
 {
 	for (MathPoint& collidableCorner : collidableCorners)
 		collidableCorner.changeCoordinatesCenter(newCenter, previousCenter);
-}
-
-void CollisionsChecker::repairObjectMove(GameObject*& repairingObject, GameObject*& collidableObject, double timeGain)
-{
-	MathPoint incorretPosition = repairingObject->getPosition();
-	dynamic_cast<Moveable*>(repairingObject)->undoHorizontalMove(timeGain);
-	if (occursCollisionBetweenObjects(repairingObject, collidableObject))
-	{
-		repairingObject->setPosition(incorretPosition);
-		dynamic_cast<Moveable*>(repairingObject)->undoVerticalMove(timeGain);
-	}
 }

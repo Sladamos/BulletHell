@@ -1,6 +1,7 @@
 #include <vector>
 #include <algorithm>
 #include <iterator>
+#include <ctime>
 #include "MathPoint.h"
 #include "Level.h"
 #include "BmpManager.h"
@@ -8,13 +9,17 @@
 #include "VerticalLevelBorder.h"
 #include "HorizontalLevelBorder.h"
 #include "CollisionsChecker.h"
+#include "Bullet.h"
 #include"./SDL2-2.0.10/include/SDL.h"
 #include"./SDL2-2.0.10/include/SDL_main.h"
+
+std::list<GameObject*> Level::gameObjects = std::list<GameObject*>();
 
 Level::Level(SDL_Window* window, SDL_Renderer* renderer) : levelResult(LevelResult::unknown), levelTimer(new Timer()),
 						  timeManager(new TimeManager()), levelPainter(new LevelPainter(this, window, renderer))
 {
 	timeManager->addTimer(levelTimer);
+	srand(time(NULL));
 }
 
 Player* Level::getPlayer()
@@ -40,6 +45,11 @@ Enemy* Level::getEnemy()
 LevelResult Level::getResult()
 {
 	return levelResult;
+}
+
+void Level::addBullet(Bullet* newBullet)
+{
+	gameObjects.push_back(newBullet);
 }
 
 void Level::createGameObjects()
@@ -147,7 +157,9 @@ void Level::startLevel()
 
 void Level::performGameObjectsActions(double timeGain)
 {
-	//std::copy_if(gameObjects.begin(), gameObjects.end(), std::back_inserter(objectsWithoutBullets), [](GameObject* object) {return true; });
+	std::list<GameObject*> objectsWithoutBullets;
+	std::copy_if(gameObjects.begin(), gameObjects.end(), std::back_inserter(objectsWithoutBullets),
+	[](GameObject* object) {return dynamic_cast<Bullet*>(object) == nullptr; });
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
@@ -160,7 +172,7 @@ void Level::performGameObjectsActions(double timeGain)
 		else
 		{
 			object->action(timeGain);
-			CollisionsChecker::checkCollisions(object, gameObjects, timeGain);
+			CollisionsChecker::checkCollisions(object, objectsWithoutBullets, timeGain);
 		}
 	}
 }
@@ -174,6 +186,7 @@ Level::~Level()
 {
 	for (GameObject* object : gameObjects)
 		delete object;
+	gameObjects.clear();
 	BmpManager::freeBitmaps();
 	ShapesManager::freeShapes();
 	delete levelTimer;

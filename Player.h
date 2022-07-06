@@ -6,7 +6,7 @@
 class Player : public GameObject, public Moveable
 {
 public:
-	Player(std::string objectName, const std::vector<MathPoint>& corners);
+	Player(const std::string& objectName, const std::vector<MathPoint>& corners);
 	int getHitpoints();
 	bool stoppedVertically(const SDL_Event& event);
 	bool stoppedHorizontally(const SDL_Event& event);
