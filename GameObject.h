@@ -11,21 +11,28 @@ class GameObject
 public:
 	GameObject(const std::string& objectName, const MathPoint& position, int radius);
 	GameObject(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners);
+	GameObject(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners, int hitpoints);
 	virtual ~GameObject() = default;
 	//GameObject(std::string objectName, int numberOfAnimations);	//TODO: add animations
 	Shape* getShape();
 	MathPoint getPosition();
-	virtual void setPosition(const MathPoint& position);
-	virtual void action(double timeGain);
-	virtual void print(Painter* painter);
 	bool isMoveable();
 	bool isPlayer();
 	bool isEnemy();
+	bool isUnholyBullet();
+	bool isHolyBullet();
+	void checkCollisions(const std::list<GameObject*>& gameObjectsWithoutBullets, double timeGain);
+	void decreaseHitpoints(int damageDealt);
+	virtual void setPosition(const MathPoint& position);
+	virtual void action(double timeGain);
+	virtual void print(Painter* painter);
 	virtual bool shouldBeDestroyed();
 	virtual bool isPickableBy(GameObject* gameObject);
+	virtual bool isDamagableBy(GameObject* gameObject);
 	virtual bool isInpenetrableBy(GameObject* gameObject);
 protected:
 	MathPoint position;
 	std::string objectName;
+	int hitpoints;
 };
 

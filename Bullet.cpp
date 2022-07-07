@@ -24,8 +24,14 @@ bool Bullet::isOutOfRange()
 	return MathVector(launchPosition, position).getLength() > maxRange;
 }
 
-void Bullet::repairMove(GameObject*& collidableObject, double timeGain)
+void Bullet::repairMove(GameObject* collidableObject, double timeGain)
 {
+	toDestroy = true;
+}
+
+void Bullet::hit(GameObject* targetObject)
+{
+	targetObject->decreaseHitpoints(damageDealt);
 	toDestroy = true;
 }
 

@@ -34,7 +34,7 @@ void Moveable::move(double timeGain, MathPoint& position)
 		verticalSpeed * timeGain * Constants::verticalSpeedMultiplier)));
 }
 
-void Moveable::repairMove(GameObject*& collidableObject, double timeGain)
+void Moveable::repairMove(GameObject* collidableObject, double timeGain)
 {
 	GameObject* repairingObject = dynamic_cast<GameObject*>(this);
 	MathPoint incorretPosition = repairingObject->getPosition();

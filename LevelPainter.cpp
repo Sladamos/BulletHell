@@ -78,7 +78,7 @@ void LevelPainter::drawHealthBars()
 
 bool LevelPainter::bothSidesOfConflictAreAlive()
 {
-	return level->getEnemy()->getHitpoints() >= 0 && level->getPlayer()->getHitpoints() >= 0;
+	return level->getEnemy()->getHitpoints() > 0 && level->getPlayer()->getHitpoints() > 0;
 }
 
 void LevelPainter::drawPlayerHealthBar()

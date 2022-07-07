@@ -10,7 +10,7 @@ public:
 	void setHorizontalSpeed(double horizontalSpeed);
 	virtual void undoVerticalMove(double timeGain) = 0;
 	virtual void undoHorizontalMove(double timeGain) = 0;
-	virtual void repairMove(GameObject*& collidableObject, double timeGain);
+	virtual void repairMove(GameObject* collidableObject, double timeGain);
 protected:
 	void move(double timeGain, MathPoint& position);
 	void undoVerticalMove(double timeGain, MathPoint& position);

@@ -6,17 +6,7 @@
 #include "MathVector.h"
 #include "MathStretch.h"
 
-void CollisionsChecker::checkCollisions(GameObject*& checkedObject, const std::list<GameObject*>& gameObjectsWithoutBullets, double timeGain)
-{
-	for (GameObject* collidableObject : gameObjectsWithoutBullets)
-	{
-		if (checkedObject != collidableObject  && checkedObject->isMoveable() && occursCollisionBetweenObjects(checkedObject, collidableObject))
-			if (collidableObject->isInpenetrableBy(checkedObject))
-				dynamic_cast<Moveable*>(checkedObject)->repairMove(collidableObject, timeGain);
-	}
-}
-
-bool CollisionsChecker::occursCollisionBetweenObjects(GameObject*& checkedObject, GameObject*& collidableObject)
+bool CollisionsChecker::occursCollisionBetweenObjects(GameObject* checkedObject, GameObject* collidableObject)
 {
 	Shape *checkedShape = checkedObject->getShape(), *collidableShape = collidableObject->getShape();
 	if (checkedShape->isPolygon())

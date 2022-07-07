@@ -10,11 +10,10 @@ public:
 	int getHitpoints();
 	void action(double timeGain) override;
 	bool isInpenetrableBy(GameObject* gameObject) override;
+	bool isDamagableBy(GameObject* gameObject) override;
 
 	static constexpr int enemyMaxHealth = 1000;
 private:
 	void createBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed) override;
-
-	int hitpoints;
 };
 

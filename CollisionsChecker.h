@@ -8,8 +8,7 @@ class Polygon;
 class CollisionsChecker
 {
 public:
-	static void checkCollisions(GameObject*& checkedObject, const std::list<GameObject*>& gameObjectsWithoutBullets, double timeGain);
-	static bool occursCollisionBetweenObjects(GameObject*& checkedObject, GameObject*& collidableObject);
+	static bool occursCollisionBetweenObjects(GameObject* checkedObject, GameObject* collidableObject);
 private:
 	static bool occursCollisionBetweenShapes(Circle* checkedCircle, Circle* collidableCircle, const MathPoint& checkedPosition, const MathPoint& collidablePosition);
 	static bool occursCollisionBetweenShapes(Circle* checkedCircle, Polygon* collidablePolygon, const MathPoint& checkedPosition, const MathPoint& collidablePosition);

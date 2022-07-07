@@ -6,8 +6,8 @@
 #include "UnholyBullet.h"
 using namespace std;
 
-Enemy::Enemy(const string& objectName, const vector<MathPoint>& corners) : GameObject(objectName, MathPoint(200, 200), corners),
-				Shootable(0.2), hitpoints(enemyMaxHealth) {}	//TODO: time limit in constructor
+Enemy::Enemy(const string& objectName, const vector<MathPoint>& corners) : GameObject(objectName, MathPoint(200, 200), corners, enemyMaxHealth),
+				Shootable(0.2) {}	//TODO: move time limit to enemy constructor
 
 int Enemy::getHitpoints()
 {
@@ -29,5 +29,12 @@ void Enemy::action(double timeGain)
 void Enemy::createBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed)
 {
 	Level::addBullet(new UnholyBullet(position, radius, horizontalSpeed, verticalSpeed));
+}
+
+bool Enemy::isDamagableBy(GameObject* gameObject)
+{
+	if (gameObject->isHolyBullet())
+		return true;
+	return false;
 }
 

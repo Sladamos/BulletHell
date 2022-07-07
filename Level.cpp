@@ -8,7 +8,6 @@
 #include "ShapesManager.h"
 #include "VerticalLevelBorder.h"
 #include "HorizontalLevelBorder.h"
-#include "CollisionsChecker.h"
 #include "Bullet.h"
 #include"./SDL2-2.0.10/include/SDL.h"
 #include"./SDL2-2.0.10/include/SDL_main.h"
@@ -172,7 +171,7 @@ void Level::performGameObjectsActions(double timeGain)
 		else
 		{
 			object->action(timeGain);
-			CollisionsChecker::checkCollisions(object, objectsWithoutBullets, timeGain);
+			object->checkCollisions(objectsWithoutBullets, timeGain);
 		}
 	}
 }

@@ -6,7 +6,7 @@
 #include "HolyBullet.h"
 
 Player::Player(const std::string& objectName, const std::vector<MathPoint>& corners) :
-	GameObject(objectName, MathPoint(100, 100), corners), Moveable(), hitpoints(playerMaxHealth), Shootable(0)
+	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth), Moveable(), Shootable(0)
 {
 	Camera::setPlayerPosition(position);
 }
@@ -43,6 +43,13 @@ void Player::undoVerticalMove(double timeGain)
 bool Player::isInpenetrableBy(GameObject* gameObject)
 {
 	if (gameObject->isEnemy())
+		return true;
+	return false;
+}
+
+bool Player::isDamagableBy(GameObject* gameObject)
+{
+	if (gameObject->isUnholyBullet())
 		return true;
 	return false;
 }

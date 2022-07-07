@@ -12,6 +12,7 @@ public:
 	bool stoppedVertically(const SDL_Event& event);
 	bool stoppedHorizontally(const SDL_Event& event);
 	bool isInpenetrableBy(GameObject* gameObject) override;
+	bool isDamagableBy(GameObject* gameObject) override;
 	void action(double timeGain) override;
 	void print(Painter* painter) override;
 	void setPosition(const MathPoint& position) override;
@@ -22,7 +23,5 @@ public:
 	static constexpr int playerMaxHealth = 100;
 private:
 	void createBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed) override;
-
-	int hitpoints;
 };
 
