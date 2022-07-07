@@ -1,8 +1,9 @@
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include "Shootable.h"
 #include "TimeManager.h"
-#include "Level.h"
-#include "Bullet.h"
+#include "HolyBullet.h"
+#include "UnholyBullet.h"
 
 Shootable::Shootable(double shootingTimeLimit)
 {
@@ -21,10 +22,9 @@ void Shootable::shootIfPossible(void(Shootable::*shootingPattern)())
 
 void Shootable::randomShooting()
 {
-	//TODO: holy/unholy?
 	double angle = rand() % 360 * M_PI / 180.00;
 	MathPoint position = dynamic_cast<GameObject*>(this)->getPosition();
-	Level::addBullet(new Bullet("./gfx/holyBullet", position, 13, cos(angle)*2, sin(angle)*2));
+	createBullet(position, 13, cos(angle) * Bullet::bulletSpeedMultiplier, sin(angle) * Bullet::bulletSpeedMultiplier);
 }
 
 Shootable::~Shootable()

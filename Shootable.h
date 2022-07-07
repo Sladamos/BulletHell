@@ -1,15 +1,17 @@
 #pragma once
 #include "ShootingTimer.h"
+class MathPoint;
 class Shootable
 {
 public:
-	Shootable(double shootingTimeLimit);	//TODO basic bullet name in constructor
+	Shootable(double shootingTimeLimit);
 	virtual ~Shootable();
 	void randomShooting();
-	//TODO: jak dodawaæ nowe bullety do levela -> level statyczne metody?
 protected:
 	void shootIfPossible(void(Shootable::*shootingPattern)());
+	virtual void createBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed) = 0;
 private:
+
 	ShootingTimer* shootingTimer;
 };
 

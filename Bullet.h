@@ -12,6 +12,8 @@ public:
 	void repairMove(GameObject*& collidableObject, double timeGain) override;
 	void undoVerticalMove(double timeGain) override {};
 	void undoHorizontalMove(double timeGain) override {};
+
+	static double constexpr bulletSpeedMultiplier = 2;
 private:
 	bool shouldBeDestroyed() override;
 	bool isOutOfRange();

@@ -1,9 +1,10 @@
 #pragma once
 #include "GameObject.h"
 #include "Moveable.h"
+#include "Shootable.h"
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
-class Player : public GameObject, public Moveable
+class Player : public GameObject, public Moveable, public Shootable
 {
 public:
 	Player(const std::string& objectName, const std::vector<MathPoint>& corners);
@@ -20,6 +21,8 @@ public:
 	static constexpr double playerSpeedMultiplier = 1.5;
 	static constexpr int playerMaxHealth = 100;
 private:
+	void createBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed) override;
+
 	int hitpoints;
 };
 

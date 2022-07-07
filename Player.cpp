@@ -2,9 +2,11 @@
 #include "Camera.h"
 #include "Painter.h"
 #include "BmpManager.h"
+#include "Level.h"
+#include "HolyBullet.h"
 
 Player::Player(const std::string& objectName, const std::vector<MathPoint>& corners) :
-	GameObject(objectName, MathPoint(100, 100), corners), Moveable(), hitpoints(playerMaxHealth)
+	GameObject(objectName, MathPoint(100, 100), corners), Moveable(), hitpoints(playerMaxHealth), Shootable(0)
 {
 	Camera::setPlayerPosition(position);
 }
@@ -64,4 +66,9 @@ bool Player::stoppedHorizontally(const SDL_Event& event)
 void Player::print(Painter* painter)
 {
 	painter->drawObject(BmpManager::getBitmap(objectName), Camera::getPlayerPositionOnScreen());	
+}
+
+void Player::createBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed)
+{
+	Level::addBullet(new HolyBullet(position, radius, horizontalSpeed, verticalSpeed));
 }

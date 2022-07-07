@@ -13,6 +13,8 @@ public:
 
 	static constexpr int enemyMaxHealth = 1000;
 private:
+	void createBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed) override;
+
 	int hitpoints;
 };
 
