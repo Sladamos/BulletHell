@@ -22,7 +22,7 @@ public:
 	bool isUnholyBullet();
 	bool isHolyBullet();
 	void checkCollisions(const std::list<GameObject*>& gameObjectsWithoutBullets, double timeGain);
-	void decreaseHitpoints(int damageDealt);
+	virtual void decreaseHitpoints(int damageDealt);
 	virtual void setPosition(const MathPoint& position);
 	virtual void action(double timeGain);
 	virtual void print(Painter* painter);

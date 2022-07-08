@@ -8,7 +8,10 @@
 Player::Player(const std::string& objectName, const std::vector<MathPoint>& corners) :
 	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth), Moveable(), Shootable(0.2), fireButtonIsPressed(false)
 {
+	invicibilityTimer = new InvicibilityTimer(0.5);
+	TimeManager::addTimer(invicibilityTimer);
 	Camera::setPlayerPosition(position);
+	BmpManager::loadStaticBitmap(invicibilityFrame, 60);
 }
 
 void Player::setPosition(const MathPoint& position)
@@ -44,14 +47,14 @@ void Player::undoVerticalMove(double timeGain)
 
 bool Player::isInpenetrableBy(GameObject* gameObject)
 {
-	if (gameObject->isEnemy())
+	if (gameObject->isEnemy() || gameObject->isUnholyBullet() && !invicibilityTimer->canBeDamaged())
 		return true;
 	return false;
 }
 
 bool Player::isDamagableBy(GameObject* gameObject)
 {
-	if (gameObject->isUnholyBullet())	//TODO: invincibility frames (remember to print it)
+	if (gameObject->isUnholyBullet() && invicibilityTimer->canBeDamaged())
 		return true;
 	return false;
 }
@@ -74,6 +77,8 @@ bool Player::stoppedHorizontally(const SDL_Event& event)
 
 void Player::print(Painter* painter)
 {
+	if(!invicibilityTimer->canBeDamaged())
+		painter->drawObject(BmpManager::getBitmap(invicibilityFrame), Camera::getPlayerPositionOnScreen());
 	painter->drawObject(BmpManager::getBitmap(objectName), Camera::getPlayerPositionOnScreen());	
 }
 
@@ -87,23 +92,24 @@ void Player::updateViewingAngle()
 	int horizontalSign = horizontalSpeed == 0 ? 0 : horizontalSpeed / abs(horizontalSpeed);
 	int verticalSign = verticalSpeed == 0 ? 0 : verticalSpeed / abs(verticalSpeed);
 
-	if (verticalSign != 0 || horizontalSign != 0)
-	{
-		switch (verticalSign)
-		{
-		case 1:
-			viewingAngle = 90 - 45 * horizontalSign;
-			break;
-		case -1:
-			viewingAngle = 270 + 45 * horizontalSign;
-			break;
-		case 0:
-			viewingAngle = 90 - 90 * horizontalSign;
-		}
-	}
+	if (verticalSign != 0)
+		viewingAngle = (90 - 45 * horizontalSign) * verticalSign;
+	else if (horizontalSign != 0)
+		viewingAngle = 90 - 90 * horizontalSign;
 }
 
 void Player::setShootingPermission(bool fireButtonIsPressed)
 {
 	this->fireButtonIsPressed = fireButtonIsPressed;
+}
+
+void Player::decreaseHitpoints(int damageDealt)
+{
+	GameObject::decreaseHitpoints(damageDealt);
+	invicibilityTimer->resetTimer();
+}
+
+Player::~Player()
+{
+	delete invicibilityTimer;
 }
