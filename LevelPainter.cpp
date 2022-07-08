@@ -71,7 +71,7 @@ void LevelPainter::drawHealthBars()
 	if (bothSidesOfConflictAreAlive())
 	{
 		drawPlayerHealthBar();
-		drawEnemyHealthBar();
+		drawEnemyHealthBar();	//TODO: make it smarter - what if more than 1 enemy?
 	}
 }
 

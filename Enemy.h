@@ -6,9 +6,8 @@
 class Enemy : public GameObject, public Shootable
 {
 public:
-	Enemy(const std::string& objectName, const std::vector<MathPoint>& corners);
+	Enemy(const std::string& objectName, const MathPoint& startingPoint, const std::vector<MathPoint>& corners, double shootingPeriod);
 	int getHitpoints();
-	void action(double timeGain) override;
 	bool isInpenetrableBy(GameObject* gameObject) override;
 	bool isDamagableBy(GameObject* gameObject) override;
 

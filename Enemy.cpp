@@ -6,8 +6,8 @@
 #include "UnholyBullet.h"
 using namespace std;
 
-Enemy::Enemy(const string& objectName, const vector<MathPoint>& corners) : GameObject(objectName, MathPoint(200, 200), corners, enemyMaxHealth),
-				Shootable(0.1) {}	//TODO: move time limit to enemy constructor - implement other enemies
+Enemy::Enemy(const string& objectName, const MathPoint& startingPoint, const vector<MathPoint>& corners, double shootingPeriod) :
+	GameObject(objectName, MathPoint(startingPoint), corners, enemyMaxHealth), Shootable(shootingPeriod) {}
 
 int Enemy::getHitpoints()
 {
@@ -19,11 +19,6 @@ bool Enemy::isInpenetrableBy(GameObject* gameObject)
 	if (gameObject->isPlayer())
 		return true;
 	return false;
-}
-
-void Enemy::action(double timeGain)
-{
-	shootIfPossible(&Shootable::randomShooting);
 }
 
 void Enemy::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
