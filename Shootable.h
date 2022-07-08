@@ -7,10 +7,15 @@ public:
 	Shootable(double shootingTimeLimit);
 	virtual ~Shootable();
 	void randomShooting();
+	void multipleShooting();
 protected:
 	void shootIfPossible(void(Shootable::*shootingPattern)());
-	virtual void createBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed) = 0;
+	virtual void createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed) = 0;
+	virtual void updateViewingAngle();
+
+	double viewingAngle;
 private:
+	double getViewingAngle();
 
 	ShootingTimer* shootingTimer;
 };

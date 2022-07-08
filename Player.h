@@ -13,15 +13,19 @@ public:
 	bool stoppedHorizontally(const SDL_Event& event);
 	bool isInpenetrableBy(GameObject* gameObject) override;
 	bool isDamagableBy(GameObject* gameObject) override;
+	void setShootingPermission(bool fireButtonIsPressed);
 	void action(double timeGain) override;
 	void print(Painter* painter) override;
 	void setPosition(const MathPoint& position) override;
 	void undoHorizontalMove(double timeGain) override;
 	void undoVerticalMove(double timeGain) override;
+	void updateViewingAngle() override;
 
 	static constexpr double playerSpeedMultiplier = 1.5;
 	static constexpr int playerMaxHealth = 100;
 private:
-	void createBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed) override;
+	void createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed) override;
+
+	bool fireButtonIsPressed;
 };
 

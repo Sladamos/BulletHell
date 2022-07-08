@@ -5,7 +5,7 @@
 #include "HolyBullet.h"
 #include "UnholyBullet.h"
 
-Shootable::Shootable(double shootingTimeLimit)
+Shootable::Shootable(double shootingTimeLimit) : viewingAngle(0)
 {
 	shootingTimer = new ShootingTimer(shootingTimeLimit);
 	TimeManager::addTimer(shootingTimer);
@@ -22,9 +22,31 @@ void Shootable::shootIfPossible(void(Shootable::*shootingPattern)())
 
 void Shootable::randomShooting()
 {
-	double angle = rand() % 360 * M_PI / 180.00;
+	double randomAngle = rand() % 360 * M_PI / 180.00;
 	MathPoint position = dynamic_cast<GameObject*>(this)->getPosition();
-	createBullet(position, 13, cos(angle) * Bullet::bulletSpeedMultiplier, sin(angle) * Bullet::bulletSpeedMultiplier);
+	createBullet(position, cos(randomAngle) * Bullet::bulletSpeedMultiplier, sin(randomAngle) * Bullet::bulletSpeedMultiplier);
+}
+
+void Shootable::multipleShooting()
+{
+	const int numberOfBulletsInOneShoot = 5;
+	const double angleBetweenBullets = 20 * M_PI / 180.00;
+	double bulletAngle = getViewingAngle() * M_PI / 180.00  - numberOfBulletsInOneShoot / 2 * angleBetweenBullets;
+	MathPoint position = dynamic_cast<GameObject*>(this)->getPosition();
+	for (int i = 0; i < numberOfBulletsInOneShoot; i++)
+	{
+		createBullet(position, cos(bulletAngle) * Bullet::bulletSpeedMultiplier, sin(bulletAngle) * Bullet::bulletSpeedMultiplier);
+		bulletAngle += angleBetweenBullets;
+	}
+}
+
+double Shootable::getViewingAngle()
+{
+	return viewingAngle;
+}
+
+void Shootable::updateViewingAngle()
+{
 }
 
 Shootable::~Shootable()

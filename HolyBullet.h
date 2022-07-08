@@ -3,6 +3,6 @@
 class HolyBullet : public Bullet
 {
 public:
-	HolyBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed);
+	HolyBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed);
 };
 

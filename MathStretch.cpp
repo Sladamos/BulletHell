@@ -31,19 +31,19 @@ bool MathStretch::isntTriangleObtuseAtTheBase(const MathPoint& thirdInterior)
 
 bool MathStretch::intersets(const MathStretch& otherStretch)
 {
-	MathPoint otherFirstPoint = otherStretch.getFirstPoint(), otherSecondPoint = otherStretch.getSecondPoint();
-	int v1 = MathVector(otherFirstPoint, otherSecondPoint).getVectorProductValue(MathVector(otherFirstPoint, firstPoint));
-	int v2 = MathVector(otherFirstPoint, otherSecondPoint).getVectorProductValue(MathVector(otherFirstPoint, secondPoint));
-	int v3 = MathVector(firstPoint, secondPoint).getVectorProductValue(MathVector(firstPoint, otherFirstPoint));
-	int v4 = MathVector(firstPoint, secondPoint).getVectorProductValue(MathVector(firstPoint, otherSecondPoint));
+	MathPoint otherFirstPoint = otherStretch.getFirstPoint(), otherSecondPoint = otherStretch.getSecondPoint();	//A and B
+	int ABxAC = MathVector(otherFirstPoint, otherSecondPoint).getVectorProductValue(MathVector(otherFirstPoint, firstPoint));	//firstPoint: C
+	int ABxAD = MathVector(otherFirstPoint, otherSecondPoint).getVectorProductValue(MathVector(otherFirstPoint, secondPoint));	//secondPoint: D
+	int CDxCA = MathVector(firstPoint, secondPoint).getVectorProductValue(MathVector(firstPoint, otherFirstPoint));
+	int CDxCB = MathVector(firstPoint, secondPoint).getVectorProductValue(MathVector(firstPoint, otherSecondPoint));
 
-	if ((v1 > 0 && v2 < 0 || v1 < 0 && v2>0) && (v3 > 0 && v4 < 0 || v3 < 0 && v4>0))
+	if ((ABxAC > 0 && ABxAD < 0 || ABxAC < 0 && ABxAD > 0) && (CDxCA > 0 && CDxCB < 0 || CDxCA < 0 && CDxCB>0))
 		return true;
 	
-	if (v1 == 0 && otherStretch.contains(firstPoint)) return true;
-	if (v2 == 0 && otherStretch.contains(secondPoint)) return true;
-	if (v3 == 0 && contains(otherFirstPoint)) return true;
-	if (v4 == 0 && contains(otherSecondPoint)) return true;
+	if (ABxAC == 0 && otherStretch.contains(firstPoint)) return true;
+	if (ABxAD == 0 && otherStretch.contains(secondPoint)) return true;
+	if (CDxCA == 0 && contains(otherFirstPoint)) return true;
+	if (CDxCB == 0 && contains(otherSecondPoint)) return true;
 	return false;
 }
 

@@ -59,7 +59,6 @@ void LevelPainter::drawStatistics()
 	drawString(textCoords.moveByVector(mathVector));
 	sprintf(text, "LEFT - \032, RIGHT - \033");
 	drawString(textCoords.moveByVector(mathVector));
-	//TODO: draw score
 }
 
 void LevelPainter::drawStatisticsPanel()

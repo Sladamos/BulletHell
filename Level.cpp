@@ -78,6 +78,9 @@ void Level::handleLevelEvents()
 			case SDLK_UP: case SDLK_LEFT: case SDLK_DOWN: case SDLK_RIGHT:
 				handlePlayerMovement(event);
 				break;
+			case SDLK_f:
+				getPlayer()->setShootingPermission(true);
+				break;
 			case SDLK_ESCAPE:
 				levelResult = LevelResult::aborted;
 				break;
@@ -92,6 +95,8 @@ void Level::handleLevelEvents()
 			case SDLK_UP: case SDLK_LEFT: case SDLK_DOWN: case SDLK_RIGHT:
 				handlePlayerMovement(event);
 				break;
+			case SDLK_f:
+				getPlayer()->setShootingPermission(false);
 			}
 			break;
 		case SDL_QUIT:
@@ -127,8 +132,7 @@ void Level::handlePlayerMovement(const SDL_Event& event)
 		if (player->stoppedHorizontally(event))
 			player->setHorizontalSpeed(0.0);
 	}
-
-	//TODO: player->updateLookingDirection(); - implement shooting
+	player->updateViewingAngle();
 }
 
 std::list<GameObject*> Level::getGameObjects()
@@ -151,6 +155,7 @@ void Level::startLevel()
 		timeManager->increaseAndExecuteTimers();
 		handleLevelEvents();
 		performGameObjectsActions(timeManager->getTimeGain());
+		//TODO: check level result
 	}
 }
 

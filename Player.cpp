@@ -6,7 +6,7 @@
 #include "HolyBullet.h"
 
 Player::Player(const std::string& objectName, const std::vector<MathPoint>& corners) :
-	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth), Moveable(), Shootable(0)
+	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth), Moveable(), Shootable(0.2), fireButtonIsPressed(false)
 {
 	Camera::setPlayerPosition(position);
 }
@@ -26,6 +26,8 @@ void Player::action(double timeGain)
 {
 	move(timeGain, position);
 	Camera::setPlayerPosition(position);
+	if (fireButtonIsPressed)
+		shootIfPossible(&Shootable::multipleShooting);
 }
 
 void Player::undoHorizontalMove(double timeGain)
@@ -49,7 +51,7 @@ bool Player::isInpenetrableBy(GameObject* gameObject)
 
 bool Player::isDamagableBy(GameObject* gameObject)
 {
-	if (gameObject->isUnholyBullet())
+	if (gameObject->isUnholyBullet())	//TODO: invincibility frames (remember to print it)
 		return true;
 	return false;
 }
@@ -75,7 +77,33 @@ void Player::print(Painter* painter)
 	painter->drawObject(BmpManager::getBitmap(objectName), Camera::getPlayerPositionOnScreen());	
 }
 
-void Player::createBullet(const MathPoint& position, int radius, double horizontalSpeed, double verticalSpeed)
+void Player::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
 {
-	Level::addBullet(new HolyBullet(position, radius, horizontalSpeed, verticalSpeed));
+	Level::addBullet(new HolyBullet(position, horizontalSpeed, verticalSpeed));
+}
+
+void Player::updateViewingAngle()
+{
+	int horizontalSign = horizontalSpeed == 0 ? 0 : horizontalSpeed / abs(horizontalSpeed);
+	int verticalSign = verticalSpeed == 0 ? 0 : verticalSpeed / abs(verticalSpeed);
+
+	if (verticalSign != 0 || horizontalSign != 0)
+	{
+		switch (verticalSign)
+		{
+		case 1:
+			viewingAngle = 90 - 45 * horizontalSign;
+			break;
+		case -1:
+			viewingAngle = 270 + 45 * horizontalSign;
+			break;
+		case 0:
+			viewingAngle = 90 - 90 * horizontalSign;
+		}
+	}
+}
+
+void Player::setShootingPermission(bool fireButtonIsPressed)
+{
+	this->fireButtonIsPressed = fireButtonIsPressed;
 }
