@@ -13,10 +13,10 @@ public:
 	void undoVerticalMove(double timeGain) override {};
 	void undoHorizontalMove(double timeGain) override {};
 	void hit(GameObject* targetObject);
+	bool shouldBeDestroyed() override;
 
 	static double constexpr bulletSpeedMultiplier = 3;
 private:
-	bool shouldBeDestroyed() override;
 	bool isOutOfRange();
 
 	constexpr static int maxRange = 400;

@@ -8,6 +8,7 @@ public:
 	virtual ~Shootable();
 	void randomShooting();
 	void multipleShooting();
+	ShootingTimer* getShootingTimer();
 protected:
 	void shootIfPossible(void(Shootable::*shootingPattern)());
 	virtual void createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed) = 0;

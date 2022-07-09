@@ -26,8 +26,10 @@ private:
 	void createLevelBorders();
 	void performGameObjectsActions(double timeGain);
 	void destroyGameObject(GameObject* gameObject);
+	void actualizeLevelResult();
 	virtual void createEnemies() = 0;
 	bool isLevelInProgress();
+	bool areAllEnemiesDead();
 	std::list<GameObject*> getGameObjectsWithoutBullets();
 
 	LevelResult levelResult;
@@ -35,6 +37,7 @@ private:
 	LevelPainter* levelPainter;
 	TimeManager* timeManager;
 	static std::list<GameObject*> gameObjects;
+	std::list<GameObject*> objectsWithoutBullets;
 	std::list<Enemy*> enemies;
 };
 

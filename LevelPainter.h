@@ -14,9 +14,8 @@ private:
 	void drawStatisticsPanel();
 	void drawStatistics();
 	void drawBackground();
-	void drawHealthBars();
 	void drawPlayerHealthBar();
-	void drawEnemyHealthBar();
+	void drawEnemiesHealthBars();
 	void addFpsTimer();
 
 	SDL_Surface* background;

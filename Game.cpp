@@ -14,7 +14,7 @@ void Game::startGame()
 	while (gameInProgress)
 	{
 		currentlyPlayedLevel->startLevel();
-		handleLevelResult(currentlyPlayedLevel->getResult());	//TODO: implement win/lose condition
+		handleLevelResult(currentlyPlayedLevel->getResult());	
 	}
 }
 
@@ -22,13 +22,14 @@ void Game::handleLevelResult(LevelResult levelResult)
 {
 	switch (levelResult)
 	{
-	case LevelResult::aborted:
+	case LevelResult::aborted: 
 		gameInProgress = false;
 		break;
-	case LevelResult::restarted:
+	case LevelResult::restarted: case LevelResult::won: case LevelResult::lost:
 		createLevel(currentLevel);
 	}
-	//FUTURE IMPLEMENTATION
+	//TODO: implement menu
+	//FUTURE IMPLEMENTATION TODO: implement more levels
 	//createLevel(++currentLevel); - next level
 	//level->reset() (better destro and create with same number)
 	//if you won (ask for save score and after that ask for next or back to menu) (insta delete previous)

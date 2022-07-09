@@ -61,7 +61,7 @@ bool GameObject::isDamagableBy(GameObject* gameObject)
 
 bool GameObject::isPickableBy(GameObject* gameObject)
 {
-	return false;	//TODO: add pickable
+	return false;	//TODO: add pickable (add bonus)
 }
 
 void GameObject::action(double timeGain) {}
@@ -85,7 +85,6 @@ bool GameObject::isHolyBullet()
 {
 	return dynamic_cast<HolyBullet*>(this);
 }
-
 
 void GameObject::print(Painter* painter)
 {

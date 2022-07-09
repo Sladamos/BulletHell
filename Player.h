@@ -23,6 +23,7 @@ public:
 	void undoVerticalMove(double timeGain) override;
 	void updateViewingAngle() override;
 	void decreaseHitpoints(int damageDealt) override;
+	bool shouldBeDestroyed() override;
 
 	static constexpr double playerSpeedMultiplier = 1.5;
 	static constexpr int playerMaxHealth = 100;

@@ -11,6 +11,11 @@ void TimeManager::addTimer(Timer* timer)
 	timers.push_back(timer);
 }
 
+void TimeManager::removeTimer(Timer* timer)
+{
+	timers.remove(timer);
+}
+
 void TimeManager::startCounting()
 {
 	firstTicker = SDL_GetTicks();

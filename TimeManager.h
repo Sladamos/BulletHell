@@ -7,6 +7,7 @@ public:
 	TimeManager();
 	~TimeManager();
 	static void addTimer(Timer* timer);
+	void removeTimer(Timer* timer);
 	void increaseAndExecuteTimers();
 	void startCounting();
 	double getTimeGain();

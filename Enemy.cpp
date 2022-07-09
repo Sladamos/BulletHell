@@ -6,12 +6,17 @@
 #include "UnholyBullet.h"
 using namespace std;
 
-Enemy::Enemy(const string& objectName, const MathPoint& startingPoint, const vector<MathPoint>& corners, double shootingPeriod) :
-	GameObject(objectName, MathPoint(startingPoint), corners, enemyMaxHealth), Shootable(shootingPeriod) {}
+Enemy::Enemy(const string& objectName, const MathPoint& startingPoint, const vector<MathPoint>& corners, double shootingPeriod, int hitpoints) :
+	GameObject(objectName, MathPoint(startingPoint), corners, hitpoints), Shootable(shootingPeriod), maxHealth(hitpoints) {}
 
 int Enemy::getHitpoints()
 {
 	return hitpoints;
+}
+
+int Enemy::getMaxHitpoints()
+{
+	return maxHealth;
 }
 
 bool Enemy::isInpenetrableBy(GameObject* gameObject)
@@ -31,5 +36,10 @@ bool Enemy::isDamagableBy(GameObject* gameObject)
 	if (gameObject->isHolyBullet())
 		return true;
 	return false;
+}
+
+bool Enemy::shouldBeDestroyed()
+{
+	return hitpoints <= 0;
 }
 

@@ -48,8 +48,9 @@ void LevelPainter::printGameObjects()
 
 void LevelPainter::drawStatistics()
 {
+	drawEnemiesHealthBars();	//Its important to draw Enemies bars > statistics panel > player health bar
 	drawStatisticsPanel();
-	drawHealthBars();
+	drawPlayerHealthBar();
 	MathVector mathVector(MathPoint(0, 2 * Constants::smallLetterSize));
 	MathPoint textCoords(Constants::screenWidth - Constants::statsWidth + 15, 20 + playerHpBarHeight + 2 * playerHpBarFrameSize);
 	sprintf(text, "Time = %.1lf s ", level->getLevelTimer()->getTimerValue());
@@ -68,12 +69,6 @@ void LevelPainter::drawStatistics()
 	drawString(textCoords.moveByVector(mathVector));
 }
 
-void LevelPainter::drawHealthBars()
-{
-	drawPlayerHealthBar();
-	drawEnemyHealthBar();
-}
-
 void LevelPainter::drawPlayerHealthBar()
 {
 	int playerHitpoints = level->getPlayer()->getHitpoints();
@@ -87,13 +82,13 @@ void LevelPainter::drawPlayerHealthBar()
 	drawString(barPosition.moveByVector(MathVector(MathPoint((maxRedBarWidth - strlen(text) * Constants::smallLetterSize) / 2, playerHpBarHeight / 2))));
 }
 
-void LevelPainter::drawEnemyHealthBar()
+void LevelPainter::drawEnemiesHealthBars()
 {
 	int barHeight = 15, barWidth = 60;
 
 	for (Enemy* enemy : level->getEnemies())
 	{
-		double partOfRemainingHp = (static_cast<double>(enemy->getHitpoints()) / Enemy::enemyMaxHealth);
+		double partOfRemainingHp = (static_cast<double>(enemy->getHitpoints()) / enemy->getMaxHitpoints());
 		if (Camera::isObjectInRange(enemy))
 		{
 			MathPoint position = Camera::getObjectPositionOnScreen(enemy->getPosition()).moveByVector(MathVector(MathPoint(-barWidth / 2, enemy->getShape()->getMostBottomCoordinate() + 5)));

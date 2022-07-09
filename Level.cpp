@@ -57,6 +57,7 @@ void Level::createGameObjects()
 	gameObjects.push_back(new Player("./gfx/eti", std::vector<MathPoint>{MathPoint(-45, -45), MathPoint(-45, 45), MathPoint(45, 45), MathPoint(45, -45)}));
 	createEnemies();
 	createLevelBorders();
+	objectsWithoutBullets = getGameObjectsWithoutBullets();
 }
 
 void Level::createLevelBorders()
@@ -156,13 +157,12 @@ void Level::startLevel()
 		timeManager->increaseAndExecuteTimers();
 		handleLevelEvents();
 		performGameObjectsActions(timeManager->getTimeGain());
-		//TODO: check level result
+		actualizeLevelResult();
 	}
 }
 
 void Level::performGameObjectsActions(double timeGain)
 {
-	std::list<GameObject*> objectsWithoutBullets = getGameObjectsWithoutBullets();
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
@@ -180,9 +180,21 @@ void Level::performGameObjectsActions(double timeGain)
 void Level::destroyGameObject(GameObject* gameObject)
 {
 	if (gameObject->isEnemy())
+	{	//destroyEnemy
 		enemies.remove(dynamic_cast<Enemy*>(gameObject));
+		objectsWithoutBullets.remove(gameObject);
+		timeManager->removeTimer(dynamic_cast<Enemy*>(gameObject)->getShootingTimer());
+	}
 	gameObjects.remove(gameObject);
 	delete gameObject;
+}
+
+void Level::actualizeLevelResult()
+{
+	if (getPlayer()->getHitpoints() <= 0)
+		levelResult = LevelResult::lost;
+	else if (areAllEnemiesDead())
+		levelResult = LevelResult::won;
 }
 
 std::list<GameObject*> Level::getGameObjectsWithoutBullets()
@@ -191,6 +203,18 @@ std::list<GameObject*> Level::getGameObjectsWithoutBullets()
 	std::copy_if(gameObjects.begin(), gameObjects.end(), std::back_inserter(objectsWithoutBullets),
 		[](GameObject* object) {return dynamic_cast<Bullet*>(object) == nullptr; });
 	return objectsWithoutBullets;
+}
+
+bool Level::areAllEnemiesDead()
+{
+	bool enemiesLose = true;
+	for (Enemy* enemy : enemies)
+	{
+		if (enemy->getHitpoints() > 0)
+			enemiesLose = false;
+	}
+
+	return enemiesLose;
 }
 
 bool Level::isLevelInProgress()

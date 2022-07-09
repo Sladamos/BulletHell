@@ -75,6 +75,11 @@ bool Player::stoppedHorizontally(const SDL_Event& event)
 	return false;
 }
 
+bool Player::shouldBeDestroyed()
+{
+	return hitpoints <= 0;
+}
+
 void Player::print(Painter* painter)
 {
 	if(!invicibilityTimer->canBeDamaged())
