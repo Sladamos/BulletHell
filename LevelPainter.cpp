@@ -8,6 +8,7 @@ LevelPainter::LevelPainter(Level* level, SDL_Window* window, SDL_Renderer* rende
 {
 	addFpsTimer();
 	background = SDL_LoadBMP("./gfx/background.bmp");
+	statisticsPanel = SDL_LoadBMP("./gfx/statisticsPanel.bmp");
 }
 
 void LevelPainter::addFpsTimer()
@@ -31,6 +32,11 @@ void LevelPainter::drawBackground()
 	drawObject(background, MathPoint((Constants::screenWidth - Constants::statsWidth) / 2, Constants::screenHeight / 2));
 }
 
+void LevelPainter::drawStatisticsPanel()
+{
+	drawObject(statisticsPanel, MathPoint(Constants::screenWidth - Constants::statsWidth / 2, Constants::screenHeight / 2));
+}
+
 void LevelPainter::printGameObjects()
 {
 	for (GameObject* gameObject : level->getGameObjects())
@@ -42,6 +48,7 @@ void LevelPainter::printGameObjects()
 
 void LevelPainter::drawStatistics()
 {
+	drawStatisticsPanel();
 	drawHealthBars();
 	MathVector mathVector(MathPoint(0, 2 * Constants::smallLetterSize));
 	MathPoint textCoords(Constants::screenWidth - Constants::statsWidth + 15, 20 + playerHpBarHeight + 2 * playerHpBarFrameSize);
@@ -61,23 +68,10 @@ void LevelPainter::drawStatistics()
 	drawString(textCoords.moveByVector(mathVector));
 }
 
-void LevelPainter::drawStatisticsPanel()
-{
-	drawFillRectangle(MathPoint(Constants::screenWidth - Constants::statsWidth, 0), Constants::statsWidth, Constants::screenHeight, redColor);
-}
-
 void LevelPainter::drawHealthBars()
 {
-	if (bothSidesOfConflictAreAlive())
-	{
-		drawPlayerHealthBar();
-		drawEnemyHealthBar();	//TODO: make it smarter - what if more than 1 enemy?
-	}
-}
-
-bool LevelPainter::bothSidesOfConflictAreAlive()
-{
-	return level->getEnemy()->getHitpoints() > 0 && level->getPlayer()->getHitpoints() > 0;
+	drawPlayerHealthBar();
+	drawEnemyHealthBar();
 }
 
 void LevelPainter::drawPlayerHealthBar()
@@ -95,14 +89,22 @@ void LevelPainter::drawPlayerHealthBar()
 
 void LevelPainter::drawEnemyHealthBar()
 {
-	int barSize = 10;
-	double partOfLostHp = (static_cast<double>(level->getEnemy()->getHitpoints()) / Enemy::enemyMaxHealth);
-	drawFillRectangle(MathPoint(barSize, (1 - partOfLostHp) * (Constants::screenHeight - 2 * barSize)), barSize,
-		partOfLostHp * (Constants::screenHeight - barSize), redColor);
+	int barHeight = 15, barWidth = 60;
+
+	for (Enemy* enemy : level->getEnemies())
+	{
+		double partOfRemainingHp = (static_cast<double>(enemy->getHitpoints()) / Enemy::enemyMaxHealth);
+		if (Camera::isObjectInRange(enemy))
+		{
+			MathPoint position = Camera::getObjectPositionOnScreen(enemy->getPosition()).moveByVector(MathVector(MathPoint(-barWidth / 2, enemy->getShape()->getMostBottomCoordinate() + 5)));
+			drawFillRectangle(position, partOfRemainingHp * barWidth, barHeight, redColor);
+		}
+	}
 }
 
 LevelPainter::~LevelPainter()
 {
 	delete fpsTimer;
 	SDL_FreeSurface(background);
+	SDL_FreeSurface(statisticsPanel);
 }

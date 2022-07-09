@@ -18,9 +18,9 @@ private:
 	void drawPlayerHealthBar();
 	void drawEnemyHealthBar();
 	void addFpsTimer();
-	bool bothSidesOfConflictAreAlive();
 
 	SDL_Surface* background;
+	SDL_Surface* statisticsPanel;
 	Level* level;
 	FpsTimer* fpsTimer;
 	const int playerHpBarHeight = 50, playerHpBarFrameSize = 3;

@@ -12,26 +12,30 @@ public:
 	~Level();
 	Timer* getLevelTimer();
 	Player* getPlayer();
-	Enemy* getEnemy();
+	std::list<Enemy*> getEnemies();
 	LevelResult getResult();
 	std::list<GameObject*> getGameObjects();
 	void startLevel();
 	static void addBullet(Bullet* newBullet);
 protected:
-	static std::list<GameObject*> gameObjects;
+	void addEnemy(Enemy* enemy);
 private:
 	void handleLevelEvents();
-	void createGameObjects();
-	void performGameObjectsActions(double timeGain);
 	void handlePlayerMovement(const SDL_Event& event);
-	virtual void createEnemy() = 0;
+	void createGameObjects();
 	void createLevelBorders();
+	void performGameObjectsActions(double timeGain);
+	void destroyGameObject(GameObject* gameObject);
+	virtual void createEnemies() = 0;
 	bool isLevelInProgress();
+	std::list<GameObject*> getGameObjectsWithoutBullets();
 
 	LevelResult levelResult;
 	Timer* levelTimer;
 	LevelPainter* levelPainter;
 	TimeManager* timeManager;
+	static std::list<GameObject*> gameObjects;
+	std::list<Enemy*> enemies;
 };
 
 

@@ -99,9 +99,12 @@ void Painter::drawObject(SDL_Surface* sprite, const MathPoint& coords)
 
 void Painter::drawPixel(const MathPoint& coords, Uint32 color)
 {
-	int bpp = screen->format->BytesPerPixel;
-	Uint8* p = (Uint8*)screen->pixels + coords.getY() * screen->pitch + coords.getX() * bpp;
-	*(Uint32*)p = color;
+	if (coords.getX() >= 0 && coords.getX() < Constants::screenWidth && coords.getY() >= 0 && coords.getY() < Constants::screenHeight)
+	{
+		int bpp = screen->format->BytesPerPixel;
+		Uint8* p = (Uint8*)screen->pixels + coords.getY() * screen->pitch + coords.getX() * bpp;
+		*(Uint32*)p = color;
+	}
 }
 
 Painter::~Painter()

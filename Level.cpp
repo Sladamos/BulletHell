@@ -31,14 +31,9 @@ Player* Level::getPlayer()
 	return nullptr;
 }
 
-Enemy* Level::getEnemy()
+std::list<Enemy*> Level::getEnemies()
 {
-	for (GameObject* object : gameObjects)
-	{
-		if (object->isEnemy())
-			return dynamic_cast<Enemy*>(object);
-	}
-	return nullptr;
+	return enemies;
 }
 
 LevelResult Level::getResult()
@@ -51,10 +46,16 @@ void Level::addBullet(Bullet* newBullet)
 	gameObjects.push_back(newBullet);
 }
 
+void Level::addEnemy(Enemy* enemy)
+{
+	gameObjects.push_back(enemy);
+	enemies.push_back(enemy);
+}
+
 void Level::createGameObjects()
 {
 	gameObjects.push_back(new Player("./gfx/eti", std::vector<MathPoint>{MathPoint(-45, -45), MathPoint(-45, 45), MathPoint(45, 45), MathPoint(45, -45)}));
-	createEnemy();
+	createEnemies();
 	createLevelBorders();
 }
 
@@ -161,24 +162,35 @@ void Level::startLevel()
 
 void Level::performGameObjectsActions(double timeGain)
 {
-	std::list<GameObject*> objectsWithoutBullets;
-	std::copy_if(gameObjects.begin(), gameObjects.end(), std::back_inserter(objectsWithoutBullets),
-	[](GameObject* object) {return dynamic_cast<Bullet*>(object) == nullptr; });
+	std::list<GameObject*> objectsWithoutBullets = getGameObjectsWithoutBullets();
 
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
 		GameObject* object = *it++;
 		if (object->shouldBeDestroyed())
-		{
-			delete object;
-			gameObjects.remove(object);
-		}
+			destroyGameObject(object);
 		else
 		{
 			object->action(timeGain);
 			object->checkCollisions(objectsWithoutBullets, timeGain);
 		}
 	}
+}
+
+void Level::destroyGameObject(GameObject* gameObject)
+{
+	if (gameObject->isEnemy())
+		enemies.remove(dynamic_cast<Enemy*>(gameObject));
+	gameObjects.remove(gameObject);
+	delete gameObject;
+}
+
+std::list<GameObject*> Level::getGameObjectsWithoutBullets()
+{
+	std::list<GameObject*> objectsWithoutBullets;
+	std::copy_if(gameObjects.begin(), gameObjects.end(), std::back_inserter(objectsWithoutBullets),
+		[](GameObject* object) {return dynamic_cast<Bullet*>(object) == nullptr; });
+	return objectsWithoutBullets;
 }
 
 bool Level::isLevelInProgress()
