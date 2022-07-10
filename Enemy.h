@@ -7,14 +7,11 @@ class Enemy : public GameObject, public Shootable
 {
 public:
 	Enemy(const std::string& objectName, const MathPoint& startingPoint, const std::vector<MathPoint>& corners, double shootingPeriod, int hitpoints);
-	int getHitpoints();
-	int getMaxHitpoints();
 	bool isInpenetrableBy(GameObject* gameObject) override;
 	bool isDamagableBy(GameObject* gameObject) override;
 	bool shouldBeDestroyed() override;
 private:
 	void createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed) override;
 	
-	int maxHealth;
 };
 

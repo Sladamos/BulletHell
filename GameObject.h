@@ -16,12 +16,16 @@ public:
 	//GameObject(std::string objectName, int numberOfAnimations);	//TODO: add animations
 	Shape* getShape();
 	MathPoint getPosition();
+	int getHitpoints();
+	int getMaxHitpoints();
 	bool isMoveable();
 	bool isPlayer();
 	bool isEnemy();
+	bool isBullet();
 	bool isUnholyBullet();
 	bool isHolyBullet();
 	void checkCollisions(const std::list<GameObject*>& gameObjectsWithoutBullets, double timeGain);
+	void incraseHitpoints(int healValue);
 	virtual void decreaseHitpoints(int damageDealt);
 	virtual void setPosition(const MathPoint& position);
 	virtual void action(double timeGain);
@@ -34,5 +38,6 @@ protected:
 	MathPoint position;
 	std::string objectName;
 	int hitpoints;
+	int maxHealth;
 };
 

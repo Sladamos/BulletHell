@@ -8,23 +8,34 @@
 #include "CollisionsChecker.h"
 #include "HolyBullet.h"
 #include "UnholyBullet.h"
+#include "Pickable.h"
 using namespace std;
 
-GameObject::GameObject(const string& objectName, const MathPoint& position, int radius) : objectName(objectName), position(position), hitpoints(0)
+GameObject::GameObject(const string& objectName, const MathPoint& position, int radius) : objectName(objectName), position(position), hitpoints(0), maxHealth(0)
 {
 	BmpManager::loadStaticBitmap(objectName, radius);
 }
 
 GameObject::GameObject(const string& objectName, const MathPoint& position, const vector<MathPoint>& corners)
-	: objectName(objectName), position(position), hitpoints(0)
+	: objectName(objectName), position(position), hitpoints(0), maxHealth(0)
 {
 	BmpManager::loadStaticBitmap(objectName, corners);
 }
 
 GameObject::GameObject(const string& objectName, const MathPoint& position, const vector<MathPoint>& corners, int hitpoints)
-	: objectName(objectName), position(position), hitpoints(hitpoints)
+	: objectName(objectName), position(position), hitpoints(hitpoints), maxHealth(hitpoints)
 {
 	BmpManager::loadStaticBitmap(objectName, corners);
+}
+
+int GameObject::getMaxHitpoints()
+{
+	return maxHealth;
+}
+
+int GameObject::getHitpoints()
+{
+	return hitpoints;
 }
 
 void GameObject::setPosition(const MathPoint& position)
@@ -61,7 +72,7 @@ bool GameObject::isDamagableBy(GameObject* gameObject)
 
 bool GameObject::isPickableBy(GameObject* gameObject)
 {
-	return false;	//TODO: add pickable (add bonus)
+	return false;
 }
 
 void GameObject::action(double timeGain) {}
@@ -69,6 +80,11 @@ void GameObject::action(double timeGain) {}
 bool GameObject::isPlayer()
 {
 	return dynamic_cast<Player*>(this);
+}
+
+bool GameObject::isBullet()
+{
+	return dynamic_cast<Bullet*>(this);
 }
 
 bool GameObject::isEnemy()
@@ -101,6 +117,8 @@ void GameObject::checkCollisions(const std::list<GameObject*>& gameObjectsWithou
 				dynamic_cast<Moveable*>(this)->repairMove(collidableObject, timeGain);
 			else if (collidableObject->isDamagableBy(this))
 				dynamic_cast<Bullet*>(this)->hit(collidableObject);
+			else if (collidableObject->isPickableBy(this))
+				dynamic_cast<Pickable*>(collidableObject)->affectOn(this);
 		}
 	}
 }
@@ -113,4 +131,9 @@ bool GameObject::shouldBeDestroyed()
 void GameObject::decreaseHitpoints(int damageDealt)
 {
 	hitpoints -= damageDealt;
+}
+
+void GameObject::incraseHitpoints(int healValue)
+{
+	hitpoints = hitpoints + healValue < maxHealth ? hitpoints + healValue : maxHealth;
 }

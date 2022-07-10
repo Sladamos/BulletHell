@@ -20,11 +20,6 @@ void Player::setPosition(const MathPoint& position)
 	Camera::setPlayerPosition(position);
 }
 
-int Player::getHitpoints()
-{
-	return hitpoints;
-}
-
 void Player::action(double timeGain)
 {
 	move(timeGain, position);

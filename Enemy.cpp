@@ -7,17 +7,8 @@
 using namespace std;
 
 Enemy::Enemy(const string& objectName, const MathPoint& startingPoint, const vector<MathPoint>& corners, double shootingPeriod, int hitpoints) :
-	GameObject(objectName, MathPoint(startingPoint), corners, hitpoints), Shootable(shootingPeriod), maxHealth(hitpoints) {}
+	GameObject(objectName, MathPoint(startingPoint), corners, hitpoints), Shootable(shootingPeriod) {}
 
-int Enemy::getHitpoints()
-{
-	return hitpoints;
-}
-
-int Enemy::getMaxHitpoints()
-{
-	return maxHealth;
-}
 
 bool Enemy::isInpenetrableBy(GameObject* gameObject)
 {

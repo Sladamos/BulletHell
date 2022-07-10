@@ -71,14 +71,14 @@ void LevelPainter::drawStatistics()
 
 void LevelPainter::drawPlayerHealthBar()
 {
-	int playerHitpoints = level->getPlayer()->getHitpoints();
+	int playerHp = level->getPlayer()->getHitpoints(), playerMaxHp = level->getPlayer()->getMaxHitpoints();
 	MathPoint barPosition(Constants::screenWidth - Constants::statsWidth * 7 / 8 - playerHpBarFrameSize, 15 - playerHpBarFrameSize);
 	double maxRedBarWidth = Constants::statsWidth * 3 / 4;
 
 	drawFillRectangle(barPosition, maxRedBarWidth + 2 * playerHpBarFrameSize, playerHpBarHeight + 2 * playerHpBarFrameSize, blackColor);
-	drawFillRectangle(barPosition.moveByVector(MathVector(MathPoint(playerHpBarFrameSize, playerHpBarFrameSize))), maxRedBarWidth * playerHitpoints / Player::playerMaxHealth,
+	drawFillRectangle(barPosition.moveByVector(MathVector(MathPoint(playerHpBarFrameSize, playerHpBarFrameSize))), maxRedBarWidth * playerHp/ playerMaxHp,
 		playerHpBarHeight, redColor);
-	sprintf(text, "HP: %d / %d", playerHitpoints, Player::playerMaxHealth);
+	sprintf(text, "HP: %d / %d", playerHp, playerMaxHp);
 	drawString(barPosition.moveByVector(MathVector(MathPoint((maxRedBarWidth - strlen(text) * Constants::smallLetterSize) / 2, playerHpBarHeight / 2))));
 }
 
