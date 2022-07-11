@@ -8,16 +8,18 @@ public:
 	virtual ~Shootable();
 	void randomShooting();
 	void multipleShooting();
+	void circleShooting();
+	void arrowShooting();
+	void laserShooting();
 	ShootingTimer* getShootingTimer();
 protected:
 	void shootIfPossible(void(Shootable::*shootingPattern)());
 	virtual void createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed) = 0;
-	virtual void updateViewingAngle();
+	void setViewingAngle(double newValue);
+private:
+	void createLaser();
 
 	double viewingAngle;
-private:
-	double getViewingAngle();
-
 	ShootingTimer* shootingTimer;
 };
 

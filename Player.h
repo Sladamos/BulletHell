@@ -20,7 +20,7 @@ public:
 	void setPosition(const MathPoint& position) override;
 	void undoHorizontalMove(double timeGain) override;
 	void undoVerticalMove(double timeGain) override;
-	void updateViewingAngle() override;
+	void updateViewingAngle();
 	void decreaseHitpoints(int damageDealt) override;
 	bool shouldBeDestroyed() override;
 

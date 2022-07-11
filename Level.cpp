@@ -56,9 +56,9 @@ void Level::addEnemy(Enemy* enemy)
 void Level::createGameObjects()
 {
 	gameObjects.push_back(new Player("./gfx/player_an_1", std::vector<MathPoint>{MathPoint(-40, -40), MathPoint(-40, 40), MathPoint(40, 40), MathPoint(40, -40)}));
-	gameObjects.push_back(new HpBonus("./gfx/hpBonus", std::vector<MathPoint>{MathPoint(-45, -45), MathPoint(-45, 45), MathPoint(45, 45), MathPoint(45, -45)}));
 	createEnemies();
 	createLevelBorders();
+	gameObjects.push_back(new HpBonus("./gfx/hpBonus", std::vector<MathPoint>{MathPoint(-16, -4), MathPoint(-8, -16), MathPoint(8, -16), MathPoint(16, -4), MathPoint(0, 16)}));
 	objectsWithoutBullets = getGameObjectsWithoutBullets();
 }
 
@@ -181,13 +181,13 @@ void Level::performGameObjectsActions(double timeGain)
 
 void Level::destroyGameObject(GameObject* gameObject)
 {
+	if (!gameObject->isBullet())
+		objectsWithoutBullets.remove(gameObject);
 	if (gameObject->isEnemy())
 	{
 		enemies.remove(dynamic_cast<Enemy*>(gameObject));
 		timeManager->removeTimer(dynamic_cast<Enemy*>(gameObject)->getShootingTimer());
 	}
-	if(!gameObject->isBullet())
-		objectsWithoutBullets.remove(gameObject);
 	gameObjects.remove(gameObject);
 	delete gameObject;
 }

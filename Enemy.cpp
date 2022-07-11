@@ -19,7 +19,7 @@ bool Enemy::isInpenetrableBy(GameObject* gameObject)
 
 void Enemy::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
 {
-	Level::addBullet(new UnholyBullet(position, horizontalSpeed, verticalSpeed));
+	Level::addBullet(new UnholyBullet(position, horizontalSpeed*Bullet::bulletSpeedMultiplier, verticalSpeed*Bullet::bulletSpeedMultiplier));
 }
 
 bool Enemy::isDamagableBy(GameObject* gameObject)

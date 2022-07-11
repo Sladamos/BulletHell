@@ -84,7 +84,7 @@ void Player::print(Painter* painter)
 
 void Player::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
 {
-	Level::addBullet(new HolyBullet(position, horizontalSpeed, verticalSpeed));
+	Level::addBullet(new HolyBullet(position, horizontalSpeed*Bullet::bulletSpeedMultiplier, verticalSpeed*Bullet::bulletSpeedMultiplier));
 }
 
 void Player::updateViewingAngle()
@@ -93,9 +93,9 @@ void Player::updateViewingAngle()
 	int verticalSign = verticalSpeed == 0 ? 0 : verticalSpeed / abs(verticalSpeed);
 
 	if (verticalSign != 0)
-		viewingAngle = (90 - 45 * horizontalSign) * verticalSign;
+		Shootable::setViewingAngle((90 - 45 * horizontalSign) * verticalSign);
 	else if (horizontalSign != 0)
-		viewingAngle = 90 - 90 * horizontalSign;
+		Shootable::setViewingAngle(90 - 90 * horizontalSign);
 }
 
 void Player::setShootingPermission(bool fireButtonIsPressed)

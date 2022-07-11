@@ -1,3 +1,4 @@
+#include <math.h>
 #include "MathPoint.h"
 #include "MathVector.h"
 MathPoint::MathPoint() : x(0), y(0) {}
@@ -42,5 +43,13 @@ MathPoint& MathPoint::moveByVector(const MathVector& vector)
 {
 	this->x += vector.getXLength();
 	this->y += vector.getYLength();
+	return *this;
+}
+
+MathPoint& MathPoint::rotate(double angle, const MathPoint& referencePoint) 
+{
+	int tempx = (x - referencePoint.x) * cos(angle) - (y - referencePoint.y) * sin(angle) + referencePoint.x;
+	y = (x - referencePoint.x) * sin(angle) + (y - referencePoint.y) * cos(angle) + referencePoint.y;
+	x = tempx;
 	return *this;
 }
