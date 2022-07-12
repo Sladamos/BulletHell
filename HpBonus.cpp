@@ -1,11 +1,11 @@
 #include "HpBonus.h"
 #include "MathPoint.h"
 
-HpBonus::HpBonus(const std::string& objectName, const std::vector<MathPoint>& corners, int healValue) : 
-		GameObject(objectName, MathPoint(300,300), corners), healValue(healValue), toDestroy(false) {}
+HpBonus::HpBonus(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners,  int healValue) :
+		GameObject(objectName, position, corners), healValue(healValue), toDestroy(false) {}
 
-HpBonus::HpBonus(const std::string& objectName, const std::vector<MathPoint>& corners) :
-	HpBonus(objectName, corners, defaultHealValue) {}
+HpBonus::HpBonus(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners) :
+	HpBonus(objectName, position, corners, defaultHealValue) {}
 
 bool HpBonus::isPickableBy(GameObject* gameObject)
 {

@@ -3,15 +3,10 @@
 #include "BmpManager.h"
 #include "Camera.h"
 
-HorizontalLevelBorder::HorizontalLevelBorder(std::string objectName, const MathPoint& position, const std::vector<MathPoint>& corners)
-	: GameObject(objectName, position, corners) {}
+HorizontalLevelBorder::HorizontalLevelBorder(const MathPoint& position, const std::vector<MathPoint>& corners)
+	: LevelBorder("./gfx/horizontalBorder", position, corners) {}
 
 void HorizontalLevelBorder::print(Painter* painter)
 {
-	painter->drawObject(BmpManager::getBitmap(objectName), MathPoint((Constants::screenWidth - Constants::statsWidth) / 2, Camera::getObjectPositionOnScreen(position).getY()));
-}
-
-bool HorizontalLevelBorder::isInpenetrableBy(GameObject* gameObject)
-{
-	return true;
+	painter->drawObject(BmpManager::getBitmap(objectName), MathPoint((Game::screenWidth - Painter::statsWidth) / 2, Camera::getObjectPositionOnScreen(position).getY()));
 }

@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include "MathPoint.h"
-#include "Constants.h"
 #include "Shape.h"
 class Painter;
 class GameObject

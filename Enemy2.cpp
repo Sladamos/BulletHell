@@ -6,5 +6,5 @@ Enemy2::Enemy2(const std::string& objectName, const MathPoint& startingPoint, co
 
 void Enemy2::action(double timeGain)
 {
-	shootIfPossible(&Shootable::laserShooting);
+	shootIfPossible(&Shootable::circleShooting);
 }

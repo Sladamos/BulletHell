@@ -1,4 +1,5 @@
 #pragma once
+#include "Game.h"
 #include "TimeManager.h"
 #include "LevelPainter.h"
 #include "Player.h"
@@ -17,6 +18,9 @@ public:
 	std::list<GameObject*> getGameObjects();
 	void startLevel();
 	static void addBullet(Bullet* newBullet);
+
+	static constexpr int width = (3 * Game::screenWidth / 4 * 2);
+	static constexpr int height = Game::screenHeight * 2;
 protected:
 	void addEnemy(Enemy* enemy);
 private:

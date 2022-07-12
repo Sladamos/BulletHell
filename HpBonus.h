@@ -7,8 +7,8 @@
 class HpBonus : public GameObject, public Pickable
 {
 public:
-	HpBonus(const std::string& objectName, const std::vector<MathPoint>& corners, int healValue);
-	HpBonus(const std::string& objectName, const std::vector<MathPoint>& corners);
+	HpBonus(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners, int healValue);
+	HpBonus(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners);
 	bool isPickableBy(GameObject* gameObject) override;
 	void affectOn(GameObject* changedObject) override;
 	bool shouldBeDestroyed() override;

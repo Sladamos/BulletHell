@@ -1,11 +1,10 @@
-#include "GameObject.h"
+#include "LevelBorder.h"
 #pragma once
 class Painter;
-class VerticalLevelBorder : public GameObject
+class VerticalLevelBorder : public LevelBorder
 {
 public:
-	VerticalLevelBorder(std::string objectName, const MathPoint& position, const std::vector<MathPoint>& corners);
-	bool isInpenetrableBy(GameObject* gameObject) override;
+	VerticalLevelBorder(const MathPoint& position, const std::vector<MathPoint>& corners);
 	virtual void print(Painter* painter);
 };
 

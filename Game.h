@@ -8,6 +8,10 @@ class Game
 public:
 	Game();
 	~Game();
+
+	static constexpr int maxTextLength = 128;
+	static constexpr int screenWidth = 1024;
+	static constexpr int screenHeight = 768;
 private:
 	void createLevel(int levelNumber);
 	void startGame();

@@ -4,8 +4,8 @@
 
 Painter::Painter(SDL_Window* window, SDL_Renderer* renderer) : window(window), renderer(renderer)
 {
-	screen = SDL_CreateRGBSurface(0, Constants::screenWidth, Constants::screenHeight, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
-	scrtex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, Constants::screenWidth, Constants::screenHeight);
+	screen = SDL_CreateRGBSurface(0, Game::screenWidth, Game::screenHeight, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
+	scrtex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, Game::screenWidth, Game::screenHeight);
 	charset = SDL_LoadBMP("./gfx/cs8x8.bmp");
 	setColors();
 }
@@ -32,18 +32,18 @@ void Painter::drawString(const MathPoint& coords)
 	int xCoord = coords.getX(), yCoord = coords.getY();
 	int px, py, c;
 	SDL_Rect s, d;
-	s.w = s.h = d.w = d.h = Constants::smallLetterSize;
+	s.w = s.h = d.w = d.h = smallLetterSize;
 	while (*text)
 	{
 		c = *text & 255;
-		px = (c % 16) * Constants::smallLetterSize;
-		py = (c / 16) * Constants::smallLetterSize;
+		px = (c % 16) * smallLetterSize;
+		py = (c / 16) * smallLetterSize;
 		s.x = px;
 		s.y = py;
 		d.x = xCoord;
 		d.y = yCoord;
 		SDL_BlitSurface(charset, &s, screen, &d);
-		xCoord += Constants::smallLetterSize;
+		xCoord += smallLetterSize;
 		text++;
 	}
 }
@@ -99,7 +99,7 @@ void Painter::drawObject(SDL_Surface* sprite, const MathPoint& coords)
 
 void Painter::drawPixel(const MathPoint& coords, Uint32 color)
 {
-	if (coords.getX() >= 0 && coords.getX() < Constants::screenWidth && coords.getY() >= 0 && coords.getY() < Constants::screenHeight)
+	if (coords.getX() >= 0 && coords.getX() < Game::screenWidth && coords.getY() >= 0 && coords.getY() < Game::screenHeight)
 	{
 		int bpp = screen->format->BytesPerPixel;
 		Uint8* p = (Uint8*)screen->pixels + coords.getY() * screen->pitch + coords.getX() * bpp;

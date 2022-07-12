@@ -1,5 +1,4 @@
 #include "Moveable.h"
-#include "Constants.h"
 #include "MathVector.h"
 #include "GameObject.h"
 #include "CollisionsChecker.h"
@@ -20,18 +19,18 @@ void Moveable::setVerticalSpeed(double verticalSpeed)
 
 void Moveable::undoHorizontalMove(double timeGain, MathPoint& position)
 {
-	position.moveByVector(MathVector(MathPoint(-horizontalSpeed * timeGain * Constants::horizontalSpeedMultiplier, 0)));
+	position.moveByVector(MathVector(MathPoint(-horizontalSpeed * timeGain * horizontalSpeedMultiplier, 0)));
 }
 
 void Moveable::undoVerticalMove(double timeGain, MathPoint& position)
 {
-	position.moveByVector(MathVector(MathPoint(0, -verticalSpeed * timeGain * Constants::verticalSpeedMultiplier)));
+	position.moveByVector(MathVector(MathPoint(0, -verticalSpeed * timeGain * verticalSpeedMultiplier)));
 }
 
 void Moveable::move(double timeGain, MathPoint& position)
 {
-	position.moveByVector(MathVector(MathPoint(horizontalSpeed * timeGain * Constants::horizontalSpeedMultiplier,
-		verticalSpeed * timeGain * Constants::verticalSpeedMultiplier)));
+	position.moveByVector(MathVector(MathPoint(horizontalSpeed * timeGain * horizontalSpeedMultiplier,
+		verticalSpeed * timeGain * verticalSpeedMultiplier)));
 }
 
 void Moveable::repairMove(GameObject* collidableObject, double timeGain)

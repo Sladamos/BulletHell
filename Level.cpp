@@ -58,17 +58,17 @@ void Level::createGameObjects()
 	gameObjects.push_back(new Player("./gfx/player_an_1", std::vector<MathPoint>{MathPoint(-40, -40), MathPoint(-40, 40), MathPoint(40, 40), MathPoint(40, -40)}));
 	createEnemies();
 	createLevelBorders();
-	gameObjects.push_back(new HpBonus("./gfx/hpBonus", std::vector<MathPoint>{MathPoint(-16, -4), MathPoint(-8, -16), MathPoint(8, -16), MathPoint(16, -4), MathPoint(0, 16)}));
+	gameObjects.push_back(new HpBonus("./gfx/hpBonus", MathPoint(300, 300), std::vector<MathPoint>{MathPoint(-16, -4), MathPoint(-8, -16), MathPoint(8, -16), MathPoint(16, -4), MathPoint(0, 16)}));
 	objectsWithoutBullets = getGameObjectsWithoutBullets();
 }
 
 void Level::createLevelBorders()
 {
-	int wallSize = Constants::wallSize, levelHeight = Constants::levelHeight, levelWidth = Constants::levelWidth;
-	gameObjects.push_back(new HorizontalLevelBorder("./gfx/horizontalBorder", MathPoint(levelWidth/2, wallSize/2), std::vector<MathPoint>{MathPoint(-levelWidth/2, -wallSize/2), MathPoint(-levelWidth/2, wallSize/2), MathPoint(levelWidth/2, wallSize/2), MathPoint(levelWidth/2, -wallSize/2)}));
-	gameObjects.push_back(new VerticalLevelBorder("./gfx/VerticalBorder", MathPoint(levelWidth-wallSize/2, levelHeight/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -levelHeight/2), MathPoint(-wallSize/2, levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(wallSize/2, -levelHeight/2)}));
-	gameObjects.push_back(new HorizontalLevelBorder("./gfx/horizontalBorder", MathPoint(levelWidth/2, levelHeight - wallSize/2), std::vector<MathPoint>{MathPoint(-levelWidth/2, -wallSize/2), MathPoint(-levelWidth/2, wallSize/2), MathPoint(levelWidth/2, wallSize/2), MathPoint(levelWidth/2, -wallSize/2)}));
-	gameObjects.push_back(new VerticalLevelBorder("./gfx/VerticalBorder", MathPoint(wallSize/2, levelHeight/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -levelHeight/2), MathPoint(-wallSize/2, levelHeight/2), MathPoint(wallSize/2, levelHeight/2), MathPoint(wallSize/2, -levelHeight/2)}));
+	int wallSize = LevelBorder::borderSize;
+	gameObjects.push_back(new HorizontalLevelBorder(MathPoint(width/2, wallSize/2), std::vector<MathPoint>{MathPoint(-width/2, -wallSize/2), MathPoint(-width/2, wallSize/2), MathPoint(width/2, wallSize/2), MathPoint(width/2, -wallSize/2)}));
+	gameObjects.push_back(new VerticalLevelBorder(MathPoint(width-wallSize/2, height/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -height/2), MathPoint(-wallSize/2, height/2), MathPoint(wallSize/2, height/2), MathPoint(wallSize/2, -height/2)}));
+	gameObjects.push_back(new HorizontalLevelBorder(MathPoint(width/2, height - wallSize/2), std::vector<MathPoint>{MathPoint(-width/2, -wallSize/2), MathPoint(-width/2, wallSize/2), MathPoint(width/2, wallSize/2), MathPoint(width/2, -wallSize/2)}));
+	gameObjects.push_back(new VerticalLevelBorder( MathPoint(wallSize/2, height/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -height/2), MathPoint(-wallSize/2, height/2), MathPoint(wallSize/2, height/2), MathPoint(wallSize/2, -height/2)}));
 }
 
 void Level::handleLevelEvents()

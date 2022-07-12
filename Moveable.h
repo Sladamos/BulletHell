@@ -1,5 +1,6 @@
 #pragma once
 #include "MathPoint.h"
+#include "Game.h"
 class GameObject;
 class Moveable
 {
@@ -17,5 +18,8 @@ protected:
 	void undoHorizontalMove(double timeGain, MathPoint& position);
 	
 	double horizontalSpeed, verticalSpeed;
+private:
+	static constexpr int horizontalSpeedMultiplier = (Game::screenWidth / 4);
+	static constexpr int verticalSpeedMultiplier = (Game::screenHeight / 3);
 };
 
