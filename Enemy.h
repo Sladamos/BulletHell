@@ -12,6 +12,5 @@ public:
 	bool shouldBeDestroyed() override;
 private:
 	void createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed) override;
-	
 };
 

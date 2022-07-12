@@ -12,14 +12,14 @@ Enemy::Enemy(const string& objectName, const MathPoint& startingPoint, const vec
 
 bool Enemy::isInpenetrableBy(GameObject* gameObject)
 {
-	if (gameObject->isPlayer())
+	if (gameObject->isPlayer() || gameObject->isEnemy())
 		return true;
 	return false;
 }
 
 void Enemy::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
 {
-	Level::addBullet(new UnholyBullet(position, horizontalSpeed*Bullet::bulletSpeedMultiplier, verticalSpeed*Bullet::bulletSpeedMultiplier));
+	Level::addBullet(new UnholyBullet(position, horizontalSpeed*Bullet::speedMultiplier, verticalSpeed*Bullet::speedMultiplier));
 }
 
 bool Enemy::isDamagableBy(GameObject* gameObject)

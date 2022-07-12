@@ -15,7 +15,7 @@ public:
 	void hit(GameObject* targetObject);
 	bool shouldBeDestroyed() override;
 
-	static double constexpr bulletSpeedMultiplier = 3;
+	static double constexpr speedMultiplier = 3;
 private:
 	bool isOutOfRange();
 

@@ -5,6 +5,6 @@ Level2::Level2(SDL_Window* window, SDL_Renderer* renderer) : Level(window, rende
 
 void Level2::createEnemies()
 {
-	addEnemy(new Enemy2("./gfx/demon3", MathPoint(700, 200), std::vector<MathPoint>{MathPoint(-55, -55), MathPoint(-55, 55), MathPoint(55, -55), MathPoint(55, 55)}));
-	addEnemy(new Enemy2("./gfx/demon3", MathPoint(1200, 500), std::vector<MathPoint>{MathPoint(-55, -55), MathPoint(-55, 55), MathPoint(55, -55), MathPoint(55, 55)}));
+	addEnemy(new Enemy2("./gfx/demon2_an_1", MathPoint(700, 200), std::vector<MathPoint>{MathPoint(-55, -55), MathPoint(-55, 55), MathPoint(55, 55), MathPoint(55, -55)}));
+	addEnemy(new Enemy2("./gfx/demon2_an_1", MathPoint(1200, 500), std::vector<MathPoint>{MathPoint(-55, -55), MathPoint(-55, 55), MathPoint(55, 55), MathPoint(55, -55)}));
 }

@@ -2,6 +2,8 @@
 #include "Painter.h"
 #include "Level1.h"
 #include "Level2.h"
+#include "Level3.h"
+#include "Level4.h"
 
 Game::Game() : gameInProgress(true), currentLevel(1), currentlyPlayedLevel(nullptr)	//TODO: implement menu ; move currentlvl into new/load Game
 {
@@ -34,8 +36,6 @@ void Game::handleLevelResult(LevelResult levelResult)
 		createLevel(++currentLevel);
 	}
 	//TODO: implement menu
-	//FUTURE IMPLEMENTATION TODO: implement more levels
-	//createLevel(++currentLevel); - next level
 	//if you won (ask for save score and after that ask for next or back to menu) (insta delete previous)
 	//if you lost (back to menu or try again) (delete if back to menu)
 	//if you aborted (back to menu and delete current)
@@ -44,7 +44,7 @@ void Game::handleLevelResult(LevelResult levelResult)
 void Game::createGui()
 {
 	SDL_CreateWindowAndRenderer(screenWidth, screenHeight, 0, &window, &renderer);
-	SDL_SetWindowTitle(window, "Szablon SDL2");
+	SDL_SetWindowTitle(window, "BulletHell");
 	SDL_RenderSetLogicalSize(renderer, screenWidth, screenHeight);
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_ShowCursor(SDL_DISABLE);
@@ -65,6 +65,12 @@ void Game::createLevel(int levelNumber)
 		break;
 	case 2:
 		currentlyPlayedLevel = new Level2(window, renderer);
+		break;
+	case 3:
+		currentlyPlayedLevel = new Level3(window, renderer);
+		break;
+	case 4:
+		currentlyPlayedLevel = new Level4(window, renderer);
 		break;
 	default:
 		gameInProgress = false;

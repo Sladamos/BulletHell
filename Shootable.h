@@ -11,7 +11,6 @@ public:
 	void circleShooting();
 	void arrowShooting();
 	void laserShooting();
-	ShootingTimer* getShootingTimer();
 protected:
 	void shootIfPossible(void(Shootable::*shootingPattern)());
 	virtual void createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed) = 0;

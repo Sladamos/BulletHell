@@ -3,8 +3,8 @@
 #include "BmpManager.h"
 #include "Camera.h"
 
-VerticalLevelBorder::VerticalLevelBorder(const MathPoint& position, const std::vector<MathPoint>& corners)
-	: LevelBorder("./gfx/VerticalBorder", position, corners) {}
+VerticalLevelBorder::VerticalLevelBorder(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners)
+	: LevelBorder(objectName, position, corners) {}
 
 void VerticalLevelBorder::print(Painter* painter)
 {

@@ -65,10 +65,10 @@ void Level::createGameObjects()
 void Level::createLevelBorders()
 {
 	int wallSize = LevelBorder::borderSize;
-	gameObjects.push_back(new HorizontalLevelBorder(MathPoint(width/2, wallSize/2), std::vector<MathPoint>{MathPoint(-width/2, -wallSize/2), MathPoint(-width/2, wallSize/2), MathPoint(width/2, wallSize/2), MathPoint(width/2, -wallSize/2)}));
-	gameObjects.push_back(new VerticalLevelBorder(MathPoint(width-wallSize/2, height/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -height/2), MathPoint(-wallSize/2, height/2), MathPoint(wallSize/2, height/2), MathPoint(wallSize/2, -height/2)}));
-	gameObjects.push_back(new HorizontalLevelBorder(MathPoint(width/2, height - wallSize/2), std::vector<MathPoint>{MathPoint(-width/2, -wallSize/2), MathPoint(-width/2, wallSize/2), MathPoint(width/2, wallSize/2), MathPoint(width/2, -wallSize/2)}));
-	gameObjects.push_back(new VerticalLevelBorder( MathPoint(wallSize/2, height/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -height/2), MathPoint(-wallSize/2, height/2), MathPoint(wallSize/2, height/2), MathPoint(wallSize/2, -height/2)}));
+	gameObjects.push_back(new HorizontalLevelBorder("./gfx/horizontalBorder", MathPoint(width/2, wallSize/2), std::vector<MathPoint>{MathPoint(-width/2, -wallSize/2), MathPoint(-width/2, wallSize/2), MathPoint(width/2, wallSize/2), MathPoint(width/2, -wallSize/2)}));
+	gameObjects.push_back(new VerticalLevelBorder("./gfx/verticalBorder", MathPoint(width-wallSize/2, height/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -height/2), MathPoint(-wallSize/2, height/2), MathPoint(wallSize/2, height/2), MathPoint(wallSize/2, -height/2)}));
+	gameObjects.push_back(new HorizontalLevelBorder("./gfx/horizontalBorder", MathPoint(width/2, height - wallSize/2), std::vector<MathPoint>{MathPoint(-width/2, -wallSize/2), MathPoint(-width/2, wallSize/2), MathPoint(width/2, wallSize/2), MathPoint(width/2, -wallSize/2)}));
+	gameObjects.push_back(new VerticalLevelBorder("./gfx/verticalBorder", MathPoint(wallSize/2, height/2), std::vector<MathPoint>{MathPoint(-wallSize/2, -height/2), MathPoint(-wallSize/2, height/2), MathPoint(wallSize/2, height/2), MathPoint(wallSize/2, -height/2)}));
 }
 
 void Level::handleLevelEvents()
@@ -118,16 +118,16 @@ void Level::handlePlayerMovement(const SDL_Event& event)
 		switch (event.key.keysym.sym)
 		{
 		case SDLK_UP:
-			player->setVerticalSpeed(-1.0 * Player::playerSpeedMultiplier);
+			player->setVerticalSpeed(-Player::playerSpeedMultiplier);
 			break;
 		case SDLK_LEFT:
-			player->setHorizontalSpeed(-1.0 * Player::playerSpeedMultiplier);
+			player->setHorizontalSpeed(-Player::playerSpeedMultiplier);
 			break;
 		case SDLK_DOWN:
-			player->setVerticalSpeed(1.0 * Player::playerSpeedMultiplier);
+			player->setVerticalSpeed(Player::playerSpeedMultiplier);
 			break;
 		case SDLK_RIGHT:
-			player->setHorizontalSpeed(1.0 * Player::playerSpeedMultiplier);
+			player->setHorizontalSpeed(Player::playerSpeedMultiplier);
 		}
 		break;
 	case SDL_KEYUP:
@@ -184,10 +184,7 @@ void Level::destroyGameObject(GameObject* gameObject)
 	if (!gameObject->isBullet())
 		objectsWithoutBullets.remove(gameObject);
 	if (gameObject->isEnemy())
-	{
 		enemies.remove(dynamic_cast<Enemy*>(gameObject));
-		timeManager->removeTimer(dynamic_cast<Enemy*>(gameObject)->getShootingTimer());
-	}
 	gameObjects.remove(gameObject);
 	delete gameObject;
 }

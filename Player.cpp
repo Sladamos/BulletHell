@@ -84,7 +84,7 @@ void Player::print(Painter* painter)
 
 void Player::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
 {
-	Level::addBullet(new HolyBullet(position, horizontalSpeed*Bullet::bulletSpeedMultiplier, verticalSpeed*Bullet::bulletSpeedMultiplier));
+	Level::addBullet(new HolyBullet(position, horizontalSpeed*Bullet::speedMultiplier, verticalSpeed*Bullet::speedMultiplier));
 }
 
 void Player::updateViewingAngle()
