@@ -9,7 +9,6 @@
 Shootable::Shootable(double shootingTimeLimit) : viewingAngle(0)
 {
 	shootingTimer = new ShootingTimer(shootingTimeLimit);
-	TimeManager::addTimer(shootingTimer);
 }
 
 void Shootable::shootIfPossible(void(Shootable::*shootingPattern)())
@@ -97,6 +96,5 @@ void Shootable::setViewingAngle(double newValue)
 
 Shootable::~Shootable()
 {
-	TimeManager::removeTimer(shootingTimer);
 	delete shootingTimer;
 }

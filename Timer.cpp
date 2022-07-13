@@ -1,8 +1,15 @@
 #include "Timer.h"
+#include "TimeManager.h"
 
-Timer::Timer(double timeLimit) : timerValue(0), timeLimit(timeLimit), executePermission(0), executable(true) {}
+Timer::Timer(double timeLimit) : timerValue(0), timeLimit(timeLimit), executePermission(0), executable(true) 
+{
+	TimeManager::addTimer(this);
+}
 
-Timer::Timer() : timerValue(0), timeLimit(0), executePermission(0), executable(false) {}
+Timer::Timer() : timerValue(0), timeLimit(0), executePermission(0), executable(false) 
+{
+	TimeManager::addTimer(this);
+}
 
 void Timer::incrementValue(double timeGain)
 {
@@ -40,3 +47,8 @@ void Timer::executeIfPossible()
 }
 
 void Timer::executeAction() {}
+
+Timer::~Timer()
+{
+	TimeManager::removeTimer(this);
+}

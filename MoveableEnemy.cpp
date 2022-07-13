@@ -1,5 +1,4 @@
 #include "MoveableEnemy.h"
-#include "TimeManager.h"
 
 MoveableEnemy::MoveableEnemy(const std::string& objectName, const MathPoint& startingPoint, const std::vector<MathPoint>& corners, double shootingPeriod, int hitpoints)
 	: Enemy(objectName, startingPoint, corners, shootingPeriod, hitpoints), maximumSpeed(enemySpeedMultiplier), Moveable()
@@ -7,7 +6,6 @@ MoveableEnemy::MoveableEnemy(const std::string& objectName, const MathPoint& sta
 	Moveable::setHorizontalSpeed(generateRandomSpeed());
 	Moveable::setVerticalSpeed(generateRandomSpeed());
 	speedChangingTimer = new ChangesTimer(0.75);
-	TimeManager::addTimer(speedChangingTimer);
 }
 
 void MoveableEnemy::undoHorizontalMove(double timeGain)
@@ -40,6 +38,5 @@ double MoveableEnemy::generateRandomSpeed()
 
 MoveableEnemy::~MoveableEnemy()
 {
-	TimeManager::removeTimer(speedChangingTimer);
 	delete speedChangingTimer;
 }

@@ -1,3 +1,4 @@
+#include <ctime>
 #include "Game.h"
 #include "Painter.h"
 #include "Level1.h"
@@ -8,6 +9,7 @@
 Game::Game() : gameInProgress(true), currentLevel(1), currentlyPlayedLevel(nullptr)	//TODO: implement menu ; move currentlvl into new/load Game
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
+	srand(time(NULL));
 	createGui();
 	createLevel(currentLevel);	//TEMP: remove after implementing menu (with new game etc)
 	startGame();
@@ -17,7 +19,7 @@ void Game::startGame()
 {
 	while (gameInProgress)
 	{
-		currentlyPlayedLevel->startLevel();
+		currentlyPlayedLevel->start();
 		handleLevelResult(currentlyPlayedLevel->getResult());	
 	}
 }

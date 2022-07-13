@@ -4,6 +4,7 @@ class Timer
 public:
 	Timer(double timeLimit);
 	Timer();
+	virtual ~Timer();
 	void executeIfPossible();
 	void incrementValue(double timeGain);
 	virtual void resetTimer();

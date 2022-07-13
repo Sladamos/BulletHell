@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "Painter.h"
 #include "Game.h"
 #include "Level.h"
 #include "Shape.h"

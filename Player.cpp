@@ -9,7 +9,6 @@ Player::Player(const std::string& objectName, const std::vector<MathPoint>& corn
 	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth), Moveable(), Shootable(0.2), fireButtonIsPressed(false)
 {
 	invicibilityTimer = new InvicibilityTimer(0.5);
-	TimeManager::addTimer(invicibilityTimer);
 	Camera::setPlayerPosition(position);
 	BmpManager::loadStaticBitmap(invicibilityFrame, 60);
 }
@@ -84,7 +83,7 @@ void Player::print(Painter* painter)
 
 void Player::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
 {
-	Level::addBullet(new HolyBullet(position, horizontalSpeed*Bullet::speedMultiplier, verticalSpeed*Bullet::speedMultiplier));
+	Level::addGameObject(new HolyBullet(position, horizontalSpeed*Bullet::speedMultiplier, verticalSpeed*Bullet::speedMultiplier));
 }
 
 void Player::updateViewingAngle()

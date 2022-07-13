@@ -17,14 +17,14 @@ public:
 	MathPoint getPosition();
 	int getHitpoints();
 	int getMaxHitpoints();
+	void checkCollisions(const std::list<GameObject*>& gameObjectsWithoutBullets, double timeGain);
+	void incraseHitpoints(int healValue);
 	bool isMoveable();
 	bool isPlayer();
 	bool isEnemy();
 	bool isBullet();
 	bool isUnholyBullet();
 	bool isHolyBullet();
-	void checkCollisions(const std::list<GameObject*>& gameObjectsWithoutBullets, double timeGain);
-	void incraseHitpoints(int healValue);
 	virtual void decreaseHitpoints(int damageDealt);
 	virtual void setPosition(const MathPoint& position);
 	virtual void action(double timeGain);

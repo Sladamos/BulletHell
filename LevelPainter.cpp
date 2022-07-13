@@ -6,15 +6,9 @@
 
 LevelPainter::LevelPainter(Level* level, SDL_Window* window, SDL_Renderer* renderer) : Painter(window, renderer), level(level)
 {
-	addFpsTimer();
+	fpsTimer = new FpsTimer(0.5);
 	background = SDL_LoadBMP("./gfx/background.bmp");
 	statisticsPanel = SDL_LoadBMP("./gfx/statisticsPanel.bmp");
-}
-
-void LevelPainter::addFpsTimer()
-{
-	fpsTimer = new FpsTimer(0.5);
-	TimeManager::addTimer(fpsTimer);
 }
 
 void LevelPainter::drawScreen()
