@@ -3,6 +3,7 @@
 class ShootingTimer : public Timer
 {
 public:
+	ShootingTimer();
 	ShootingTimer(double timeLimit);
 	bool isPermissionToShoot();
 	void resetTimer() override;

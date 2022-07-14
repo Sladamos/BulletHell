@@ -1,8 +1,12 @@
 #include "Bullet.h"
 #include "MathVector.h"
-Bullet::Bullet(const std::string& objectName, const MathPoint& position, int damageDealt, double horizontalSpeed, double verticalSpeed) :
-	GameObject(objectName, position, 13), Moveable(horizontalSpeed, verticalSpeed), damageDealt(damageDealt), launchPosition(position),
+
+Bullet::Bullet(const std::string& objectName, const MathPoint& position, int damageDealt, int radius, double horizontalSpeed, double verticalSpeed) :
+	GameObject(objectName, position, radius), Moveable(horizontalSpeed, verticalSpeed), damageDealt(damageDealt), launchPosition(position),
 	toDestroy(false) {}
+
+Bullet::Bullet(const std::string& objectName, const MathPoint& position, int damageDealt, double horizontalSpeed, double verticalSpeed) :
+	Bullet(objectName, position, damageDealt, 13, horizontalSpeed, verticalSpeed) {}
 
 Bullet::Bullet(const std::string& objectName, const MathPoint& position, double horizontalSpeed, double verticalSpeed) 
 	: Bullet(objectName, position, defaultDamage, horizontalSpeed, verticalSpeed) {}
