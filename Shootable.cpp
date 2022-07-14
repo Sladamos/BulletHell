@@ -24,6 +24,15 @@ void Shootable::shootIfPossible(void(Shootable::* shootingPattern)())
 	}
 }
 
+void Shootable::placeBullet()
+{
+	MathPoint shooterPosition = dynamic_cast<GameObject*>(this)->getPosition();
+	double randomAngle = rand() % 360 * M_PI / 180.00;
+	int distanceFromShooter = 80;
+	MathVector spaceVector = MathVector(MathPoint(distanceFromShooter + rand() % Bullet::maxRange, 0));
+	createBullet(MathPoint(shooterPosition).moveByVector(spaceVector).rotate(randomAngle, shooterPosition), 0,0);
+}
+
 void Shootable::circleShooting()
 {
 	MathPoint position = dynamic_cast<GameObject*>(this)->getPosition();

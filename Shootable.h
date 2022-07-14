@@ -7,6 +7,7 @@ public:
 	Shootable();
 	Shootable(double shootingTimeLimit);
 	virtual ~Shootable();
+	void placeBullet();
 	void randomShooting();
 	void multipleShooting();
 	void circleShooting();

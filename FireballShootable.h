@@ -1,10 +1,10 @@
 #pragma once
-#include "SpecialShootable.h"
-class FireballShootable : public SpecialShootable
+#include "Shootable.h"
+class FireballShootable : public Shootable
 {
 public:
 	FireballShootable(double shootingTimeLimit);
 private:
-	void createSpecialBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed) override;
+	void createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed) override;
 };
 

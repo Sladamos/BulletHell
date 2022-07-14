@@ -17,12 +17,13 @@ public:
 	bool shouldBeDestroyed() override;
 
 	static double constexpr speedMultiplier = 3;
-protected:
-	bool isOutOfRange();
-private:
 	constexpr static int maxRange = 400;
+protected:
+	bool toDestroy;
+private:
+	bool isOutOfRange();
+
 	constexpr static int defaultDamage = 10;
 	int damageDealt;
-	bool toDestroy;
 	MathPoint launchPosition;
 };

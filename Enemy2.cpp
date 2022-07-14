@@ -6,6 +6,6 @@ Enemy2::Enemy2(const std::string& objectName, const MathPoint& startingPoint, co
 
 void Enemy2::action(double timeGain)
 {
-	shootIfPossible(&Shootable::circleShooting);
-	shootSpecialIfPossible(&SpecialShootable::randomSpecialShooting);
+	Shootable::shootIfPossible(&Shootable::circleShooting);
+	CrumbleBulletShootable::shootIfPossible(&Shootable::randomShooting);
 }

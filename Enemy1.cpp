@@ -5,6 +5,6 @@ Enemy1::Enemy1(const std::string& objectName, const MathPoint& startingPoint, co
 
 void Enemy1::action(double timeGain)
 {
-	shootIfPossible(&Shootable::randomShooting);
-	shootSpecialIfPossible(&SpecialShootable::randomSpecialShooting);
+	Shootable::shootIfPossible(&Shootable::randomShooting);
+	FireballShootable::shootIfPossible(&Shootable::randomShooting);
 }

@@ -17,7 +17,7 @@ int Circle::getRadius()
 
 void Circle::calculateOutermostCoordinates()
 {
-	mostTopCoordinate = mostBottomCoordinate = radius;
-	mostRightCoordinate = mostLeftCoordinate = radius;
+	mostRightCoordinate = mostBottomCoordinate =  radius;
+	mostTopCoordinate = mostLeftCoordinate = -radius;
 }
 
