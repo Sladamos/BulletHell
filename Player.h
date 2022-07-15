@@ -4,8 +4,6 @@
 #include "Shootable.h"
 #include "InvicibilityTimer.h"
 #include "ScoreMagnitudeTimer.h"
-#include "./SDL2-2.0.10/include/SDL.h"
-#include "./SDL2-2.0.10/include/SDL_main.h"
 class Player : public GameObject, public Moveable, public Shootable
 {
 public:
@@ -15,7 +13,7 @@ public:
 	bool stoppedVertically(const SDL_Event& event);
 	bool stoppedHorizontally(const SDL_Event& event);
 	bool isInpenetrableBy(GameObject* gameObject) override;
-	bool isDamagableBy(GameObject* gameObject) override;
+	bool doesGetDamagedBy(GameObject* gameObject) override;
 	bool shouldBeDestroyed() override;
 	void setShootingPermission(bool fireButtonIsPressed);
 	void action(double timeGain) override;

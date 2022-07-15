@@ -97,8 +97,6 @@ void Level::destroyGameObject(GameObject* gameObject)
 {
 	if (!gameObject->isBullet())
 		objectsWithoutBullets.remove(gameObject);
-	if (gameObject->isEnemy())
-		enemies.remove(dynamic_cast<Enemy*>(gameObject));
 	gameObjects.remove(gameObject);
 	delete gameObject;
 }

@@ -6,8 +6,7 @@
 #include "Moveable.h"
 #include "Enemy.h"
 #include "CollisionsChecker.h"
-#include "HolyBullet.h"
-#include "UnholyBullet.h"
+#include "Bullet.h"
 #include "Pickable.h"
 using namespace std;
 
@@ -65,7 +64,7 @@ bool GameObject::isInpenetrableBy(GameObject* gameObject)
 	return false;
 }
 
-bool GameObject::isDamagableBy(GameObject* gameObject)
+bool GameObject::doesGetDamagedBy(GameObject* gameObject)
 {
 	return false;
 }
@@ -94,12 +93,12 @@ bool GameObject::isEnemy()
 
 bool GameObject::isUnholyBullet()
 {
-	return dynamic_cast<UnholyBullet*>(this);
+	return isBullet() && dynamic_cast<Bullet*>(this)->getOwner()->isEnemy();
 }
 
 bool GameObject::isHolyBullet()
 {
-	return dynamic_cast<HolyBullet*>(this);
+	return isBullet() && dynamic_cast<Bullet*>(this)->getOwner()->isPlayer();
 }
 
 void GameObject::print(Painter* painter)
@@ -111,11 +110,11 @@ void GameObject::checkCollisions(const std::list<GameObject*>& gameObjectsWithou
 {
 	for (GameObject* collidableObject : gameObjectsWithoutBullets)
 	{
-		if (this != collidableObject && isMoveable() && CollisionsChecker::occursCollisionBetweenObjects(this, collidableObject))
+		if (this != collidableObject && !collidableObject->shouldBeDestroyed() && isMoveable() && CollisionsChecker::occursCollisionBetweenObjects(this, collidableObject))
 		{
 			if (collidableObject->isInpenetrableBy(this))
 				dynamic_cast<Moveable*>(this)->repairMove(collidableObject, timeGain);
-			else if (collidableObject->isDamagableBy(this))
+			else if (collidableObject->doesGetDamagedBy(this))
 				dynamic_cast<Bullet*>(this)->hit(collidableObject);
 			else if (collidableObject->isPickableBy(this))
 				dynamic_cast<Pickable*>(collidableObject)->affectOn(this);

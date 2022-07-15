@@ -31,7 +31,7 @@ public:
 	virtual void print(Painter* painter);
 	virtual bool shouldBeDestroyed();
 	virtual bool isPickableBy(GameObject* gameObject);
-	virtual bool isDamagableBy(GameObject* gameObject);
+	virtual bool doesGetDamagedBy(GameObject* gameObject);
 	virtual bool isInpenetrableBy(GameObject* gameObject);
 protected:
 	MathPoint position;

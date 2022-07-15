@@ -3,7 +3,7 @@
 #include "Painter.h"
 #include "BmpManager.h"
 #include "Level.h"
-#include "HolyBullet.h"
+#include "Bullet.h"
 
 Player::Player(const std::string& objectName, const std::vector<MathPoint>& corners) :
 	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth), Moveable(), Shootable(0.2), fireButtonIsPressed(false), score(0)
@@ -26,7 +26,7 @@ bool Player::isInpenetrableBy(GameObject* gameObject)
 	return false;
 }
 
-bool Player::isDamagableBy(GameObject* gameObject)
+bool Player::doesGetDamagedBy(GameObject* gameObject)
 {
 	if (gameObject->isUnholyBullet() && invicibilityTimer->canBeDamaged())
 		return true;
@@ -65,7 +65,7 @@ void Player::action(double timeGain)
 	move(timeGain, position);
 	Camera::setPlayerPosition(position);
 	if (fireButtonIsPressed)
-		shootIfPossible(&Shootable::multipleShooting);
+		Shootable::shootIfPossible(&Shootable::multipleShooting);
 }
 
 void Player::undoHorizontalMove(double timeGain)
@@ -89,7 +89,7 @@ void Player::print(Painter* painter)
 
 void Player::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
 {
-	Level::addGameObject(new HolyBullet(position, horizontalSpeed*Bullet::speedMultiplier, verticalSpeed*Bullet::speedMultiplier));
+	Level::addGameObject(new Bullet("./gfx/holyBullet", this, position, horizontalSpeed*Bullet::speedMultiplier, verticalSpeed*Bullet::speedMultiplier));
 }
 
 void Player::updateViewingAngle()

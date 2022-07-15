@@ -98,9 +98,9 @@ void LevelEngine::performGameObjectsActions(double timeGain)
 	for (auto it = gameObjects.begin(); it != gameObjects.end();)
 	{
 		GameObject* object = *it++;
-		if (object->shouldBeDestroyed())
+		if (object->shouldBeDestroyed() && !object->isEnemy())
 			currentLevel->destroyGameObject(object);
-		else
+		else if (!object->shouldBeDestroyed())
 		{
 			object->action(timeGain);
 			object->checkCollisions(objectsWithoutBullets, timeGain);

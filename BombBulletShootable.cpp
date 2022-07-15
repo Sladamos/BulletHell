@@ -1,5 +1,5 @@
 #include "BombBulletShootable.h"
-#include "UnholyBomb.h"
+#include "Bomb.h"
 #include "Level.h"
 
 BombBulletShootable::BombBulletShootable(double shootingTimeLimit) : Shootable(shootingTimeLimit) {}
@@ -7,7 +7,7 @@ BombBulletShootable::BombBulletShootable(double shootingTimeLimit) : Shootable(s
 void BombBulletShootable::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
 {
 	if(rand() % 2 == 0)
-		Level::addGameObject(new UnholyBomb("./gfx/1stBomb",position, horizontalSpeed * Bullet::speedMultiplier, verticalSpeed * Bullet::speedMultiplier));
+		Level::addGameObject(new Bomb("./gfx/1stBomb", dynamic_cast<GameObject*>(this), position, horizontalSpeed * Bullet::speedMultiplier, verticalSpeed * Bullet::speedMultiplier));
 	else
-		Level::addGameObject(new UnholyBomb("./gfx/2ndBomb",position, horizontalSpeed * Bullet::speedMultiplier, verticalSpeed * Bullet::speedMultiplier));
+		Level::addGameObject(new Bomb("./gfx/2ndBomb", dynamic_cast<GameObject*>(this), position, horizontalSpeed * Bullet::speedMultiplier, verticalSpeed * Bullet::speedMultiplier));
 }

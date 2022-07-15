@@ -1,10 +1,10 @@
 #include "FireballShootable.h"
-#include "UnholyFireball.h"
+#include "Fireball.h"
 #include "Level.h"
 
 FireballShootable::FireballShootable(double shootingTimeLimit) : Shootable(shootingTimeLimit) {}
 
 void FireballShootable::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
 {
-	Level::addGameObject(new UnholyFireball(position, horizontalSpeed * Bullet::speedMultiplier, verticalSpeed * Bullet::speedMultiplier));
+	Level::addGameObject(new Fireball(position, dynamic_cast<GameObject*>(this), horizontalSpeed * Bullet::speedMultiplier, verticalSpeed * Bullet::speedMultiplier));
 }

@@ -1,8 +1,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include "Shootable.h"
-#include "HolyBullet.h"
-#include "UnholyBullet.h"
+#include "Bullet.h"
 #include "MathVector.h"
 
 Shootable::Shootable() : viewingAngle(0)

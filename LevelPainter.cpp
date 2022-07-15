@@ -34,7 +34,7 @@ void LevelPainter::drawStatisticsPanel()
 void LevelPainter::printGameObjects()
 {
 	for (GameObject* gameObject : level->getGameObjects())
-		if (Camera::isObjectInRange(gameObject))
+		if (!gameObject->shouldBeDestroyed() && Camera::isObjectInRange(gameObject))
 		{
 			gameObject->print(this);
 		}

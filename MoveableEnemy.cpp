@@ -33,7 +33,7 @@ void MoveableEnemy::action(double timeGain)
 
 double MoveableEnemy::generateRandomSpeed()
 {
-	return rand() % 2 == 0 ? maximumSpeed : -maximumSpeed;
+	return (rand() % 3 - 1) * maximumSpeed;
 }
 
 MoveableEnemy::~MoveableEnemy()
