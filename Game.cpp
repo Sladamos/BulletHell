@@ -6,7 +6,7 @@
 #include "Level3.h"
 #include "Level4.h"
 
-Game::Game() : gameInProgress(true), currentLevel(4), currentlyPlayedLevel(nullptr)	//TODO: implement menu ; move currentlvl into new/load Game
+Game::Game() : gameInProgress(true), currentLevel(1), currentlyPlayedLevel(nullptr)	//TODO: implement menu ; move currentlvl into new/load Game
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	srand(time(NULL));

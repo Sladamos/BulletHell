@@ -18,7 +18,7 @@ public:
 	int getHitpoints();
 	int getMaxHitpoints();
 	void checkCollisions(const std::list<GameObject*>& gameObjectsWithoutBullets, double timeGain);
-	void incraseHitpoints(int healValue);
+	void increaseHitpoints(int healValue);
 	bool isMoveable();
 	bool isPlayer();
 	bool isEnemy();

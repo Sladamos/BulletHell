@@ -47,8 +47,10 @@ void LevelPainter::drawStatistics()
 	drawPlayerHealthBar();
 	MathVector mathVector(MathPoint(0, 2 * smallLetterSize));
 	MathPoint textCoords(Game::screenWidth - statsWidth + 15, 20 + playerHpBarHeight + 2 * playerHpBarFrameSize);
-	sprintf(text, "Time = %.1lf s ", level->getLevelTimer()->getTimerValue());
+	sprintf(text, "SCORE = %06d", level->getPlayer()->getScore());
 	drawString(textCoords);
+	sprintf(text, "Time = %.1lf s ", level->getLevelTimer()->getTimerValue());
+	drawString(textCoords.moveByVector(mathVector));
 	sprintf(text, "%.0lf FPS", fpsTimer->getFps());
 	drawString(textCoords.moveByVector(mathVector));
 	sprintf(text, "x = %d y = %d", level->getPlayer()->getPosition().getX(), level->getPlayer()->getPosition().getY());

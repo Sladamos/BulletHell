@@ -16,7 +16,7 @@ bool HpBonus::isPickableBy(GameObject* gameObject)
 
 void HpBonus::affectOn(GameObject* changedObject)
 {
-	changedObject->incraseHitpoints(healValue);
+	changedObject->increaseHitpoints(healValue);
 	toDestroy = true;
 }
 

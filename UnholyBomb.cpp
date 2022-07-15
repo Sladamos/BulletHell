@@ -16,7 +16,7 @@ void UnholyBomb::action(double timeGain)
 void UnholyBomb::hit(GameObject* targetObject)
 {
 	if (hittingTimer->isPermissionToHit())
-		Bullet::hit(targetObject);
+		UnholyBullet::hit(targetObject);
 }
 
 UnholyBomb::~UnholyBomb()

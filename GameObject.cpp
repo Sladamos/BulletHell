@@ -133,7 +133,7 @@ void GameObject::decreaseHitpoints(int damageDealt)
 	hitpoints -= damageDealt;
 }
 
-void GameObject::incraseHitpoints(int healValue)
+void GameObject::increaseHitpoints(int healValue)
 {
 	hitpoints = hitpoints + healValue < maxHealth ? hitpoints + healValue : maxHealth;
 }

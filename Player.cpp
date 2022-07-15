@@ -6,37 +6,17 @@
 #include "HolyBullet.h"
 
 Player::Player(const std::string& objectName, const std::vector<MathPoint>& corners) :
-	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth), Moveable(), Shootable(0.2), fireButtonIsPressed(false)
+	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth), Moveable(), Shootable(0.2), fireButtonIsPressed(false), score(0)
 {
 	invicibilityTimer = new InvicibilityTimer(0.5);
+	scoreMagnitudeTimer = new ScoreMagnitudeTimer(2);
 	Camera::setPlayerPosition(position);
 	BmpManager::loadStaticBitmap(invicibilityFrame, 60);
 }
 
-void Player::setPosition(const MathPoint& position)
+int Player::getScore()
 {
-	GameObject::setPosition(position);
-	Camera::setPlayerPosition(position);
-}
-
-void Player::action(double timeGain)
-{
-	move(timeGain, position);
-	Camera::setPlayerPosition(position);
-	if (fireButtonIsPressed)
-		shootIfPossible(&Shootable::multipleShooting);
-}
-
-void Player::undoHorizontalMove(double timeGain)
-{
-	Moveable::undoHorizontalMove(timeGain, position);
-	Camera::setPlayerPosition(this->position);
-}
-
-void Player::undoVerticalMove(double timeGain)
-{
-	Moveable::undoVerticalMove(timeGain, position);
-	Camera::setPlayerPosition(this->position);
+	return score;
 }
 
 bool Player::isInpenetrableBy(GameObject* gameObject)
@@ -74,6 +54,32 @@ bool Player::shouldBeDestroyed()
 	return hitpoints <= 0;
 }
 
+void Player::setPosition(const MathPoint& position)
+{
+	GameObject::setPosition(position);
+	Camera::setPlayerPosition(position);
+}
+
+void Player::action(double timeGain)
+{
+	move(timeGain, position);
+	Camera::setPlayerPosition(position);
+	if (fireButtonIsPressed)
+		shootIfPossible(&Shootable::multipleShooting);
+}
+
+void Player::undoHorizontalMove(double timeGain)
+{
+	Moveable::undoHorizontalMove(timeGain, position);
+	Camera::setPlayerPosition(this->position);
+}
+
+void Player::undoVerticalMove(double timeGain)
+{
+	Moveable::undoVerticalMove(timeGain, position);
+	Camera::setPlayerPosition(this->position);
+}
+
 void Player::print(Painter* painter)
 {
 	if(!invicibilityTimer->canBeDamaged())
@@ -108,7 +114,20 @@ void Player::decreaseHitpoints(int damageDealt)
 	invicibilityTimer->resetTimer();
 }
 
+void Player::decreaseScore(int value)
+{
+	score = score - value < 0 ? 0 : score - value;
+}
+
+void Player::increaseScore(int value)
+{
+	score += value * scoreMagnitudeTimer->getMagnitude();
+	scoreMagnitudeTimer->increaseMagnitude();
+	scoreMagnitudeTimer->resetTimer();
+}
+
 Player::~Player()
 {
 	delete invicibilityTimer;
+	delete scoreMagnitudeTimer;
 }
