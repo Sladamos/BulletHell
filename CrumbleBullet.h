@@ -8,5 +8,6 @@ public:
 	~CrumbleBullet();
 private:
 	void createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed) override;
+	bool isOwnedByEnemy;
 };
 

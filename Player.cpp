@@ -65,7 +65,7 @@ void Player::action(double timeGain)
 	move(timeGain, position);
 	Camera::setPlayerPosition(position);
 	if (fireButtonIsPressed)
-		Shootable::shootIfPossible(&Shootable::multipleShooting);
+		shootIfPossible(&Shootable::multipleShooting);
 }
 
 void Player::undoHorizontalMove(double timeGain)

@@ -5,6 +5,6 @@ Enemy4::Enemy4(const std::string& objectName, const MathPoint& startingPoint, co
 
 void Enemy4::action(double timeGain)
 {
-	Shootable::shootIfPossible(&Shootable::laserShooting);
+	Enemy::shootIfPossible(&Shootable::laserShooting);
 	BombBulletShootable::shootIfPossible(&Shootable::placeBullet);
 }
