@@ -9,6 +9,7 @@ public:
 	void resetTimer() override;
 private:
 	void executeAction() override;
+
 	bool shootingPermission;
 };
 

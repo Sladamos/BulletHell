@@ -12,7 +12,8 @@ public:
 	GameObject(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners);
 	GameObject(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners, int hitpoints);
 	virtual ~GameObject() = default;
-	//GameObject(std::string objectName, int numberOfAnimations);	//TODO: add animations
+	GameObject(const std::string& objectName, const MathPoint& position, int radius, int numberOfAnimations);
+	GameObject(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners, int hitpoints, int numberOfAnimations);
 	Shape* getShape();
 	MathPoint getPosition();
 	int getHitpoints();

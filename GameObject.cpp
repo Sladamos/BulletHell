@@ -27,6 +27,17 @@ GameObject::GameObject(const string& objectName, const MathPoint& position, cons
 	BmpManager::loadStaticBitmap(objectName, corners);
 }
 
+GameObject::GameObject(const std::string& objectName, const MathPoint& position, int radius, int numberOfFrames) : objectName(objectName), position(position), hitpoints(0), maxHealth(0)
+{
+	BmpManager::loadAnimation(objectName, radius, numberOfFrames);
+}
+
+GameObject::GameObject(const std::string& objectName, const MathPoint& position, const std::vector<MathPoint>& corners, int hitpoints, int numberOfFrames)
+	: objectName(objectName), position(position), hitpoints(hitpoints), maxHealth(hitpoints)
+{
+	BmpManager::loadAnimation(objectName, corners, numberOfFrames);
+}
+
 int GameObject::getMaxHitpoints()
 {
 	return maxHealth;

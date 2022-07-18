@@ -7,7 +7,7 @@
 class Player : public GameObject, public Moveable, public Shootable
 {
 public:
-	Player(const std::string& objectName, const std::vector<MathPoint>& corners);
+	Player(const std::string& objectName, int numberOfFrames, const std::vector<MathPoint>& corners);
 	~Player();
 	int getScore();
 	bool stoppedVertically(const SDL_Event& event);

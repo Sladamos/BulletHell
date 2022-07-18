@@ -7,6 +7,7 @@ public:
 	bool isPermissionToHit();
 private:
 	void executeAction() override;
+
 	bool hittingPermission;
 };
 

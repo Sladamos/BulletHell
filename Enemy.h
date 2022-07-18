@@ -7,6 +7,7 @@ class Enemy : public GameObject, public Shootable
 {
 public:
 	Enemy(const std::string& objectName, const MathPoint& startingPoint, const std::vector<MathPoint>& corners, double shootingPeriod, int hitpoints);
+	Enemy(const std::string& objectName, int numberOfFrames, const MathPoint& startingPoint, const std::vector<MathPoint>& corners, double shootingPeriod, int hitpoints);
 	bool isInpenetrableBy(GameObject* gameObject) override;
 	bool doesGetDamagedBy(GameObject* gameObject) override;
 	bool shouldBeDestroyed() override;

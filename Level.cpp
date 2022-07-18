@@ -61,7 +61,7 @@ void Level::addEnemy(Enemy* enemy)
 
 void Level::createGameObjects()
 {
-	gameObjects.push_back(new Player("./gfx/player_an_1", std::vector<MathPoint>{MathPoint(-40, -40), MathPoint(-40, 40), MathPoint(40, 40), MathPoint(40, -40)}));
+	gameObjects.push_back(new Player("./gfx/player", 3, std::vector<MathPoint>{MathPoint(-40, -40), MathPoint(-40, 40), MathPoint(40, 40), MathPoint(40, -40)}));
 	createEnemies();
 	createLevelBorders();
 	gameObjects.push_back(new HpBonus("./gfx/hpBonus", MathPoint(300, 300), std::vector<MathPoint>{MathPoint(-16, -4), MathPoint(-8, -16), MathPoint(8, -16), MathPoint(16, -4), MathPoint(0, 16)}));

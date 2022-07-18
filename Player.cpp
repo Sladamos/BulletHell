@@ -5,8 +5,9 @@
 #include "Level.h"
 #include "Bullet.h"
 
-Player::Player(const std::string& objectName, const std::vector<MathPoint>& corners) :
-	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth), Moveable(), Shootable(0.2), fireButtonIsPressed(false), score(0)
+Player::Player(const std::string& objectName, int numberOfFrames, const std::vector<MathPoint>& corners) :
+	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth, numberOfFrames), Moveable(numberOfFrames),
+	Shootable(0.2), fireButtonIsPressed(false), score(0)
 {
 	invicibilityTimer = new InvicibilityTimer(0.5);
 	scoreMagnitudeTimer = new ScoreMagnitudeTimer(2);
@@ -84,7 +85,7 @@ void Player::print(Painter* painter)
 {
 	if(!invicibilityTimer->canBeDamaged())
 		painter->drawObject(BmpManager::getBitmap(invicibilityFrame), Camera::getPlayerPositionOnScreen());
-	painter->drawObject(BmpManager::getBitmap(objectName), Camera::getPlayerPositionOnScreen());	
+	painter->drawObject(BmpManager::getAnimation(objectName, getCurrentFrameNumber()), Camera::getPlayerPositionOnScreen());	
 }
 
 void Player::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)

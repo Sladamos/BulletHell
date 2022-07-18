@@ -7,11 +7,12 @@
 class MoveableEnemy : public Enemy, public Moveable
 {
 public:
-	MoveableEnemy(const std::string& objectName, const MathPoint& startingPoint, const std::vector<MathPoint>& corners, double shootingPeriod, int hitpoints);
+	MoveableEnemy(const std::string& objectName, int numberOfFrames, const MathPoint& startingPoint, const std::vector<MathPoint>& corners, double shootingPeriod, int hitpoints);
 	virtual ~MoveableEnemy();
 	void undoHorizontalMove(double timeGain) override;
 	void undoVerticalMove(double timeGain) override;
-	virtual void action(double timeGain);
+	void action(double timeGain) override;
+	void print(Painter* painter) override;
 
 	static constexpr double enemySpeedMultiplier = 1.5;
 private:

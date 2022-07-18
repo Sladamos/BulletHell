@@ -3,9 +3,25 @@
 #include "GameObject.h"
 #include "CollisionsChecker.h"
 
-Moveable::Moveable() : horizontalSpeed(0.0), verticalSpeed(0.0) {}
+Moveable::Moveable(int numberOfFrames) : horizontalSpeed(0.0), verticalSpeed(0.0)
+{
+	animationTimer = new AnimationTimer(0.1 * numberOfFrames, numberOfFrames);
+}
 
-Moveable::Moveable(double horizontalSpeed, double verticalSpeed) : horizontalSpeed(horizontalSpeed), verticalSpeed(verticalSpeed) {}
+Moveable::Moveable(double horizontalSpeed, double verticalSpeed, double animationTime, int numberOfFrames) : horizontalSpeed(horizontalSpeed), verticalSpeed(verticalSpeed)
+{
+	animationTimer = new AnimationTimer(animationTime, numberOfFrames);
+}
+
+Moveable::Moveable(double horizontalSpeed, double verticalSpeed) : horizontalSpeed(horizontalSpeed), verticalSpeed(verticalSpeed), animationTimer(nullptr)
+{}
+
+int Moveable::getCurrentFrameNumber()
+{
+	if(horizontalSpeed == 0 && verticalSpeed == 0)
+		animationTimer->resetTimer();
+	return animationTimer->getCurrentFrameNumber();
+}
 
 void Moveable::setHorizontalSpeed(double horizontalSpeed)
 {
@@ -43,4 +59,10 @@ void Moveable::repairMove(GameObject* collidableObject, double timeGain)
 		repairingObject->setPosition(incorretPosition);
 		undoVerticalMove(timeGain);
 	}
+}
+
+Moveable::~Moveable()
+{
+	if(animationTimer != nullptr)
+		delete animationTimer;
 }

@@ -8,22 +8,65 @@ map<string, vector<SDL_Surface*>> BmpManager::bitmaps = map<string, vector<SDL_S
 
 void BmpManager::loadStaticBitmap(const string& objectName, int radius)
 {
-	if (bitmaps.find(objectName) == bitmaps.end())
-		addStaticBitmap(objectName, new Circle(radius));
+	if (isntLoadedAlready(objectName))
+	{
+		addShapeAndVector(objectName, new Circle(radius));
+		addStaticBitmap(objectName);
+	}
 }
 
 void BmpManager::loadStaticBitmap(const string& objectName, const vector<MathPoint>& corners)
 {
-	if (bitmaps.find(objectName) == bitmaps.end())
-		addStaticBitmap(objectName, new Polygon(corners));
+	if (isntLoadedAlready(objectName))
+	{
+		addShapeAndVector(objectName, new Polygon(corners));
+		addStaticBitmap(objectName);
+	}
 }
 
-void BmpManager::addStaticBitmap(const string& objectName, Shape* shape)
+void BmpManager::loadAnimation(const std::string& objectName, const std::vector<MathPoint>& corners, int numberOfAnimations)
+{
+	if (isntLoadedAlready(objectName))
+	{
+		addShapeAndVector(objectName, new Polygon(corners));
+		addAnimations(objectName, numberOfAnimations);
+	}
+}
+
+void BmpManager::loadAnimation(const std::string& objectName, int radius, int numberOfAnimations)
+{
+	if (isntLoadedAlready(objectName))
+	{
+		addShapeAndVector(objectName, new Circle(radius));
+		addAnimations(objectName, numberOfAnimations);
+	}
+}
+
+void BmpManager::addShapeAndVector(const string& objectName, Shape* shape)
+{
+	bitmaps.insert(pair <string, vector<SDL_Surface*>>(objectName, vector<SDL_Surface*>()));
+	ShapesManager::addShape(objectName, shape);
+}
+
+void BmpManager::addAnimations(const std::string& objectName, int numberOfAnimations)
+{
+	vector<SDL_Surface*>& animationVector = (bitmaps.find(objectName)->second);
+	for (int i = 1; i <= numberOfAnimations; i++)
+	{
+		string animationName = "./" + objectName + "_an_" + to_string(i) + ".bmp";
+		animationVector.push_back(SDL_LoadBMP(animationName.c_str()));
+	}
+}
+
+bool BmpManager::isntLoadedAlready(const std::string& objectName)
+{
+	return bitmaps.find(objectName) == bitmaps.end();
+}
+
+void BmpManager::addStaticBitmap(const string& objectName)
 {
 	string path = "./" + objectName + ".bmp";
-	vector<SDL_Surface*> bmpVector = { SDL_LoadBMP(path.c_str()) };
-	bitmaps.insert(pair <string, vector<SDL_Surface*>>(objectName, bmpVector));
-	ShapesManager::addShape(objectName, shape);
+	(bitmaps.find(objectName)->second).push_back(SDL_LoadBMP(path.c_str()));
 }
 
 void BmpManager::freeBitmaps()
@@ -39,4 +82,9 @@ void BmpManager::freeBitmaps()
 SDL_Surface* BmpManager::getBitmap(const string& objectName)
 {
 	return (bitmaps.find(objectName)->second)[0];
+}
+
+SDL_Surface* BmpManager::getAnimation(const string& objectName, int numberOfAnimation)
+{
+	return (bitmaps.find(objectName)->second)[numberOfAnimation];
 }
