@@ -1,7 +1,7 @@
 #pragma once
 #include "HittingTimer.h"
-#include "Bullet.h"
-class Bomb : public Bullet
+#include "ExplosiveBullet.h"
+class Bomb : public ExplosiveBullet
 {
 public:
 	Bomb(const std::string& objectName, GameObject* owner, const MathPoint& position, double horizontalSpeed, double verticalSpeed);

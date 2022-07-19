@@ -1,7 +1,7 @@
 #include "Bomb.h"
 
 Bomb::Bomb(const std::string& objectName, GameObject* owner, const MathPoint& position, double horizontalSpeed, double verticalSpeed) :
-	Bullet(objectName, owner, position, 25, 60, horizontalSpeed, verticalSpeed)
+	ExplosiveBullet(objectName, owner, position, 25, 60, horizontalSpeed, verticalSpeed)
 {
 	hittingTimer = new HittingTimer(1.25);
 }

@@ -1,7 +1,7 @@
 #pragma once
-#include "Bullet.h"
+#include "ExplosiveBullet.h"
 #include "Shootable.h"
-class CrumbleBullet : public Bullet, public Shootable
+class CrumbleBullet : public ExplosiveBullet, public Shootable
 {
 public:
 	CrumbleBullet(const MathPoint& position, GameObject* owner, double horizontalSpeed, double verticalSpeed);

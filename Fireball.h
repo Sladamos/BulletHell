@@ -1,6 +1,6 @@
 #pragma once
-#include "Bullet.h"
-class Fireball : public Bullet
+#include "ExplosiveBullet.h"
+class Fireball : public ExplosiveBullet
 {
 public:
 	Fireball(const MathPoint& position, GameObject* owner, double horizontalSpeed, double verticalSpeed);

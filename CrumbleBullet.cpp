@@ -2,7 +2,7 @@
 #include "Level.h"
 
 CrumbleBullet::CrumbleBullet(const MathPoint& position, GameObject* owner, double horizontalSpeed, double verticalSpeed) :
-	Bullet("./gfx/crumble", owner, position, 20, 30, horizontalSpeed, verticalSpeed), isOwnedByEnemy(owner->isEnemy())
+	ExplosiveBullet("./gfx/crumble", owner, position, 20, 30, horizontalSpeed, verticalSpeed), isOwnedByEnemy(owner->isEnemy())
 {}
 
 void CrumbleBullet::createBullet(const MathPoint& position, double horizontalSpeed, double verticalSpeed)
