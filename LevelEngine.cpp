@@ -9,19 +9,52 @@ LevelEngine::LevelEngine(Level* currentLevel, SDL_Window* window, SDL_Renderer* 
 void LevelEngine::start()
 {
 	timeManager->startCounting();
-	while (isLevelInProgress())
+	while (currentLevel->isGameCommandUndefined())
 	{
 		levelPainter->drawScreen();
 		timeManager->increaseAndExecuteTimers();
 		handleLevelEvents();
 		performGameObjectsActions(timeManager->getTimeGain());
-		actualizeLevelResult();
+		actualizeGameCommand();
 	}
 }
 
-bool LevelEngine::isLevelInProgress()
+void LevelEngine::handleLevelEvents()
 {
-	return currentLevel->getResult() == LevelResult::unknown;
+	SDL_Event event;
+	while (SDL_PollEvent(&event)) {
+		switch (event.type) {
+		case SDL_KEYDOWN:
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_UP: case SDLK_LEFT: case SDLK_DOWN: case SDLK_RIGHT:
+				handlePlayerMovement(event);
+				break;
+			case SDLK_f:
+				currentLevel->getPlayer()->setShootingPermission(true);
+				break;
+			case SDLK_ESCAPE:
+				currentLevel->setGameCommand(GameCommand::backToMenu);
+				break;
+			case SDLK_n:
+				currentLevel->setGameCommand(GameCommand::restartLevel);
+				break;
+			}
+			break;
+		case SDL_KEYUP:
+			switch (event.key.keysym.sym)
+			{
+			case SDLK_UP: case SDLK_LEFT: case SDLK_DOWN: case SDLK_RIGHT:
+				handlePlayerMovement(event);
+				break;
+			case SDLK_f:
+				currentLevel->getPlayer()->setShootingPermission(false);
+			}
+			break;
+		case SDL_QUIT:
+			currentLevel->setGameCommand(GameCommand::exitGame);
+		};
+	};
 }
 
 void LevelEngine::handlePlayerMovement(const SDL_Event& event)
@@ -54,44 +87,6 @@ void LevelEngine::handlePlayerMovement(const SDL_Event& event)
 	player->updateViewingAngle();
 }
 
-void LevelEngine::handleLevelEvents()
-{
-	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
-		case SDL_KEYDOWN:
-			switch (event.key.keysym.sym)
-			{
-			case SDLK_UP: case SDLK_LEFT: case SDLK_DOWN: case SDLK_RIGHT:
-				handlePlayerMovement(event);
-				break;
-			case SDLK_f:
-				currentLevel->getPlayer()->setShootingPermission(true);
-				break;
-			case SDLK_ESCAPE:
-				currentLevel->setResult(LevelResult::aborted);
-				break;
-			case SDLK_n:
-				currentLevel->setResult(LevelResult::restarted);
-				break;
-			}
-			break;
-		case SDL_KEYUP:
-			switch (event.key.keysym.sym)
-			{
-			case SDLK_UP: case SDLK_LEFT: case SDLK_DOWN: case SDLK_RIGHT:
-				handlePlayerMovement(event);
-				break;
-			case SDLK_f:
-				currentLevel->getPlayer()->setShootingPermission(false);
-			}
-			break;
-		case SDL_QUIT:
-			currentLevel->setResult(LevelResult::aborted);
-		};
-	};
-}
-
 void LevelEngine::performGameObjectsActions(double timeGain)
 {
 	std::list<GameObject*>& gameObjects = currentLevel->getGameObjects(), &objectsWithoutBullets = currentLevel->getGameObjectsWithoutBullets();
@@ -108,12 +103,12 @@ void LevelEngine::performGameObjectsActions(double timeGain)
 	}
 }
 
-void LevelEngine::actualizeLevelResult()
+void LevelEngine::actualizeGameCommand()
 {
 	if (currentLevel->getPlayer()->getHitpoints() <= 0)
-		currentLevel->setResult(LevelResult::lost);
+		currentLevel->setGameCommand(GameCommand::levelLost);
 	else if (currentLevel->areAllEnemiesDead())
-		currentLevel->setResult(LevelResult::won);
+		currentLevel->setGameCommand(GameCommand::levelWon);
 }
 
 LevelEngine::~LevelEngine()

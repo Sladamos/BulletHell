@@ -13,8 +13,7 @@ private:
 	void performGameObjectsActions(double timeGain);
 	void handleLevelEvents();
 	void handlePlayerMovement(const SDL_Event& event);
-	void actualizeLevelResult();
-	bool isLevelInProgress();
+	void actualizeGameCommand();
 
 	Level* currentLevel;
 	LevelPainter* levelPainter;

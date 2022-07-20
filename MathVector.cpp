@@ -23,3 +23,8 @@ int MathVector::getVectorProductValue(const MathVector& otherVector) const
 {
 	return getXLength() * otherVector.getYLength() - otherVector.getXLength() * getYLength();
 }
+
+MathVector MathVector::operator*(double value)
+{
+	return MathVector(terminalMathPoint * value);
+}

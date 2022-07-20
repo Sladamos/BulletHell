@@ -15,7 +15,7 @@
 
 std::list<GameObject*> Level::gameObjects = std::list<GameObject*>();
 
-Level::Level(SDL_Window* window, SDL_Renderer* renderer) : result(LevelResult::unknown), levelTimer(new Timer()), 
+Level::Level(SDL_Window* window, SDL_Renderer* renderer) : InterfaceElement(), levelTimer(new Timer()), 
 			levelEngine(new LevelEngine(this, window, renderer)) {}
 
 Player* Level::getPlayer()
@@ -33,19 +33,9 @@ std::list<Enemy*>& Level::getEnemies()
 	return enemies;
 }
 
-LevelResult Level::getResult()
-{
-	return result;
-}
-
 std::list<GameObject*>& Level::getGameObjectsWithoutBullets()
 {
 	return objectsWithoutBullets;
-}
-
-void Level::setResult(LevelResult result)
-{
-	this->result = result;
 }
 
 void Level::addGameObject(GameObject* newObject)

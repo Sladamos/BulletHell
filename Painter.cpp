@@ -7,7 +7,13 @@ Painter::Painter(SDL_Window* window, SDL_Renderer* renderer) : window(window), r
 	screen = SDL_CreateRGBSurface(0, Game::screenWidth, Game::screenHeight, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);
 	scrtex = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_ARGB8888, SDL_TEXTUREACCESS_STREAMING, Game::screenWidth, Game::screenHeight);
 	charset = SDL_LoadBMP("./gfx/cs8x8.bmp");
+	bigCharset = SDL_LoadBMP("./gfx/cs32x32.bmp");
 	setColors();
+}
+
+void Painter::clearScreen()
+{
+	SDL_FillRect(screen, NULL, blackColor);
 }
 
 void Painter::updateTextureAndRenderer()
@@ -26,6 +32,28 @@ void Painter::setColors()
 	SDL_SetColorKey(charset, true, 0x000000);
 }
 
+void Painter::drawBigString(const MathPoint& coords)
+{
+	const char* text = this->text;
+	int xCoord = coords.getX(), yCoord = coords.getY();
+	int px, py, c;
+	SDL_Rect s, d;
+	s.w = s.h = d.w = d.h = bigLetterSize;
+	while (*text)
+	{
+		c = *text & 255;
+		px = (c % lettersInRow) * bigLetterSize;
+		py = (c / lettersInRow) * bigLetterSize;
+		s.x = px;
+		s.y = py;
+		d.x = xCoord;
+		d.y = yCoord;
+		SDL_BlitSurface(bigCharset, &s, screen, &d);
+		xCoord += bigLetterSize;
+		text++;
+	}
+}
+
 void Painter::drawString(const MathPoint& coords)
 {
 	const char* text = this->text;
@@ -36,8 +64,8 @@ void Painter::drawString(const MathPoint& coords)
 	while (*text)
 	{
 		c = *text & 255;
-		px = (c % 16) * smallLetterSize;
-		py = (c / 16) * smallLetterSize;
+		px = (c % lettersInRow) * smallLetterSize;
+		py = (c / lettersInRow) * smallLetterSize;
 		s.x = px;
 		s.y = py;
 		d.x = xCoord;
@@ -109,6 +137,7 @@ void Painter::drawPixel(const MathPoint& coords, Uint32 color)
 
 Painter::~Painter()
 {
+	SDL_FreeSurface(bigCharset);
 	SDL_FreeSurface(charset);
 	SDL_FreeSurface(screen);
 	SDL_DestroyTexture(scrtex);

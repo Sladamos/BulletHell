@@ -1,17 +1,17 @@
 #include <ctime>
 #include "Game.h"
-#include "Painter.h"
+#include "MenuEngine.h"
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
 #include "Level4.h"
 
-Game::Game() : gameInProgress(true), currentLevel(1), currentlyPlayedLevel(nullptr)	//TODO: implement menu ; move currentlvl into new/load Game
+Game::Game() : gameInProgress(true), currentLevel(0), currentInterfaceElement(nullptr)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	srand(time(NULL));
 	createGui();
-	createLevel(currentLevel);	//TEMP: remove after implementing menu (with new game etc)
+	createMenu();
 	startGame();
 }
 
@@ -19,28 +19,33 @@ void Game::startGame()
 {
 	while (gameInProgress)
 	{
-		currentlyPlayedLevel->start();
-		handleLevelResult(currentlyPlayedLevel->getResult());	
+		currentInterfaceElement->start();
+		handleCommand(currentInterfaceElement->getGameCommand());
 	}
 }
 
-void Game::handleLevelResult(LevelResult levelResult)
+void Game::handleCommand(GameCommand command)
 {
-	switch (levelResult)
+	switch (command)
 	{
-	case LevelResult::aborted: 
+	case GameCommand::exitGame:
 		gameInProgress = false;
 		break;
-	case LevelResult::restarted:  case LevelResult::lost:
+	case GameCommand::backToMenu:
+		createMenu();
+		break;
+	case GameCommand::createSelectedLevel:
+		currentLevel = dynamic_cast<MenuEngine*>(currentInterfaceElement)->getSelectedLevel();
+		//No break here -> its important! (also its important to keep that command before restartLevel)
+	case GameCommand::restartLevel:  case GameCommand::levelLost:
 		createLevel(currentLevel);
 		break;
-	case LevelResult::won:
+	case GameCommand::levelWon:
 		createLevel(++currentLevel);
 	}
 	//TODO: implement menu
-	//if you won (ask for save score and after that ask for next or back to menu) (insta delete previous)
-	//if you lost (back to menu or try again) (delete if back to menu)
-	//if you aborted (back to menu and delete current)
+	//if you won (ask for save score and after that create next) (insta delete previous)
+	//if you lost (back to menu or try again) (insta delete still)
 }
 
 void Game::createGui()
@@ -53,36 +58,46 @@ void Game::createGui()
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
 }
 
+void Game::createMenu()
+{
+	clearInterfaceElement();
+	currentInterfaceElement = new MenuEngine(window, renderer);
+}
+
 void Game::createLevel(int levelNumber)
 {
-	if (currentlyPlayedLevel != nullptr)
-	{
-		delete currentlyPlayedLevel;
-		currentlyPlayedLevel = nullptr;
-	}
+	clearInterfaceElement();
 	switch (levelNumber)
 	{
 	case 1:
-		currentlyPlayedLevel = new Level1(window, renderer);
+		currentInterfaceElement = new Level1(window, renderer);
 		break;
 	case 2:
-		currentlyPlayedLevel = new Level2(window, renderer);
+		currentInterfaceElement = new Level2(window, renderer);
 		break;
 	case 3:
-		currentlyPlayedLevel = new Level3(window, renderer);
+		currentInterfaceElement = new Level3(window, renderer);
 		break;
 	case 4:
-		currentlyPlayedLevel = new Level4(window, renderer);
+		currentInterfaceElement = new Level4(window, renderer);
 		break;
 	default:
 		gameInProgress = false;
 	}
 }
 
+void Game::clearInterfaceElement()
+{
+	if (currentInterfaceElement != nullptr)
+	{
+		delete currentInterfaceElement;
+		currentInterfaceElement = nullptr;
+	}
+}
+
 Game::~Game()
 {
-	if (currentlyPlayedLevel != nullptr)
-		delete currentlyPlayedLevel;
+	clearInterfaceElement();
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();

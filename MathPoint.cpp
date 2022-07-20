@@ -53,3 +53,8 @@ MathPoint& MathPoint::rotate(double angle, const MathPoint& referencePoint)
 	x = tempx;
 	return *this;
 }
+
+MathPoint MathPoint::operator*(double value)
+{
+	return MathPoint(x * value, y * value);
+}
