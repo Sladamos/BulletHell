@@ -1,6 +1,5 @@
 #pragma once
 #include "InterfaceElement.h"
-#include "Game.h"
 #include "MenuPainter.h"
 class MenuEngine : public InterfaceElement
 {

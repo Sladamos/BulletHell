@@ -1,6 +1,6 @@
 #include "MenuEngine.h"
 
-MenuEngine::MenuEngine(SDL_Window* window, SDL_Renderer* renderer) : menuPainter(new MenuPainter(window, renderer)) {}
+MenuEngine::MenuEngine(SDL_Window* window, SDL_Renderer* renderer) : menuPainter(new MenuPainter(window, renderer)), selectedLevel(1) {}
 
 int MenuEngine::getSelectedLevel()
 {

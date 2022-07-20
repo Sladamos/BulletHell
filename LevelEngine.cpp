@@ -108,7 +108,7 @@ void LevelEngine::actualizeGameCommand()
 	if (currentLevel->getPlayer()->getHitpoints() <= 0)
 		currentLevel->setGameCommand(GameCommand::levelLost);
 	else if (currentLevel->areAllEnemiesDead())
-		currentLevel->setGameCommand(GameCommand::levelWon);
+		currentLevel->setGameCommand(GameCommand::victory);
 }
 
 LevelEngine::~LevelEngine()

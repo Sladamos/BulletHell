@@ -1,10 +1,11 @@
 #pragma once
 enum class GameCommand
 {
-	levelWon,
+	victory,
 	levelLost,
 	restartLevel,
 	createSelectedLevel,
+	createNextLevel,
 	exitGame,
 	backToMenu,
 	undefined

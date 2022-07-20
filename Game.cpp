@@ -1,6 +1,7 @@
 #include <ctime>
 #include "Game.h"
 #include "MenuEngine.h"
+#include "VictoryEngine.h"
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
@@ -40,12 +41,12 @@ void Game::handleCommand(GameCommand command)
 	case GameCommand::restartLevel:  case GameCommand::levelLost:
 		createLevel(currentLevel);
 		break;
-	case GameCommand::levelWon:
+	case GameCommand::victory:
+		createVictory();
+		break;
+	case GameCommand::createNextLevel:
 		createLevel(++currentLevel);
 	}
-	//TODO: implement menu
-	//if you won (ask for save score and after that create next) (insta delete previous)
-	//if you lost (back to menu or try again) (insta delete still)
 }
 
 void Game::createGui()
@@ -56,6 +57,12 @@ void Game::createGui()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+}
+
+void Game::createVictory()
+{
+	clearInterfaceElement();
+	currentInterfaceElement = new VictoryEngine(window, renderer);
 }
 
 void Game::createMenu()

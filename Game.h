@@ -17,6 +17,7 @@ private:
 	void createLevel(int levelNumber);
 	void createGui();
 	void createMenu();
+	void createVictory();
 	void startGame();
 	void handleCommand(GameCommand command);
 	void clearInterfaceElement();
