@@ -2,6 +2,7 @@
 #include "Game.h"
 #include "MenuEngine.h"
 #include "VictoryEngine.h"
+#include "DefeatEngine.h"
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
@@ -37,12 +38,16 @@ void Game::handleCommand(GameCommand command)
 		break;
 	case GameCommand::createSelectedLevel:
 		currentLevel = dynamic_cast<MenuEngine*>(currentInterfaceElement)->getSelectedLevel();
-		//No break here -> its important! (also its important to keep that command before restartLevel)
-	case GameCommand::restartLevel:  case GameCommand::levelLost:
+		createLevel(currentLevel);
+		break;
+	case GameCommand::restartLevel:
 		createLevel(currentLevel);
 		break;
 	case GameCommand::victory:
 		createVictory();
+		break;
+	case GameCommand::defeat:
+		createDefeat();
 		break;
 	case GameCommand::createNextLevel:
 		createLevel(++currentLevel);
@@ -57,6 +62,12 @@ void Game::createGui()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+}
+
+void Game::createDefeat()
+{
+	clearInterfaceElement();
+	currentInterfaceElement = new DefeatEngine(window, renderer);
 }
 
 void Game::createVictory()

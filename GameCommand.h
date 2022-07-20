@@ -2,7 +2,7 @@
 enum class GameCommand
 {
 	victory,
-	levelLost,
+	defeat,
 	restartLevel,
 	createSelectedLevel,
 	createNextLevel,

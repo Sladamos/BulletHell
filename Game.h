@@ -18,6 +18,7 @@ private:
 	void createGui();
 	void createMenu();
 	void createVictory();
+	void createDefeat();
 	void startGame();
 	void handleCommand(GameCommand command);
 	void clearInterfaceElement();
