@@ -6,6 +6,7 @@ enum class GameCommand
 	restartLevel,
 	createSelectedLevel,
 	createNextLevel,
+	saveScore,
 	exitGame,
 	backToMenu,
 	undefined

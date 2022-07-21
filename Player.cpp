@@ -5,10 +5,13 @@
 #include "Level.h"
 #include "Bullet.h"
 
+int Player::score = 0;
+
 Player::Player(const std::string& objectName, int numberOfFrames, const std::vector<MathPoint>& corners) :
 	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth, numberOfFrames), Moveable(numberOfFrames),
-	Shootable(0.2), fireButtonIsPressed(false), score(0)
+	Shootable(0.2), fireButtonIsPressed(false)
 {
+	score = 0;
 	invicibilityTimer = new InvicibilityTimer(0.5);
 	scoreMagnitudeTimer = new ScoreMagnitudeTimer(2);
 	Camera::setPlayerPosition(position);

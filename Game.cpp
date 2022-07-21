@@ -3,18 +3,26 @@
 #include "MenuEngine.h"
 #include "VictoryEngine.h"
 #include "DefeatEngine.h"
+#include "ScoreSaverEngine.h"
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
 #include "Level4.h"
 
-Game::Game() : gameInProgress(true), currentLevel(0), currentInterfaceElement(nullptr)
+int Game::currentLevel = 0;
+
+Game::Game() : gameInProgress(true), currentInterfaceElement(nullptr)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	srand(time(NULL));
 	createGui();
 	createMenu();
 	startGame();
+}
+
+int Game::getCurrentLevel()
+{
+	return currentLevel;
 }
 
 void Game::startGame()
@@ -40,6 +48,9 @@ void Game::handleCommand(GameCommand command)
 		currentLevel = dynamic_cast<MenuEngine*>(currentInterfaceElement)->getSelectedLevel();
 		createLevel(currentLevel);
 		break;
+	case GameCommand::saveScore:
+		createScoreSaver();
+		break;
 	case GameCommand::restartLevel:
 		createLevel(currentLevel);
 		break;
@@ -62,6 +73,12 @@ void Game::createGui()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+}
+
+void Game::createScoreSaver()
+{
+	clearInterfaceElement();
+	currentInterfaceElement = new ScoreSaverEngine(window, renderer);
 }
 
 void Game::createDefeat()

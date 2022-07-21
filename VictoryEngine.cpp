@@ -14,11 +14,16 @@ void VictoryEngine::start()
 void VictoryEngine::handleVictoryEvents()
 {
 	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
+	while (SDL_PollEvent(&event)) 
+	{
+		switch (event.type) 
+		{
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.sym)
 			{
+			case SDLK_y:
+				setGameCommand(GameCommand::saveScore);
+				break;
 			case SDLK_n:
 				setGameCommand(GameCommand::createNextLevel);
 				break;
@@ -30,7 +35,7 @@ void VictoryEngine::handleVictoryEvents()
 		case SDL_QUIT:
 			setGameCommand(GameCommand::exitGame);
 		};
-	};
+	}
 }
 
 VictoryEngine::~VictoryEngine()

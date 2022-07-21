@@ -22,8 +22,10 @@ void LevelEngine::start()
 void LevelEngine::handleLevelEvents()
 {
 	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
+	while (SDL_PollEvent(&event)) 
+	{
+		switch (event.type) 
+		{
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.sym)
 			{
@@ -54,7 +56,7 @@ void LevelEngine::handleLevelEvents()
 		case SDL_QUIT:
 			currentLevel->setGameCommand(GameCommand::exitGame);
 		};
-	};
+	}
 }
 
 void LevelEngine::handlePlayerMovement(const SDL_Event& event)

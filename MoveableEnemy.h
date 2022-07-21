@@ -14,7 +14,7 @@ public:
 	void action(double timeGain) override;
 	void print(Painter* painter) override;
 
-	static constexpr double enemySpeedMultiplier = 1.5;
+	static constexpr double enemySpeedMultiplier = 1;
 private:
 	double generateRandomSpeed();
 

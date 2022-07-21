@@ -19,8 +19,10 @@ void MenuEngine::start()
 void MenuEngine::handleMenuEvents()
 {
 	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
+	while (SDL_PollEvent(&event)) 
+	{
+		switch (event.type) 
+		{
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.sym)
 			{
@@ -48,7 +50,7 @@ void MenuEngine::handleMenuEvents()
 		case SDL_QUIT:
 			setGameCommand(GameCommand::exitGame);
 		};
-	};
+	}
 }
 
 MenuEngine::~MenuEngine()

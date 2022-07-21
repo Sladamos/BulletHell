@@ -14,8 +14,10 @@ void DefeatEngine::start()
 void DefeatEngine::handleDefeatEvents()
 {
 	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
+	while (SDL_PollEvent(&event)) 
+	{
+		switch (event.type) 
+		{
 		case SDL_KEYDOWN:
 			switch (event.key.keysym.sym)
 			{
@@ -33,7 +35,7 @@ void DefeatEngine::handleDefeatEvents()
 		case SDL_QUIT:
 			setGameCommand(GameCommand::exitGame);
 		};
-	};
+	}
 }
 
 DefeatEngine::~DefeatEngine()

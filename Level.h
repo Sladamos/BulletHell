@@ -11,7 +11,7 @@ public:
 	Level(SDL_Window* window, SDL_Renderer* renderer);
 	~Level();
 	Timer* getLevelTimer();
-	static Player* getPlayer();
+	Player* getPlayer();
 	std::list<Enemy*>& getEnemies();
 	std::list<GameObject*>& getGameObjects();
 	std::list<GameObject*>& getGameObjectsWithoutBullets();

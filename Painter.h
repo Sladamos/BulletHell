@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
+#define bigCenterVector MathVector(MathPoint(-(strlen(text) * bigLetterSize / 2), 0))
 
 class GameObject;
 class Painter
