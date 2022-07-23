@@ -14,8 +14,8 @@ public:
 	void changeCoordinatesCenter(const MathPoint& newCenter, const MathPoint& currentCenter);
 	MathPoint& moveByVector(const MathVector& vector);
 	MathPoint& rotate(double angle, const MathPoint& referencePoint);
-	MathPoint operator*(double value);
-	MathPoint operator-();
+	MathPoint operator*(double value) const;
+	MathPoint operator-() const;
 private:
 	int x, y;
 };

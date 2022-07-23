@@ -24,12 +24,12 @@ int MathVector::getVectorProductValue(const MathVector& otherVector) const
 	return getXLength() * otherVector.getYLength() - otherVector.getXLength() * getYLength();
 }
 
-MathVector MathVector::operator*(double value)
+MathVector MathVector::operator*(double value) const
 {
 	return MathVector(terminalMathPoint * value);
 }
 
-MathVector MathVector::operator-()
+MathVector MathVector::operator-() const
 {
 	return MathVector(-terminalMathPoint);
 }

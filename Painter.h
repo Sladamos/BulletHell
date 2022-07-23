@@ -30,6 +30,8 @@ protected:
 	static constexpr int smallLetterSize = 8;
 	static constexpr int bigLetterSize = 32;
 	static constexpr int lettersInRow = 16;
+	static const MathVector distanceBetweenBigTextRows;
+	static const MathVector distanceBetweenSmallTextRows;
 private:
 	void drawPixel(const MathPoint& coords, Uint32 color);
 	void drawLine(const MathPoint& coords, int length, int inclinationDegrees, Uint32 color);

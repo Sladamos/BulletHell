@@ -13,15 +13,13 @@ void HighScoresPainter::drawScreen()
 
 void HighScoresPainter::drawScoresInfo()
 {
-	MathVector distanceBetweenText(MathPoint(0, 2 * bigLetterSize));
 	MathPoint textCoords(Game::screenWidth / 2, 3 * bigLetterSize / 2);
-
 	sprintf(text, "\032 ESC");
 	drawBigString(MathPoint(15, 3*bigLetterSize/2));
 	sprintf(text, "High Scores");
 	drawBigString(MathPoint(textCoords).moveByVector(bigCenterVector));
 	sprintf(text, "\032 Page %d/%d \033", pageNumber, maxNumberOfPages);
-	drawBigString(MathPoint(Game::screenWidth / 2, Game::screenHeight).moveByVector(bigCenterVector).moveByVector(-distanceBetweenText));
+	drawBigString(MathPoint(Game::screenWidth / 2, Game::screenHeight).moveByVector(bigCenterVector).moveByVector(-distanceBetweenBigTextRows));
 }
 
 void HighScoresPainter::drawScores()

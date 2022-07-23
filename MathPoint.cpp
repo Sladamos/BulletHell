@@ -54,12 +54,12 @@ MathPoint& MathPoint::rotate(double angle, const MathPoint& referencePoint)
 	return *this;
 }
 
-MathPoint MathPoint::operator*(double value)
+MathPoint MathPoint::operator*(double value) const
 {
 	return MathPoint(x * value, y * value);
 }
 
-MathPoint MathPoint::operator-()
+MathPoint MathPoint::operator-() const
 {
 	return MathPoint(-x, -y);
 }

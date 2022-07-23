@@ -11,14 +11,13 @@ void DefeatPainter::drawScreen()
 
 void DefeatPainter::drawDefeatInfo()
 {
-	MathVector distanceBetweenText(MathPoint(0, 2 * bigLetterSize));
 	MathPoint textCoords(Game::screenWidth / 2, bigLetterSize);
 	sprintf(text, "You died, try again?");
 	drawBigString(MathPoint(textCoords).moveByVector(bigCenterVector));
 	sprintf(text, "Y - Yes, try again");
-	drawBigString(MathPoint(textCoords.moveByVector(distanceBetweenText * 2)).moveByVector(bigCenterVector));
+	drawBigString(MathPoint(textCoords.moveByVector(distanceBetweenBigTextRows * 2)).moveByVector(bigCenterVector));
 	sprintf(text, "N - No, back to menu");
-	drawBigString(MathPoint(textCoords.moveByVector(distanceBetweenText)).moveByVector(bigCenterVector));
+	drawBigString(MathPoint(textCoords.moveByVector(distanceBetweenBigTextRows)).moveByVector(bigCenterVector));
 	sprintf(text, "ESC - Quit game");
-	drawBigString(MathPoint(textCoords.moveByVector(distanceBetweenText)).moveByVector(bigCenterVector));
+	drawBigString(MathPoint(textCoords.moveByVector(distanceBetweenBigTextRows)).moveByVector(bigCenterVector));
 }

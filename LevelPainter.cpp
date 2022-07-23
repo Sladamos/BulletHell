@@ -41,27 +41,27 @@ void LevelPainter::printGameObjects()
 
 void LevelPainter::drawStatistics()
 {
+	MathPoint textCoords(Game::screenWidth - statsWidth + 15, 20 + playerHpBarHeight + 2 * playerHpBarFrameSize);
+
 	drawEnemiesHealthBars();	//Its important to draw Enemies bars > statistics panel > player health bar
 	drawStatisticsPanel();
 	drawPlayerHealthBar();
-	MathVector distanceBetweenText(MathPoint(0, 2 * smallLetterSize));
-	MathPoint textCoords(Game::screenWidth - statsWidth + 15, 20 + playerHpBarHeight + 2 * playerHpBarFrameSize);
 	sprintf(text, "SCORE = %06d", level->getPlayer()->getScoreValue());
 	drawString(textCoords);
 	sprintf(text, "Time = %.1lf s ", level->getLevelTimer()->getTimerValue());
-	drawString(textCoords.moveByVector(distanceBetweenText));
+	drawString(textCoords.moveByVector(distanceBetweenSmallTextRows));
 	sprintf(text, "%.0lf FPS", fpsTimer->getFps());
-	drawString(textCoords.moveByVector(distanceBetweenText));
+	drawString(textCoords.moveByVector(distanceBetweenSmallTextRows));
 	sprintf(text, "x = %d y = %d", level->getPlayer()->getPosition().getX(), level->getPlayer()->getPosition().getY());
-	drawString(textCoords.moveByVector(distanceBetweenText));
+	drawString(textCoords.moveByVector(distanceBetweenSmallTextRows));
 	sprintf(text, "Contolos:");
-	drawString(textCoords.moveByVector(distanceBetweenText));
+	drawString(textCoords.moveByVector(distanceBetweenSmallTextRows));
 	sprintf(text, "New Game - N");
-	drawString(textCoords.moveByVector(distanceBetweenText));
+	drawString(textCoords.moveByVector(distanceBetweenSmallTextRows));
 	sprintf(text, "UP - \030, DOWN - \031");
-	drawString(textCoords.moveByVector(distanceBetweenText));
+	drawString(textCoords.moveByVector(distanceBetweenSmallTextRows));
 	sprintf(text, "LEFT - \032, RIGHT - \033");
-	drawString(textCoords.moveByVector(distanceBetweenText));
+	drawString(textCoords.moveByVector(distanceBetweenSmallTextRows));
 }
 
 void LevelPainter::drawPlayerHealthBar()

@@ -2,6 +2,9 @@
 #include "Painter.h"
 #include "MathVector.h"
 
+const MathVector Painter::distanceBetweenBigTextRows = MathVector((MathPoint(0, 2 * Painter::bigLetterSize)));
+const MathVector Painter::distanceBetweenSmallTextRows = MathVector((MathPoint(0, 2 * Painter::smallLetterSize)));
+
 Painter::Painter(SDL_Window* window, SDL_Renderer* renderer) : window(window), renderer(renderer)
 {
 	screen = SDL_CreateRGBSurface(0, Game::screenWidth, Game::screenHeight, 32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000);

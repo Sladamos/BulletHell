@@ -9,8 +9,8 @@ public:
 	int getXLength() const;
 	int getYLength() const;
 	int getLength() const;
-	MathVector operator*(double value);
-	MathVector operator-();
+	MathVector operator*(double value) const;
+	MathVector operator-() const;
 private:
 	MathPoint initialMathPoint, terminalMathPoint;
 };
