@@ -42,6 +42,9 @@ void MenuEngine::handleMenuEvents()
 				selectedLevel = 4;
 				setGameCommand(GameCommand::createSelectedLevel);
 				break;
+			case SDLK_h:
+				setGameCommand(GameCommand::drawHighScores);
+				break;
 			case SDLK_ESCAPE:
 				setGameCommand(GameCommand::exitGame);
 				break;

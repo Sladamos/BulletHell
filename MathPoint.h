@@ -15,6 +15,7 @@ public:
 	MathPoint& moveByVector(const MathVector& vector);
 	MathPoint& rotate(double angle, const MathPoint& referencePoint);
 	MathPoint operator*(double value);
+	MathPoint operator-();
 private:
 	int x, y;
 };

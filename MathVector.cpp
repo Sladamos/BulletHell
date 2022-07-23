@@ -28,3 +28,8 @@ MathVector MathVector::operator*(double value)
 {
 	return MathVector(terminalMathPoint * value);
 }
+
+MathVector MathVector::operator-()
+{
+	return MathVector(-terminalMathPoint);
+}

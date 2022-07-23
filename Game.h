@@ -8,7 +8,6 @@ class Game
 public:
 	Game();
 	~Game();
-	static int getCurrentLevel();
 
 	static constexpr int maxTextLength = 128;
 	static constexpr int screenWidth = 1024;
@@ -21,6 +20,7 @@ private:
 	void createVictory();
 	void createDefeat();
 	void createScoreSaver();
+	void createHighScores();
 	void startGame();
 	void handleCommand(GameCommand command);
 	void clearInterfaceElement();
@@ -28,7 +28,7 @@ private:
 	SDL_Window* window;
 	SDL_Renderer* renderer;
 	InterfaceElement* currentInterfaceElement;
-	static int currentLevel;
+	int currentLevel;
 	bool gameInProgress;
 };
 

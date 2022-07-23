@@ -9,7 +9,7 @@ class Player : public GameObject, public Moveable, public Shootable
 public:
 	Player(const std::string& objectName, int numberOfFrames, const std::vector<MathPoint>& corners);
 	~Player();
-	static int getScore();
+	static int getScoreValue();
 	bool stoppedVertically(const SDL_Event& event);
 	bool stoppedHorizontally(const SDL_Event& event);
 	bool isInpenetrableBy(GameObject* gameObject) override;
@@ -34,7 +34,7 @@ private:
 	ScoreMagnitudeTimer* scoreMagnitudeTimer;
 	const std::string invicibilityFrame = "./gfx/invicibilityFrame";
 	bool fireButtonIsPressed;
-	static int score;
+	static int scoreValue;
 	static constexpr int playerMaxHealth = 100;
 };
 

@@ -1,5 +1,4 @@
 #include "DefeatPainter.h"
-#include "MathVector.h"
 
 DefeatPainter::DefeatPainter(SDL_Window* window, SDL_Renderer* renderer) : Painter(window, renderer) {}
 

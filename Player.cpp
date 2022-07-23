@@ -5,22 +5,22 @@
 #include "Level.h"
 #include "Bullet.h"
 
-int Player::score = 0;
+int Player::scoreValue = 0;
 
 Player::Player(const std::string& objectName, int numberOfFrames, const std::vector<MathPoint>& corners) :
 	GameObject(objectName, MathPoint(100, 100), corners, playerMaxHealth, numberOfFrames), Moveable(numberOfFrames),
 	Shootable(0.2), fireButtonIsPressed(false)
 {
-	score = 0;
+	scoreValue = 0;
 	invicibilityTimer = new InvicibilityTimer(0.5);
 	scoreMagnitudeTimer = new ScoreMagnitudeTimer(2);
 	Camera::setPlayerPosition(position);
 	BmpManager::loadStaticBitmap(invicibilityFrame, 60);
 }
 
-int Player::getScore()
+int Player::getScoreValue()
 {
-	return score;
+	return scoreValue;
 }
 
 bool Player::isInpenetrableBy(GameObject* gameObject)
@@ -120,12 +120,12 @@ void Player::decreaseHitpoints(int damageDealt)
 
 void Player::decreaseScore(int value)
 {
-	score = score - value < 0 ? 0 : score - value;
+	scoreValue = scoreValue - value < 0 ? 0 : scoreValue - value;
 }
 
 void Player::increaseScore(int value)
 {
-	score += value * scoreMagnitudeTimer->getMagnitude();
+	scoreValue += value * scoreMagnitudeTimer->getMagnitude();
 	scoreMagnitudeTimer->increaseMagnitude();
 	scoreMagnitudeTimer->resetTimer();
 }

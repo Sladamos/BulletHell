@@ -10,6 +10,7 @@ public:
 	int getYLength() const;
 	int getLength() const;
 	MathVector operator*(double value);
+	MathVector operator-();
 private:
 	MathPoint initialMathPoint, terminalMathPoint;
 };

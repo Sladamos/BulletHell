@@ -1,5 +1,4 @@
 #include "MenuPainter.h"
-#include "MathVector.h"
 
 MenuPainter::MenuPainter(SDL_Window* window, SDL_Renderer* renderer) : Painter(window, renderer) {}
 

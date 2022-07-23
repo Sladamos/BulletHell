@@ -58,3 +58,8 @@ MathPoint MathPoint::operator*(double value)
 {
 	return MathPoint(x * value, y * value);
 }
+
+MathPoint MathPoint::operator-()
+{
+	return MathPoint(-x, -y);
+}

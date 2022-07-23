@@ -2,7 +2,6 @@
 #include "TimeManager.h"
 #include "Level.h"
 #include "Camera.h"
-#include "MathVector.h"
 
 LevelPainter::LevelPainter(Level* level, SDL_Window* window, SDL_Renderer* renderer) : Painter(window, renderer), level(level)
 {
@@ -47,7 +46,7 @@ void LevelPainter::drawStatistics()
 	drawPlayerHealthBar();
 	MathVector distanceBetweenText(MathPoint(0, 2 * smallLetterSize));
 	MathPoint textCoords(Game::screenWidth - statsWidth + 15, 20 + playerHpBarHeight + 2 * playerHpBarFrameSize);
-	sprintf(text, "SCORE = %06d", level->getPlayer()->getScore());
+	sprintf(text, "SCORE = %06d", level->getPlayer()->getScoreValue());
 	drawString(textCoords);
 	sprintf(text, "Time = %.1lf s ", level->getLevelTimer()->getTimerValue());
 	drawString(textCoords.moveByVector(distanceBetweenText));

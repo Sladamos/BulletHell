@@ -3,9 +3,10 @@
 #include <string.h>
 #include "MathPoint.h"
 #include "Game.h"
+#include "MathVector.h"
 #include "./SDL2-2.0.10/include/SDL.h"
 #include "./SDL2-2.0.10/include/SDL_main.h"
-#define bigCenterVector MathVector(MathPoint(-(strlen(text) * bigLetterSize / 2), 0))
+#define bigCenterVector MathVector(MathPoint(-bigLetterSize / 2 * strlen(text), 0))
 
 class GameObject;
 class Painter

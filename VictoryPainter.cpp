@@ -1,5 +1,4 @@
 #include "VictoryPainter.h"
-#include "MathVector.h"
 
 VictoryPainter::VictoryPainter(SDL_Window* window, SDL_Renderer* renderer) : Painter(window, renderer) {}
 

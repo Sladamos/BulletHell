@@ -4,25 +4,20 @@
 #include "VictoryEngine.h"
 #include "DefeatEngine.h"
 #include "ScoreSaverEngine.h"
+#include "HighScoresEngine.h"
 #include "Level1.h"
 #include "Level2.h"
 #include "Level3.h"
 #include "Level4.h"
 
-int Game::currentLevel = 0;
 
-Game::Game() : gameInProgress(true), currentInterfaceElement(nullptr)
+Game::Game() : gameInProgress(true), currentInterfaceElement(nullptr), currentLevel(0)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 	srand(time(NULL));
 	createGui();
 	createMenu();
 	startGame();
-}
-
-int Game::getCurrentLevel()
-{
-	return currentLevel;
 }
 
 void Game::startGame()
@@ -38,7 +33,7 @@ void Game::handleCommand(GameCommand command)
 {
 	switch (command)
 	{
-	case GameCommand::exitGame:
+	case GameCommand::exitGame: default:
 		gameInProgress = false;
 		break;
 	case GameCommand::backToMenu:
@@ -50,6 +45,9 @@ void Game::handleCommand(GameCommand command)
 		break;
 	case GameCommand::saveScore:
 		createScoreSaver();
+		break;
+	case GameCommand::drawHighScores:
+		createHighScores();
 		break;
 	case GameCommand::restartLevel:
 		createLevel(currentLevel);
@@ -73,6 +71,12 @@ void Game::createGui()
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_ShowCursor(SDL_DISABLE);
 	SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "linear");
+}
+
+void Game::createHighScores()
+{
+	clearInterfaceElement();
+	currentInterfaceElement = new HighScoresEngine(window, renderer);
 }
 
 void Game::createScoreSaver()
