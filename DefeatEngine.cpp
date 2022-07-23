@@ -22,18 +22,18 @@ void DefeatEngine::handleDefeatEvents()
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_y:
-				setGameCommand(GameCommand::restartLevel);
+				setGameCommand(Game::Command::restartLevel);
 				break;
 			case SDLK_n:
-				setGameCommand(GameCommand::backToMenu);
+				setGameCommand(Game::Command::backToMenu);
 				break;
 			case SDLK_ESCAPE:
-				setGameCommand(GameCommand::exitGame);
+				setGameCommand(Game::Command::exitGame);
 				break;
 			}
 			break;
 		case SDL_QUIT:
-			setGameCommand(GameCommand::exitGame);
+			setGameCommand(Game::Command::exitGame);
 		};
 	}
 }

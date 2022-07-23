@@ -45,8 +45,8 @@ void Painter::drawBigString(const MathPoint& coords)
 	while (*text)
 	{
 		c = *text & 255;
-		px = (c % lettersInRow) * bigLetterSize;
-		py = (c / lettersInRow) * bigLetterSize;
+		px = (c % lettersInCharsetRow) * bigLetterSize;
+		py = (c / lettersInCharsetRow) * bigLetterSize;
 		s.x = px;
 		s.y = py;
 		d.x = xCoord;
@@ -67,8 +67,8 @@ void Painter::drawString(const MathPoint& coords)
 	while (*text)
 	{
 		c = *text & 255;
-		px = (c % lettersInRow) * smallLetterSize;
-		py = (c / lettersInRow) * smallLetterSize;
+		px = (c % lettersInCharsetRow) * smallLetterSize;
+		py = (c / lettersInCharsetRow) * smallLetterSize;
 		s.x = px;
 		s.y = py;
 		d.x = xCoord;

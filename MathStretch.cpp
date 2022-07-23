@@ -3,8 +3,7 @@
 #include "MathStretch.h"
 #include "MathVector.h"
 
-MathStretch::MathStretch(const MathPoint& firstPoint, const MathPoint& secondPoint) : MathLine(firstPoint, secondPoint), firstPoint(firstPoint)
-, secondPoint(secondPoint) {}
+MathStretch::MathStretch(const MathPoint& firstPoint, const MathPoint& secondPoint) : MathLine(firstPoint, secondPoint), firstPoint(firstPoint), secondPoint(secondPoint) {}
 
 MathPoint MathStretch::getFirstPoint() const
 {

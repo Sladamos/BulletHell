@@ -2,8 +2,6 @@
 #include "Enemy.h"
 #include "Moveable.h"
 #include "ChangesTimer.h"
-#include "./SDL2-2.0.10/include/SDL.h"
-#include "./SDL2-2.0.10/include/SDL_main.h"
 class MoveableEnemy : public Enemy, public Moveable
 {
 public:

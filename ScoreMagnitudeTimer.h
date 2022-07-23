@@ -8,6 +8,7 @@ public:
 	void increaseMagnitude();
 private:
 	void executeAction() override;
+
 	double magnitude;
 	constexpr static double defaultMagnitude = 1;
 };

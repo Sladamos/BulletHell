@@ -22,18 +22,18 @@ void VictoryEngine::handleVictoryEvents()
 			switch (event.key.keysym.sym)
 			{
 			case SDLK_y:
-				setGameCommand(GameCommand::saveScore);
+				setGameCommand(Game::Command::saveScore);
 				break;
 			case SDLK_n:
-				setGameCommand(GameCommand::createNextLevel);
+				setGameCommand(Game::Command::createNextLevel);
 				break;
 			case SDLK_ESCAPE:
-				setGameCommand(GameCommand::exitGame);
+				setGameCommand(Game::Command::exitGame);
 				break;
 			}
 			break;
 		case SDL_QUIT:
-			setGameCommand(GameCommand::exitGame);
+			setGameCommand(Game::Command::exitGame);
 		};
 	}
 }

@@ -1,18 +1,18 @@
 #include "InterfaceElement.h"
 
-InterfaceElement::InterfaceElement() : commandToSend(GameCommand::undefined) {}
+InterfaceElement::InterfaceElement() : commandToSend(Game::Command::undefined) {}
 
-GameCommand InterfaceElement::getGameCommand()
+Game::Command InterfaceElement::getGameCommand()
 {
 	return commandToSend;
 }
 
-void InterfaceElement::setGameCommand(GameCommand command)
+void InterfaceElement::setGameCommand(Game::Command command)
 {
 	this->commandToSend = command;
 }
 
 bool InterfaceElement::isGameCommandUndefined()
 {
-	return commandToSend == GameCommand::undefined;
+	return commandToSend == Game::Command::undefined;
 }

@@ -1,8 +1,8 @@
 #pragma once
-#include "InterfaceElement.h"
 #include"./SDL2-2.0.10/include/SDL.h"
 #include"./SDL2-2.0.10/include/SDL_main.h"
 class Level;
+class InterfaceElement;
 class Game
 {
 public:
@@ -13,6 +13,20 @@ public:
 	static constexpr int screenWidth = 1024;
 	static constexpr int screenHeight = 768;
 	static constexpr int numberOfStages = 4;
+
+	enum class Command
+	{
+		victory,
+		defeat,
+		restartLevel,
+		createSelectedLevel,
+		createNextLevel,
+		saveScore,
+		drawHighScores,
+		exitGame,
+		backToMenu,
+		undefined
+	};
 private:
 	void createLevel(int levelNumber);
 	void createGui();
@@ -22,7 +36,7 @@ private:
 	void createScoreSaver();
 	void createHighScores();
 	void startGame();
-	void handleCommand(GameCommand command);
+	void handleCommand(Command command);
 	void clearInterfaceElement();
 
 	SDL_Window* window;

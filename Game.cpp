@@ -10,7 +10,6 @@
 #include "Level3.h"
 #include "Level4.h"
 
-
 Game::Game() : gameInProgress(true), currentInterfaceElement(nullptr), currentLevel(0)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
@@ -29,36 +28,36 @@ void Game::startGame()
 	}
 }
 
-void Game::handleCommand(GameCommand command)
+void Game::handleCommand(Command command)
 {
 	switch (command)
 	{
-	case GameCommand::exitGame: default:
+	case Command::exitGame: default:
 		gameInProgress = false;
 		break;
-	case GameCommand::backToMenu:
+	case Command::backToMenu:
 		createMenu();
 		break;
-	case GameCommand::createSelectedLevel:
+	case Command::createSelectedLevel:
 		currentLevel = dynamic_cast<MenuEngine*>(currentInterfaceElement)->getSelectedLevel();
 		createLevel(currentLevel);
 		break;
-	case GameCommand::saveScore:
+	case Command::saveScore:
 		createScoreSaver();
 		break;
-	case GameCommand::drawHighScores:
+	case Command::drawHighScores:
 		createHighScores();
 		break;
-	case GameCommand::restartLevel:
+	case Command::restartLevel:
 		createLevel(currentLevel);
 		break;
-	case GameCommand::victory:
+	case Command::victory:
 		createVictory();
 		break;
-	case GameCommand::defeat:
+	case Command::defeat:
 		createDefeat();
 		break;
-	case GameCommand::createNextLevel:
+	case Command::createNextLevel:
 		createLevel(++currentLevel);
 	}
 }

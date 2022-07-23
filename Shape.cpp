@@ -1,9 +1,7 @@
 #include "Shape.h"
 using namespace std;
 
-Shape::Shape() : mostTopCoordinate(0), mostRightCoordinate(0), mostBottomCoordinate(0), mostLeftCoordinate(0)
-{
-}
+Shape::Shape() : mostTopCoordinate(0), mostRightCoordinate(0), mostBottomCoordinate(0), mostLeftCoordinate(0) {}
 
 bool Shape::isCircle()
 {

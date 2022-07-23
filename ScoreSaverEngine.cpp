@@ -28,10 +28,10 @@ void ScoreSaverEngine::handleSaverEvents()
 		else if (event.key.keysym.sym == SDLK_BACKSPACE && nickname.length() <= maxNickLength && nickname.length() > 0)
 				nickname.pop_back();
 		else if (event.key.keysym.sym == SDLK_ESCAPE)
-			setGameCommand(GameCommand::victory);
+			setGameCommand(Game::Command::victory);
 		else if (event.key.keysym.sym == SDLK_RETURN && nickname.length() > 0)
 		{
-			setGameCommand(GameCommand::createNextLevel);
+			setGameCommand(Game::Command::createNextLevel);
 			FilesOperator::saveScore(Score(nickname, Player::getScoreValue()));
 		}
 	}

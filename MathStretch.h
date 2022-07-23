@@ -13,6 +13,7 @@ public:
 	bool contains(const MathPoint& point) const;
 private:
 	bool isntTriangleObtuseAtTheBase(const MathPoint& thirdInterior);
+
 	MathPoint firstPoint, secondPoint;
 };
 

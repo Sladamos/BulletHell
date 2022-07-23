@@ -28,30 +28,30 @@ void MenuEngine::handleMenuEvents()
 			{
 			case SDLK_1:
 				selectedLevel = 1;
-				setGameCommand(GameCommand::createSelectedLevel);
+				setGameCommand(Game::Command::createSelectedLevel);
 				break;
 			case SDLK_2:
 				selectedLevel = 2;
-				setGameCommand(GameCommand::createSelectedLevel);
+				setGameCommand(Game::Command::createSelectedLevel);
 				break;
 			case SDLK_3:
 				selectedLevel = 3;
-				setGameCommand(GameCommand::createSelectedLevel);
+				setGameCommand(Game::Command::createSelectedLevel);
 				break;
 			case SDLK_4:
 				selectedLevel = 4;
-				setGameCommand(GameCommand::createSelectedLevel);
+				setGameCommand(Game::Command::createSelectedLevel);
 				break;
 			case SDLK_h:
-				setGameCommand(GameCommand::drawHighScores);
+				setGameCommand(Game::Command::drawHighScores);
 				break;
 			case SDLK_ESCAPE:
-				setGameCommand(GameCommand::exitGame);
+				setGameCommand(Game::Command::exitGame);
 				break;
 			}
 			break;
 		case SDL_QUIT:
-			setGameCommand(GameCommand::exitGame);
+			setGameCommand(Game::Command::exitGame);
 		};
 	}
 }

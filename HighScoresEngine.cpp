@@ -43,12 +43,12 @@ void HighScoresEngine::handleHighScoresEvents()
 				}
 				break;
 			case SDLK_ESCAPE:
-				setGameCommand(GameCommand::backToMenu);
+				setGameCommand(Game::Command::backToMenu);
 				break;
 			}
 			break;
 		case SDL_QUIT:
-			setGameCommand(GameCommand::exitGame);
+			setGameCommand(Game::Command::exitGame);
 		};
 	}
 }

@@ -1,5 +1,5 @@
-#include "LevelBorder.h"
 #pragma once
+#include "LevelBorder.h"
 class Painter;
 class HorizontalLevelBorder: public LevelBorder
 {

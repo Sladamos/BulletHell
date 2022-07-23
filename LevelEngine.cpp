@@ -36,10 +36,10 @@ void LevelEngine::handleLevelEvents()
 				currentLevel->getPlayer()->setShootingPermission(true);
 				break;
 			case SDLK_ESCAPE:
-				currentLevel->setGameCommand(GameCommand::backToMenu);
+				currentLevel->setGameCommand(Game::Command::backToMenu);
 				break;
 			case SDLK_n:
-				currentLevel->setGameCommand(GameCommand::restartLevel);
+				currentLevel->setGameCommand(Game::Command::restartLevel);
 				break;
 			}
 			break;
@@ -54,7 +54,7 @@ void LevelEngine::handleLevelEvents()
 			}
 			break;
 		case SDL_QUIT:
-			currentLevel->setGameCommand(GameCommand::exitGame);
+			currentLevel->setGameCommand(Game::Command::exitGame);
 		};
 	}
 }
@@ -108,9 +108,9 @@ void LevelEngine::performGameObjectsActions(double timeGain)
 void LevelEngine::actualizeGameCommand()
 {
 	if (currentLevel->getPlayer()->getHitpoints() <= 0)
-		currentLevel->setGameCommand(GameCommand::defeat);
+		currentLevel->setGameCommand(Game::Command::defeat);
 	else if (currentLevel->areAllEnemiesDead())
-		currentLevel->setGameCommand(GameCommand::victory);
+		currentLevel->setGameCommand(Game::Command::victory);
 }
 
 LevelEngine::~LevelEngine()

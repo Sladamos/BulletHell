@@ -1,15 +1,15 @@
 #pragma once
-#include "GameCommand.h"
+#include "Game.h"
 class InterfaceElement
 {
 public:
 	InterfaceElement();
 	virtual ~InterfaceElement() = default;
-	GameCommand getGameCommand();
-	void setGameCommand(GameCommand command);
-	virtual void start() = 0;
+	Game::Command getGameCommand();
 	bool isGameCommandUndefined();
+	void setGameCommand(Game::Command command);
+	virtual void start() = 0;
 protected:
-	GameCommand commandToSend;
+	Game::Command commandToSend;
 };
 

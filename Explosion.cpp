@@ -19,9 +19,7 @@ void Explosion::action(double timeGain)
 
 bool Explosion::shouldBeDestroyed()
 {
-	if (animationTimer->getCurrentFrameNumber() < latestFrame)	
-		return true;
-	return false;
+	return animationTimer->getCurrentFrameNumber() < latestFrame;
 }
 
 Explosion::~Explosion()

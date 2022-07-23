@@ -1,8 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "Shootable.h"
-#include "./SDL2-2.0.10/include/SDL.h"
-#include "./SDL2-2.0.10/include/SDL_main.h"
 class Enemy : public GameObject, public Shootable
 {
 public:

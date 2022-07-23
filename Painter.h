@@ -29,7 +29,7 @@ protected:
 	int blackColor, redColor, blueColor;
 	static constexpr int smallLetterSize = 8;
 	static constexpr int bigLetterSize = 32;
-	static constexpr int lettersInRow = 16;
+	static constexpr int lettersInCharsetRow = 16;
 	static const MathVector distanceBetweenBigTextRows;
 	static const MathVector distanceBetweenSmallTextRows;
 private:

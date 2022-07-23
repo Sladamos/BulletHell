@@ -12,7 +12,6 @@ public:
 	static constexpr int maxNickLength = 10;
 private:
 	void handleSaverEvents();
-	void saveScore();
 
 	ScoreSaverPainter* saverPainter;
 	std::string nickname;
