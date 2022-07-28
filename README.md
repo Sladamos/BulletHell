@@ -10,5 +10,5 @@ A C++ game for my undergraduate course - "Basics of programming". SDL library wa
 ## License
 Distributed under the MIT License. See 'LICENSE.txt' for more information.
 ## Your ideas
-:envelope_with_arrow: If you have any ideas for new features, feel free to send them to : ***sladamo@wp.pl*** :envelope_with_arrow: or create a pull request.
+:envelope_with_arrow: If you have any ideas for new features, feel free to create a pull request.
 
